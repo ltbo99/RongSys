@@ -18,6 +18,20 @@
 		<result column="aid" property="aid"/>
 		<result column="remark" property="remark"/>
 	</resultMap>
+
+	<resultMap type="Comment" id="CommentResult">
+		<result property="coid"    column="coid"    />
+		<result property="pcid"    column="pcid"    />
+		<result property="replyid"    column="replyid"    />
+		<result property="uid"    column="uid"    />
+		<result property="uname"    column="uname"    />
+		<result property="ccontent"    column="ccontent"    />
+		<result property="issensitive"    column="issensitive"    />
+		<result property="cdate"    column="cdate"    />
+		<result property="aid"    column="aid"    />
+		<result property="to_uid"    column="to_uid"    />
+		<result property="to_name"    column="to_name"    />
+	</resultMap>
 	<!-- 字段值 -->
 	<!--还有一个 aid 字段-->
 	<sql id="Field">
@@ -32,6 +46,9 @@
 	<!--表名 -->
 	<sql id="tableName">
 		tb_policyinfo
+	</sql>
+	<sql id="CommenttableName">
+		tb_policyinfocomment
 	</sql>
 	<!--获取所有公告信息 -->
 	<select id="selectPolicyinfoList" parameterType="com.ruoyi.village.domain.Policyinfo" resultMap="PolicyinfoResult">
@@ -135,4 +152,52 @@
 		</trim>
 		where poinid = #{poinid}
 	</update>
+
+	<select id="selectinfocommentListlimit" parameterType="pubObjApi" resultMap="CommentResult">
+		select coid,pcid,replyid,uid,uname,ccontent,cdate,to_uid,to_name,good
+		from tb_policyinfocomment
+		<where>
+			<if test="proid != null  and proid != '' "> pcid = #{proid}</if>
+			and replyid is null
+		</where>
+		ORDER BY cdate desc
+		limit #{pageSize} offset #{pageIndex}
+	</select>
+
+	<select id="selectinforecommentList" parameterType="int" resultMap="CommentResult">
+		select coid,pcid,replyid,uid,uname,ccontent,cdate,to_uid,to_name,good
+		from tb_policyinfocomment
+		<where>
+			replyid = #{coid}
+		</where>
+		ORDER BY cdate desc
+	</select>
+
+	<insert id="insertInfoCM" parameterType="com.ruoyi.village.domain.Comment">
+		insert into <include refid="CommenttableName"/>
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+
+			<if test="pcid != null  and pcid != ''  ">pcid,</if>
+			<if test="replyid != null  and replyid != ''  ">replyid,</if>
+			<if test="uid != null  and uid != ''  ">uid,</if>
+			<if test="uname != null  and uname != ''  ">uname,</if>
+			<if test="ccontent != null  and ccontent != ''  ">ccontent,</if>
+			<if test="cdate != null  and cdate != ''  ">cdate,</if>
+			<if test="aid != null  and aid != ''  ">aid,</if>
+			<if test="to_uid != null  and to_uid != ''  ">to_uid,</if>
+			<if test="to_name != null  and to_name != ''  ">to_name,</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+
+			<if test="pcid != null  and pcid != ''  ">#{pcid},</if>
+			<if test="replyid != null  and replyid != ''  ">#{replyid},</if>
+			<if test="uid != null  and uid != ''  ">#{uid},</if>
+			<if test="uname != null  and uname != ''  ">#{uname},</if>
+			<if test="ccontent != null  and ccontent != ''  ">#{ccontent},</if>
+			<if test="cdate != null  and cdate != ''  ">#{cdate},</if>
+			<if test="aid != null  and aid != ''  ">#{aid},</if>
+			<if test="to_uid != null  and to_uid != ''  ">#{to_uid},</if>
+			<if test="to_name != null  and to_name != ''  ">#{to_name},</if>
+		</trim>
+	</insert>
 </mapper>

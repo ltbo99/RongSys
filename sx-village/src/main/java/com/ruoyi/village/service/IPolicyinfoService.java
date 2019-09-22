@@ -1,6 +1,8 @@
 package com.ruoyi.village.service;
 
+import com.ruoyi.village.domain.Comment;
 import com.ruoyi.village.domain.Policyinfo;
+import com.ruoyi.village.domain.pubObjApi;
 
 import java.util.List;
 
@@ -57,4 +59,11 @@ public interface IPolicyinfoService {
      * @return 最近的十条数据
      */
     public List<Policyinfo> selectpoliclimitten();
+
+    //查询评论
+    public List<Comment> selectinfocommentListlimit(pubObjApi info);
+    //查询回复评论
+    public List<Comment> selectinforecommentList(int coid);
+    //新增评论
+    public int insertInfoCM(Comment comment);
 }
