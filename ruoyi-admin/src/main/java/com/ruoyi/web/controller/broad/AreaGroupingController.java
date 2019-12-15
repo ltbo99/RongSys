@@ -40,6 +40,7 @@ public class AreaGroupingController extends BaseController{
     @Autowired
     private ISysUserService iSysUserService;
 
+    @RequiresPermissions("broad:areaGrouping:view")
     @GetMapping()
     public String areaGrouping()
     {
@@ -51,6 +52,7 @@ public class AreaGroupingController extends BaseController{
 
     @PostMapping("/list")
     @Log(title = "分组管理列表")
+    @RequiresPermissions("broad:areaGrouping:list")
     @ResponseBody
     public TableDataInfo list(AreaGrouping areaGrouping)
     {

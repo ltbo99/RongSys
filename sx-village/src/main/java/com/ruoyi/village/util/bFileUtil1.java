@@ -128,4 +128,58 @@ public class bFileUtil1 {
         }
         return g;
     }
+
+
+
+
+    /**
+     * 文件保存封装
+     * @param maxfileid
+     * @param file
+     * @param fname
+     * @param fsize
+     * @param year
+     * @return Program
+     */
+    public static com.ruoyi.village.domain.Files uplodeFilepic(String maxfileid, MultipartFile file, String fname, String fsize, String year){
+        Files g = new Files();
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
+        int j=0; //上传多个的时候用的
+        String filename ="";
+        String failfile="";//添加失败的节目
+        if(file!=null ){
+            /* filename = maxfileid+j+"";*/
+            filename = maxfileid+"";
+            while(filename.length()<5){
+                filename = "0"+filename;
+            }
+            filename = year.substring(2)+filename;
+            if (null != file && !file.isEmpty()) {
+                filename =filename+"."+bFileUtil1.getFileSuffix(file.getOriginalFilename()); //filename字段
+
+                //path是返回文件的名字（纯名字）
+                String path =  bFileUtil1.saveImg(file,maxfileid+file.getOriginalFilename());
+                g.setFilename(filename);
+                // g.setAddress(bPathUtil1.getClasspath() + bConst1.FILEPATHPER2 + maxfileid+file.getOriginalFilename());
+                //给以后开发的小伙伴的留言：
+                /*原来的bPathUtil1.getClasspath()是获得目前根目录用户地址*/
+                /*为什么这里是bConstant1.WEB_IMG_ADDRESS呢？因为在服务器中设置了地址映射，文件储存到根目录/root/profile/img/中，
+                   然后在tomcat的conf/sever.xml中设置了bConstant1.WEB_IMG_ADDRESS指向/root/profile/img/，所以这里文件保存到数据库的地址就是bConstant1.WEB_IMG_ADDRESS*/
+                /*setAddress是文件保存在数据库中的文件地址*/
+                g.setAddress(bConstant1.WEB_ADDRESS + bConstant1.WEB_IMG_ADDRESS + maxfileid + file.getOriginalFilename());
+                /*感觉这个url好像是没有用的。。。*/
+                g.setUrls(bConst1.FILEPATHPER2 + maxfileid+file.getOriginalFilename());
+                g.setCreatedtime(df.format(new Date()));
+                g.setIspublic(false);
+                g.setIslisten(true);
+                if(fsize!=null&&!fsize.equals("")){
+                    BigDecimal b   =   new   BigDecimal(fsize);
+                    g.setFsize(b.setScale(2,   BigDecimal.ROUND_HALF_UP).doubleValue() );//四舍五入 两位小数
+                }
+                j++;
+            }
+
+        }
+        return g;
+    }
 }

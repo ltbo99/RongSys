@@ -23,7 +23,6 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">所属用户：</label>
             <div class="col-sm-8">
-<!--                <select class="form-control" onclick="getUserInfo(this,'所属用户')" id="userinfo" name="userid">-->
                 <select class="form-control" id="userinfo" name="userid">
                     <option value="">--请选择权限人--</option>
                 </select>
@@ -35,10 +34,6 @@
             <label class="col-sm-3 control-label">终端类型 ：</label>
             <div class="col-sm-8">
                 <select class="form-control" id="terminaltype" name="terminaltype" disabled>
-<!--                    <option value="yingji" id="yingjis">应急广播终端</option>-->
-<!--                    <option value="houbei" id="houbeis">后备能源型终端</option>-->
-<!--                    <option value="fashe" id="fashes">发射机型终端</option>-->
-
                     <option value="1" id="yingjis">应急广播终端</option>
                     <option value="2" id="houbeis">后备能源型终端</option>
                     <option value="3" id="fashes">发射机型终端</option>
@@ -58,12 +53,6 @@
                 <input id="tname" name="tname" class="form-control" type="text" required placeholder="请输入终端设备名称">
             </div>
         </div>
-<!--        <div class="form-group">-->
-<!--            <label class="col-sm-3 control-label">设备编号：</label>-->
-<!--            <div class="col-sm-8">-->
-<!--                <input id="tid1" name="tid1" class="form-control" type="text" placeholder="请输入终端设备名称">-->
-<!--            </div>-->
-<!--        </div>-->
         <div class="form-group">
             <label class="col-sm-3 control-label">终端交互时间：</label>
             <div class="col-sm-8">
@@ -102,14 +91,6 @@
             </div>
         </div>
 <!--经纬度(自动/手动)-->
-        <div class="form-group">
-            <label class="col-sm-3 control-label">经纬度(自动/手动)：</label>
-            <div class="col-sm-8">
-<!--                <input id="jingweidu" name="jingweidu" class="form-control" type="text" placeholder="请输入经纬度(自动/手动)">-->
-                    <input type="radio" name="longitudelatitude" value="1">手动
-                    <input type="radio" name="longitudelatitude" value="0">自动
-            </div>
-        </div>
 <!--基站编码-->
         <div class="form-group">
             <label class="col-sm-3 control-label">基站编码：</label>
@@ -120,7 +101,7 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">现场照片：</label>
             <div class="col-sm-8">
-                <input id="poscene" name="`poscene" disabled class="form-control" type="text" placeholder="请输入现场照片">
+                <input id="poscene" name="poscene" accept=".jpg,.png,.jpeg " class="form-control" type="file" placeholder="请输入现场照片">
             </div>
         </div>
         <div class="form-group">
@@ -151,7 +132,10 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">广播接收频率：</label>
             <div class="col-sm-8">
-                <input id="fmfrequency" name="fmfrequency" class="form-control" required type="text" placeholder="请输入广播接收频率">
+<!--                <input id="fmfrequency" name="fmfrequency" class="form-control" required type="text" placeholder="请输入广播接收频率">-->
+                <select class="form-control" id="fmfrequency" name="fmfrequency">
+                    <option value="">--请输入广播接收频率--</option>
+                </select>
             </div>
         </div>
         <div class="form-group">
@@ -176,22 +160,21 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">终端管理员 ：</label>
             <div class="col-sm-8">
-                <input id="manager" name="uname" class="form-control" required type="text" placeholder="请输入终端管理员">
+                <input id="manager" name="manager" class="form-control" required type="text" placeholder="请输入终端管理员">
             </div>
         </div>
         <div class="form-group">
             <label class="col-sm-3 control-label">管理员电话：</label>
             <div class="col-sm-8">
-                <input id="managertel" name="managertel" class="form-control" required type="text" minlength="7" maxlength="13" placeholder="请输入管理员电话">
+                <input id="managertel" name="managertel" class="form-control" required type="text" minlength="7" maxlength="15" placeholder="请输入管理员电话(15位)">
             </div>
         </div>
-        <div class="form-group">
-            <label class="col-sm-3 control-label">创建时间：</label>
-            <div class="col-sm-8">
-<!--                <input id="createdtime" name="createdtime" class="form-control" required type="text" disabled placeholder="请输入创建时间">-->
-                <input id="createtime" name="createtime" class="form-control" type="text" disabled>
-            </div>
-        </div>
+<!--        <div class="form-group">-->
+<!--            <label class="col-sm-3 control-label">创建时间：</label>-->
+<!--            <div class="col-sm-8">-->
+<!--                <input id="createdtime" name="createdtime" class="form-control" type="text" disabled>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="form-group">
             <label class="col-sm-3 control-label">备注：</label>
@@ -202,10 +185,9 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">是否启用：</label>
             <div class="col-sm-8">
-                <!--                <input id="isuse" name="isuse" class="form-control" type="text" placeholder="请输入是否启用">-->
                 <form id="use">
-                    <input type="radio" name="isuse" value="1">是
-                    <input type="radio" name="isuse" value="0">否
+                    <input type="radio" name="isuse" value="true" checked>是
+                    <input type="radio" name="isuse" value="false">否
                 </form>
             </div>
         </div>
@@ -233,9 +215,24 @@
         });
     })
 
+    // 获取广播接收频率组件
+    $(function getfmfrequency(ele,msg) {
+        $.post("/broad/proChamanage/list",function getmsg(params1,params2) {
+            let params = params1.rows;
+            for (let index = 0; index < params.length; index++) {
+                let text = params[index].frequencies;
+                let value = params[index].frequencies;
+                $("#fmfrequency").append("<option value='"+value+"'>"+text+"</option>")
+            }
+        });
+    })
+
+
     function submitHandler() {
         if ($.validate.form()) {
+            console.log("喝了咯")
             $.operate.save(prefix + "/add", $('#form-tbOrganization-add').serialize());
+            console.log("喝了咯")
         }
     }
 
@@ -249,7 +246,7 @@
             callBack: doSubmitAid
         };
         $.modal.openOptions(options);
-}
+    }
     function doSubmit(index, layero){
         var tree = layero.find("iframe")[0].contentWindow.$._tree;
         if ($.tree.notAllowParents(tree)) {
@@ -272,23 +269,28 @@
 }
 
     $('input[type=radio][name=type]').change(function(val) {
-
         var terminaltype = $('input:radio:checked').val();
         if(terminaltype == "fashe"){
+            $("#yingjis").removeAttr("selected");
+            $("#houbeis").removeAttr("selected");
+            $("#fashes").attr("selected",true);
             $("#rds").attr("disabled",false);
             $("#transmitfrequency").attr("disabled",false);
             $("#eovolume").attr("disabled",false);
-        }else{
+        }else if(terminaltype == "houbei"){
+            $("#yingjis").removeAttr("selected");
+            $("#fashes").removeAttr("selected");
+            $("#houbeis").attr("selected",true);
             $("#rds").attr("disabled",true);
             $("#transmitfrequency").attr("disabled",true);
             $("#eovolume").attr("disabled",true);
-        }
-        if(terminaltype == "fashe"){
-            $("#fashes").attr("selected",true);
-        }else if(terminaltype == "houbei"){
-            $("#houbeis").attr("selected",true);
         }else{
+            $("#fashes").removeAttr("selected");
+            $("#houbeis").removeAttr("selected");
             $("#yingjis").attr("selected",true);
+            $("#rds").attr("disabled",true);
+            $("#transmitfrequency").attr("disabled",true);
+            $("#eovolume").attr("disabled",true);
         }
     });
 

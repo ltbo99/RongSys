@@ -3,6 +3,7 @@ package com.ruoyi.web.controller.broad;
 import com.ruoyi.broad.domain.Area;
 import com.ruoyi.broad.domain.BroadMessage;
 import com.ruoyi.broad.domain.Organization;
+import com.ruoyi.broad.domain.TerminalTels;
 import com.ruoyi.broad.service.IAreaService;
 import com.ruoyi.broad.service.IMessageService;
 import com.ruoyi.broad.service.IOrganizationService;
@@ -57,17 +58,16 @@ public class OrganizationController extends BaseController
 		return prefix + "/organization";
 	}
 
-
-
 	/**
 	 * 查询终端信息列表
 	 */
-//	@RequiresPermissions("broad:organization:list")
+	@RequiresPermissions("broad:organization:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(Organization organization)
 	{
 		startPage();
+		organization.setAid(organization.getAid()+"%");
 		List<Organization> list = organizationService.selectOrganizationList1(organization);
 		return getDataTable(list);
 	}
@@ -87,6 +87,7 @@ public class OrganizationController extends BaseController
 	 * 删除终端信息
 	 */
 	@Log(title = "终端信息删除", businessType = BusinessType.DELETE)
+	@RequiresPermissions("broad:organization:remove")
 	@PostMapping( "/remove")
 	@ResponseBody
 	public AjaxResult remove(String ids)
@@ -97,12 +98,13 @@ public class OrganizationController extends BaseController
 	/**
 	 * 编辑终端信息
 	 */
+
 	@GetMapping("/edit/{tid}")
 	public String edit(@PathVariable("tid") String tid, ModelMap mmap)
 	{
-		Organization organization = organizationService.selectOrganizationByTid(tid);
-		mmap.put("organization", organization);
-		return prefix + "/edit";
+        Organization organization = organizationService.selectOrganizationByTid(tid);
+        mmap.put("organization", organization);
+        return prefix + "/edit";
 	}
 	/**
 	 * 编辑保存终端信息
@@ -129,10 +131,9 @@ public class OrganizationController extends BaseController
 
 
 	@PostMapping("/add")
+	@RequiresPermissions("broad:organization:add")
 	@ResponseBody
 	public AjaxResult addSave(Organization organization){
-
-
 		return toAjax(organizationService.insertOrganization(organization));
 	}
 
@@ -180,6 +181,7 @@ public class OrganizationController extends BaseController
 	 * @return 终端管理表集合
 	 */
 	@Log(title = "终端管理", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:organization:export")
 	@PostMapping("/export")
 	@ResponseBody
 	public AjaxResult export(Organization organization)
@@ -202,5 +204,65 @@ public class OrganizationController extends BaseController
 		/*return prefix + "/tree";*/
 		return prefix + "/listProBroadTree";
 	}
+	@GetMapping("/phoneEdit/{tid}")
+	public String phoneEdit(@PathVariable("tid") String tid, ModelMap mmap){
+		return prefix + "/phoneEdit";
+	}
+	@PostMapping("/phoneEdit/{tid}")
+	@ResponseBody
+	public List<TerminalTels> phoneEditpost(@PathVariable("tid") String tid, ModelMap mmap){
+		List<TerminalTels> terminalTels= organizationService.selectTelsByTid(tid);
+		mmap.put("terminalTels", terminalTels);
+		return terminalTels;
+	}
+
+	@PostMapping("/addphoneedit")
+	@ResponseBody
+	public int addphoneEdit(TerminalTels terminalTels){
+		return organizationService.addphoneEdit(terminalTels);
+	}
+
+	@GetMapping("/deletephoneedit/{telid}")
+	@ResponseBody
+	public String deletephoneedit(@PathVariable("telid") String telid){
+		if(organizationService.deletephoneedit(telid)==1);
+		return "操作成功";
+	}
+
+	/**
+	 * 查询节目单终端列表
+	 */
+	@PostMapping("/listProBroad")
+	@ResponseBody
+	public TableDataInfo listProBroad(Organization organization)
+	{
+		startPage() ;
+		List<Organization> list = organizationService.selectProBroadList(organization);
+		return getDataTable(list);
+	}
+
+	@PostMapping( "/isuseSet")
+	@ResponseBody
+	public AjaxResult isuseSet(String tid, Boolean isuse)
+	{
+		return toAjax(organizationService.updateIsuseByTid(tid,isuse));
+	}
+
+	/** @author qwerty
+	 * @description 导出√中的数据
+	 *
+	 * @param sfids
+	 * @return
+	 */
+	@Log(title = "终端导出", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:organization:export")
+	@PostMapping("/exportbysingle")
+	@ResponseBody
+	public AjaxResult exportOrganizationByIds(@RequestParam("sjids") List<String> sfids) {
+		List<Organization> list = organizationService.selectOrganizationListByids(sfids);
+		ExcelUtil<Organization> util = new ExcelUtil<Organization>(Organization.class);
+		return util.exportExcel(list, "Organization");
+	}
+
 }
 
