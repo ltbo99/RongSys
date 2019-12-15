@@ -47,4 +47,8 @@ public interface ProgramMapper {
      * @return 结果
      */
     public int deleteProgram(String[] fid);
+
+    public List<Program> selectProgramListByids(List<String> sfids);
+
+    public int setIsPublic(String fid);
 }

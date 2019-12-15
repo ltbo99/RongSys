@@ -1,6 +1,7 @@
 package com.ruoyi.web.controller.broad;
 
 import com.ruoyi.common.config.Global;
+import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import org.slf4j.Logger;
@@ -91,6 +92,7 @@ public class PerController extends BaseController {
         //	将aid、fname、uname传至add.html中
 //		mmap.put("aid", aid);//这里获得的aid是来自ry-》tb_user_admin
         mmp.put("username", username);
+        mmp.put("userid", userid);
         // mmp.put("userphone", phone);
 
         return prefix + "/add";
@@ -118,7 +120,8 @@ public class PerController extends BaseController {
 
         //保存图片
         //String path =  bFileUtil.saveImg(file,filename);
-        Program g = bFileUtil.uplodeFile(maxfileid, file, fname, flenth, fsize, year, uname);
+        String userid =  ShiroUtils.getSysUser().getUserId().toString();
+        Program g = bFileUtil.uplodeFile(maxfileid, file, fname, flenth, fsize, year, userid);
         System.out.println(g.toString());
         iProgramService.insertProgram(g);
         return toAjax(1);
@@ -131,4 +134,41 @@ public class PerController extends BaseController {
     {
         return toAjax(iProgramService.deleteProgram(ids));
     }
+
+
+//    /**
+//     * 导出节目单运转列表
+//     */
+//    @PostMapping("/export")
+//    @ResponseBody
+//    public AjaxResult export(Program program)
+//    {
+//        List<Program> list = iProgramService.selectProList(program);
+//        ExcelUtil<Program> util = new ExcelUtil<Program>(Program.class);
+//        return util.exportExcel(list, "Program");
+//    }
+
+    /** @author qwerty
+     * @description 导出√中的数据
+     *
+     * @param sfids
+     * @return
+     */
+    @Log(title = "节目库记录导出", businessType = BusinessType.EXPORT)
+//    @RequiresPermissions("broad:per:export")
+    @PostMapping("/exportbysingle")
+    @ResponseBody
+    public AjaxResult exportProgramByIds(@RequestParam("sjids") List<String> sfids) {
+        List<Program> list = iProgramService.selectProgramListByids(sfids);
+        ExcelUtil<Program> util = new ExcelUtil<Program>(Program.class);
+        return util.exportExcel(list, "Organization");
+    }
+
+    @Log(title = "节目库是否公共状态转换", businessType = BusinessType.UPDATE)
+    @GetMapping("/setispublic/{fid}")
+    @ResponseBody
+    public int setIsPublic(@PathVariable("fid") String fid) {
+        return iProgramService.setIsPublic(fid);
+    }
+
 }

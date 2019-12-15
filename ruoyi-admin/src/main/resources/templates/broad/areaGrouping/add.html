@@ -32,7 +32,8 @@
         <div class="form-group">
             <label class="col-sm-3 control-label">备注：</label>
             <div class="col-sm-8">
-                <textarea id="note" name="note"  autofocus></textarea>
+<!--                <textarea id="note" name="note"  autofocus></textarea>-->
+                <input id="note" name="note" class="form-control" type="text">
             </div>
         </div>
 
@@ -68,16 +69,16 @@
 <script th:src="@{/js/plugins/simditor/simditor.js}"></script>
 <!--设置富文本插件-->
 <script>
-    $(document).ready(function() {
-        var editor = new Simditor({
-            placeholder: "请输入故障原因", // 编辑器默认值（默认为’’）
-            toolbar: [
-                'title', 'bold', 'italic', 'underline',
-                'color', '|', 'ol', 'ul', 'table'
-            ],
-            textarea: '#note',
-        });
-    });
+    // $(document).ready(function() {
+    //     var editor = new Simditor({
+    //         placeholder: "请输入故障原因", // 编辑器默认值（默认为’’）
+    //         toolbar: [
+    //             'title', 'bold', 'italic', 'underline',
+    //             'color', '|', 'ol', 'ul', 'table'
+    //         ],
+    //         textarea: '#note',
+    //     });
+    // });
 </script>
 </body>
 </html>
