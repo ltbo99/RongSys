@@ -1,6 +1,8 @@
 package com.ruoyi.village.service;
 
 import com.ruoyi.village.domain.Politics;
+import com.ruoyi.village.domain.Comment;
+import com.ruoyi.village.domain.pubObjApi;
 
 import java.util.List;
 
@@ -50,4 +52,18 @@ public interface IPoliticsService {
      * @return
      */
     public int deletePoliticsByIds(String shiid);
+
+    /**
+     * 按照时间倒序获取十条政策信息
+     *
+     * @return 最近的十条数据
+     */
+    public List<Politics> selectpoliticslimitten();
+
+    //查询评论
+    public List<Comment> selectpoliticsListlimit(pubObjApi info);
+    //查询回复评论
+    public List<Comment> selectpoliticsrecommentList(int coid);
+    //新增评论
+    public int insertPoliticsCM(Comment comment);
 }
