@@ -58,7 +58,6 @@
         <result property="ptype"    column="ptype"    />
         <result property="flenth"    column="flenth"    />
         <result property="fsize"    column="fsize"    />
-        <result property="uname"    column="uname"    />
     </resultMap>
     <!--根据用户查询节目列表 -->
     <select id="selectProList" parameterType="com.ruoyi.broad.domain.Program" resultMap="programMap">
