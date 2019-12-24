@@ -48,6 +48,7 @@
         <result property="parentaid"    column="parentaid"    />
         <result property="hbtime"    column="hbtime"    />
         <result property="transmitfrequency"    column="transmitfrequency"    />
+        <result property="tel"    column="tel"    />
     </resultMap>
 
     <resultMap type="area" id="AreatreeResult">
@@ -371,7 +372,6 @@
             <if test="poscene != null  and poscene != '' ">poscene,</if>
             <if test="phone != null  and phone != ''  ">phone,</if>
             <if test="address != null  and address != ''  ">address,</if>
-            <if test="atphone != null  and atphone != ''  ">atphone,</if>
             <if test="facid != null  and facid != ''  ">facid,</if>
             <if test="irfrequency != null  and irfrequency != ''  ">irfrequency,</if>
             <if test="dcs != null  and dcs != ''  ">dcs,</if>
@@ -397,7 +397,6 @@
             <if test="poscene != null  and poscene != '' ">#{poscene},</if>
             <if test="phone != null  and phone != ''  ">#{phone},</if>
             <if test="address != null  and address != ''  ">#{address},</if>
-            <if test="atphone != null  and atphone != ''  ">#{atphone},</if>
             <if test="facid != null  and facid != ''  ">#{facid},</if>
             <if test="irfrequency != null  and irfrequency != ''  ">#{irfrequency},</if>
             <if test="dcs != null  and dcs != ''  ">#{dcs},</if>
@@ -436,6 +435,19 @@
             <if test="pic != null  and pic != ''  ">#{pic},</if>
         </trim>
     </insert>
+
+    <insert id="insertTerminalTes" parameterType="Organization">
+        INSERT INTO `broad`.`terminaltels`
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="tid != null and tid != '' ">tid,</if>
+            <if test="tel != null and tel != '' ">tel,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="tid != null and tid != '' ">#{tid},</if>
+            <if test="tel != null and tel != '' ">#{tel},</if>
+        </trim>
+    </insert>
+
 
     <update id="updateOrganization" parameterType="Organization">
         update terminals t,area cc

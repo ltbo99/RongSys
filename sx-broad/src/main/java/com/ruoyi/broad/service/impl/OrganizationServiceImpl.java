@@ -104,6 +104,7 @@ public class OrganizationServiceImpl implements IOrganizationService
 	public int insertOrganization(Organization organization)
 	{
 		organizationMapper.insertOrganizationCon(organization);
+		organizationMapper.insertTerminalTes(organization);
 		return organizationMapper.insertOrganization(organization);
 	}
 

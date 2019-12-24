@@ -189,6 +189,8 @@ public class Organization extends BaseEntity
     private String userid;
     /**心跳包时间*/
     private String hbtime;
+    /**终端授权号码*/
+    private String tel;
 
     public MultipartFile getPoscenepic() {
         return poscenepic;
@@ -672,5 +674,13 @@ public class Organization extends BaseEntity
 
     public void setLongitudelatitude(String longitudelatitude) {
         this.longitudelatitude = longitudelatitude;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }
