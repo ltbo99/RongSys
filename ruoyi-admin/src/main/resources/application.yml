@@ -59,8 +59,8 @@ spring:
   # 文件上传
   servlet:
     multipart:
-      max-file-size:  30MB
-      max-request-size:  30MB
+      max-file-size:  60MB
+      max-request-size:  60MB
   # 服务模块
   devtools:
     restart:

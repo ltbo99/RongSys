@@ -174,7 +174,7 @@ public class TbHuodongController extends BaseController
 	/**
 	 * 打开项目详情页
 	 */
-	@GetMapping("/detail/{mid}")
+	@GetMapping("/detail/{hdid}")
 	public String detail(@PathVariable("hdid")Integer hdid,ModelMap mmap)
 	{
 		mmap.put("listByid",tbHuodongService.selectTbHuodongById(hdid));

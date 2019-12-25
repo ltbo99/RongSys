@@ -925,11 +925,6 @@
             }
         }
 
-        // function submitHandler() {
-        //     if ($.validate.form()) {
-        //         $.operate.save(prefix + "/add", $('#form-villagerInfo-add').serialize());
-        //     }
-        // }
 
         function sleep(numberMillis) {
             var now = new Date();
@@ -941,22 +936,6 @@
             }
         }
 
-
-
-		$("#form-villagerInfo-add").validate({
-			rules: {
-                idcard: {
-                    required: true,
-                    minlength: 18
-                }
-            },
-            messages: {
-                idcard: {
-                    required: "请输入身份证号码",
-                    minlength: "身份证号码必须为18个字符"
-                },
-            }
-		});
 
         /*用户管理-新增-选择用户所属区域树*/
         function selectAidTree() {
@@ -1007,10 +986,7 @@
         var editor = new Simditor({toolbar: ['title', 'bold', 'underline', 'color', '|', 'ol', 'ul', 'table'], textarea: '#punish',});
         var editor = new Simditor({toolbar: ['title', 'bold', 'underline', 'color', '|', 'ol', 'ul', 'table'], textarea: '#winaward',});
 	</script>
-	<!--<script>-->
-        <!--$(document).ready(function(){Dropzone.options.myAwesomeDropzone={autoProcessQueue:false,uploadMultiple:true,parallelUploads:100,maxFiles:100,init:function(){var myDropzone=this;this.element.querySelector("button[type=submit]").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();myDropzone.processQueue()});this.on("sendingmultiple",function(){});this.on("successmultiple",function(personphoto,response){});this.on("errormultiple",function(personphoto,response){})}}});-->
-        <!--$(document).ready(function(){Dropzone.options.myAwesomeDropzone={autoProcessQueue:false,uploadMultiple:true,parallelUploads:100,maxFiles:100,init:function(){var myDropzone=this;this.element.querySelector("button[type=submit]").addEventListener("click",function(e){e.preventDefault();e.stopPropagation();myDropzone.processQueue()});this.on("sendingmultiple",function(){});this.on("successmultiple",function(hkphoto,response){});this.on("errormultiple",function(hkphoto,response){})}}});-->
-	<!--</script>-->
+
 	<script th:src="@{/js/plugins/layer/laydate/laydate.js}"></script>
 	<script th:src="@{/js/plugins/layer/layui-v2.4.5/layui/layui.js}"></script>
 	<script th:src="@{/js/plugins/dropzone/dropzone.js}"></script>
@@ -1038,6 +1014,21 @@
 				type: 'time',
 			});
 		});
+
+        $("#form-villagerInfo-add").validate({
+            rules: {
+                idcard: {
+                    required: true,
+                    minlength: 18
+                }
+            },
+            messages: {
+                idcard: {
+                    required: "请输入身份证号码",
+                    minlength: "身份证号码必须为18个字符"
+                },
+            }
+        });
 	</script>
 
 </body>
