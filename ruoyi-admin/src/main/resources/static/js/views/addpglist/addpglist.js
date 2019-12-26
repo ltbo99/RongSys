@@ -682,16 +682,20 @@ function saves(){
     //获取选择终端
     //var nodes = zTree.getCheckedNodes();
     var treeObj = $.fn.zTree.getZTreeObj("tree");
+    var treeObj1 = $.fn.zTree.getZTreeObj("tree1");
+    var nodes1 = treeObj1.getCheckedNodes(true);
     var nodes = treeObj.getCheckedNodes(true);
+    if(nodes1.legend>0){
+        nodes = nodes1;
+    }
     var terids = [];
     nodes.forEach(function(a,b){
-        // console.log(a,b,'dasdada')
         if(a.id.length==15){
             terids.push(Number(a.id));
         }
     })
     // terids = $("#treeName").val()
-    console.log("选择的终端>>>",terids)
+    // console.log("选择的终端>>>",terids)
     if(terids==""||terids==null||typeof(terids) == "undefined"){
         layer.tips('请选择播出终端','#saves', {
             tips: [1, '#3595CC'],
