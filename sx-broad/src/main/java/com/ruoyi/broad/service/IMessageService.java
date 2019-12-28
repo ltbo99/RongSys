@@ -18,6 +18,8 @@ public interface IMessageService {
 
     public List<Map<String, Object>> selectMessageList (BroadMessage broadMessage);
 
+    List<Map<String, Object>> selectMessageList1(BroadMessage broadMessage);
+
     public List<MessageExample> selectMessageExampleList();
 
     /**

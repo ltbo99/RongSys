@@ -133,4 +133,15 @@ public class AreaGroupingController extends BaseController{
     {
         return toAjax(iAreaGroupingService.updateAreaGrouping(areaGrouping));
     }
+
+    /**
+     * 加载特殊分组及终端列表树
+     */
+    @GetMapping("/treeData1")
+    @ResponseBody
+    public List<Map<String, Object>> treeData1() {
+        List<Map<String, Object>> tree = messageService.selectMessageList1((new BroadMessage()));
+        return tree;
+    }
+
 }
