@@ -1,5 +1,7 @@
 package com.ruoyi.broad.utils;
 
+import com.ruoyi.common.config.Global;
+
 /**
  * @author 张超 teavamc
  * @Description:TODO
@@ -7,6 +9,15 @@ package com.ruoyi.broad.utils;
  * @date 2019/2/17 17:29
  **/
 public class bConst {
+    /** 文件上传/图片   根目录 */
+    public static final String UPLOAD_PATH = Global.getProfile(); //bConst.FILEPATHPER
+
+    /** 图片目录 */
+    public static final String MP3_FILE_NAME = "audiofile";
+
+    /** 图片相对路径 */
+    public static final String VIRTUAL_IMG_PATH = "img/virtual";
+
     // 验证码
     public static final String SESSION_SECURITY_CODE = "sessionSecCode";
     // session用的用户
