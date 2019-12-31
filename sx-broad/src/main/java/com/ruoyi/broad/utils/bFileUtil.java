@@ -130,9 +130,9 @@ public class bFileUtil {
                 }else{
                     mp3 = uplodeDocFile(file);//保存doc文件
                 }
-                g.setFilename(filename);
+//                g.setFilename(filename);
                 g.setAddress(bPathUtil.getClasspath() + bConst.FILEPATHPER+mp3);
-                g.setUrls(bConst.FILEPATHPER+mp3);
+                g.setFilename(bConst.FILEPATHPER+mp3);
                 g.setUserid(uname);
                 g.setCreatedtime(df.format(new Date()));
                 g.setIspublic(false);
@@ -199,7 +199,7 @@ public class bFileUtil {
             logger.debug("--- doc保存异常：{} ---" + e.getMessage());
             return null;
         }
-        return path+saveName;
+        return "profile/applyfile/"+saveName;
     }
 
 }
