@@ -137,7 +137,7 @@
                     }
                 },
                  {
-                     field: 'filename',
+                     field: 'fileurl',
                      title: '试听',
                      align: 'center',
                      visible: true,
@@ -229,7 +229,7 @@
             content: "/broad/prolisten/play",
             shadeClose: false,
             success:function(layero, index){
-                $(layero).find("iframe")[0].contentWindow.$("audio").attr('src',value);
+                $(layero).find("iframe")[0].contentWindow.$("audio").attr('src',"../../"+value);
                 var fry_audio=$(layero).find("iframe")[0].contentWindow.$("audio").get('0');
                 fry_audio.load();
             }

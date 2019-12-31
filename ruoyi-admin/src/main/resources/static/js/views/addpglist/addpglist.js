@@ -685,7 +685,7 @@ function saves(){
     var treeObj1 = $.fn.zTree.getZTreeObj("tree1");
     var nodes1 = treeObj1.getCheckedNodes(true);
     var nodes = treeObj.getCheckedNodes(true);
-    if(nodes1.legend>0){
+    if(nodes1.length>0){
         nodes = nodes1;
     }
     var terids = [];

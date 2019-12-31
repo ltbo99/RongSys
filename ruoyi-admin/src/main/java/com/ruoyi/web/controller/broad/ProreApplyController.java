@@ -81,20 +81,6 @@ public class ProreApplyController extends BaseController
 
 	}
 
-//	/**
-//	 * 查询节目申请列表
-//	 */
-//	@RequiresPermissions("broad:proreApply:list")
-//	@PostMapping("/list")
-//	@ResponseBody
-//	public TableDataInfo list(ProreApply proreApply)
-//	{
-//		startPage();
-//		List<ProreApply> list = proreApplyService.selectProreApplyList(proreApply);
-//		return getDataTable(list);
-//	}
-	
-	
 	/**
 	 * 导出节目申请列表
 	 */
@@ -128,8 +114,7 @@ public class ProreApplyController extends BaseController
 							  @RequestParam(value="requires") String requires,
 							  @RequestParam(value="timelimit") String timelimit,
 							  @RequestParam(value="isemergency") String isemergency,
-							  @RequestParam(value="pname") String panme)throws IOException
-	{
+							  @RequestParam(value="pname") String panme){
 		SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time=sim.format(new Date());
 
