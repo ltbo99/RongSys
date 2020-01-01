@@ -188,12 +188,13 @@ public class ProSinmanageController extends BaseController
 
 
 	/*************************************************************************************************
-	 * 新增节目播出单
+	 * 新增节目播出单,修改区分正常和紧急节目单
 	 */
-	@GetMapping("/addtest")
-	public String addtest(ModelMap mmap)
+	@GetMapping("/addtest/{scategory}")
+	public String addtest(ModelMap mmap,@PathVariable String scategory)
 	{
 		SysUser user = getSysUser();
+        mmap.put("type", scategory);
 		mmap.put("user", user);
 		return prefix + "/addtest";
 	}
@@ -321,6 +322,7 @@ public class ProSinmanageController extends BaseController
 	@RequestMapping("/addProList")
 	@ResponseBody
 	public Map<String,Object> addProList(@RequestParam("userId") String userId,
+                                         @RequestParam("scategory") String scategory,
 										 @RequestParam("ProDate") String ProDate,
 										 @RequestParam("ProDay") String ProDay,
 										 @RequestParam("ProIMEI") List ProIMEI,
@@ -331,7 +333,7 @@ public class ProSinmanageController extends BaseController
 		ProSinmanage ps = new ProSinmanage();
 		ps.setUserid(userId);
 		ps.setCreatetime(DateUtil.getTime());
-		ps.setScategory("正常播出单");
+		ps.setScategory(scategory);
 		ps.setBroaddate(ProDate);//节目播放开始日期
 		ps.setBroadtimes(ProDay);
 	 	int programmeID = ProSinmanageService.insertProSinmanage(ps);//返回的新创建的节目单id

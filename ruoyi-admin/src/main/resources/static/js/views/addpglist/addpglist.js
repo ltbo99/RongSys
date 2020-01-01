@@ -597,7 +597,7 @@ function doCham() {
         }
     });
 }
-function saves(){
+function saves(scategory){
     if($("#tbody").children().length<=0){
         //小tips
         layer.tips('请添加节目','#saves', {
@@ -721,6 +721,7 @@ function saves(){
         data: {
             userId:userId,
             ProDate: broaddate,
+            scategory:scategory,
             ProDay:continuenum,
             ProIMEI:JSON.stringify(terids),
             ProData:JSON.stringify(prolist)
@@ -733,8 +734,13 @@ function saves(){
                     time: 500,
                     shade: [0.1, '#8F8F8F']
                 },function() {
-                    $.modal.openTab("节目播出单管理","/broad/proSinmanage");
-                    location.reload();
+                    if(scategory=="正常播出单"){
+                        $.modal.openTab("节目播出单管理","/broad/proSinmanage");
+                        location.reload();
+                    }else{
+                        $.modal.openTab("紧急播出单管理","/broad/proSinmanage/wproSinmanage");
+                        location.reload();
+                    }
                 });
             }else {
                 layer.msg("错误", {
