@@ -60,7 +60,7 @@ function editTime(obj){
     var _url = "/broad/proSinmanage/getTime?time="+time;
     var _title = '修改时间';
     var _width = "500";
-    var _height = ($(window).height() - 300);
+    var _height = ($(window).height() - 200);
     layer.open({
         type: 2,
         maxmin: true,
