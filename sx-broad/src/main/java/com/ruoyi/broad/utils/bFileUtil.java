@@ -34,7 +34,7 @@ public class bFileUtil {
             logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
             return null;
         }
-        return saveName;
+        return "profile/img/virtual/"+saveName;
     }
     /**
      * mp3文件存储 完整路径（{user.home}/img/coldStone/XXX.jpg）
@@ -50,7 +50,7 @@ public class bFileUtil {
             if (!targetFile.exists()) {
                 targetFile.mkdirs();
             }
-            file.transferTo(new File(path + "/" + saveName));  //文件保存，写入内存
+            file.transferTo(new File(path, saveName));  //文件保存，写入内存
         } catch (Exception e) {
             e.printStackTrace();
             logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
