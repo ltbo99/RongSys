@@ -60,7 +60,7 @@ function editTime(obj){
     var _url = "/broad/proSinmanage/getTime?time="+time;
     var _title = '修改时间';
     var _width = "500";
-    var _height = ($(window).height() - 300);
+    var _height = ($(window).height() - 200);
     layer.open({
         type: 2,
         maxmin: true,
@@ -252,7 +252,6 @@ function save(){
         });
         return false;
     }
-    debugger
     if(onindex!=0 ||(offindex-onindex)<=0 || (stopindex-offindex)!=1){
         $("#appon").tips({
             side:3,
@@ -358,9 +357,7 @@ function data_string(datetimeStr) {
  */
 function getTime(intervaltime,times){
     var basenum = 5;  //5秒钟延迟播放
-    var TimeNILL = data_string(intervaltime)
     var restData = intervaltime;
-    //console.log("???"+TimeNILL); //字符串转时间
     var trs = $("#tbody").find("tr");
     if(trs.length>=1){
         var lasttime = trs[trs.length-1].cells[4].innerText;
@@ -368,35 +365,27 @@ function getTime(intervaltime,times){
         if(timelenth.length==0){
             timelenth = "00:00:00";
         }
-        //console.log(lasttime+"---"+timelenth)
         var seconds =0;
         if(lasttime!=null&&lasttime!=""){
             var H2 = parseInt(lasttime.split(":")[0]);
             var M2 = parseInt(lasttime.split(":")[1]);
             var S2 = parseInt(lasttime.split(":")[2]);
-            //console.log("H2="+H2+"M2="+M2+"S2="+S2)
             seconds += H2 * 3600  + M2 * 60  + S2 ;
-            //console.log("<<<1 前一个的播放开始时间>>>"+lasttime+"---"+seconds)
         }
         if(times!=null&&times!=""){
             var H3 = parseInt(times.split(":")[0]);
             var M3 = parseInt(times.split(":")[1]);
             var S3 = parseInt(times.split(":")[2]);
-            //console.log("H3="+H3+"M3="+M3+"S3="+S3)
             seconds += H3 * 3600  + M3 * 60  + S3 ;
-            //console.log("<<<1 前一个的播放开始时间>>>"+lasttime+"---"+seconds)
         }
         if(timelenth!=null &&timelenth.length>0){
             var H = parseInt(timelenth.split(":")[0]);
             var M = parseInt(timelenth.split(":")[1]);
             var S = parseInt(timelenth.split(":")[2]);
-            //console.log("H="+H+"M="+M+"S="+S)
             seconds += H * 3600  + M * 60  + S ;
-            //console.log(">>>2 前一个的文件时长<<<"+timelenth+"---"+seconds)
-        } //2017-11-11 80:00:00
+        }
         var Se = seconds-28800+basenum;
-        restData = addTime(intervaltime,Se);  //后面的是：前一个tr标签的播放开始时间+文件时长-08：00：00（28800s）+间隔时间
-       // console.log(Se+">>>"+restData);
+        restData = addTime(intervaltime,Se);
     }
     var nule = restData.toString().split(" ")[1];
     if(nule!=null &&nule.length>0){
@@ -520,7 +509,7 @@ function doFile() {
             var filetime = res.data_file.toString().replace("[","").replace("]","").replace("\"","").split(",");
            //console.log(">>>重复次数"+res.data_num+">>>文件id"+res.data_fileID+">>>节目"+res.data_filenames+">>>节目文件"+res.data_filename+">>>时长"+res.data_file+">>>间隔时长"+res.data_time)
            // console.log(">>>重复次数"+res.data_num+">>>文件id"+id+">>>节目"+filenames+">>>节目文件"+filename+">>>时长"+filetime+">>>间隔时长"+res.data_time)
-            var time = getTime(data+" "+baseTime,res.data_time);
+           var time = getTime(data+" "+baseTime,res.data_time);
             for(var i=1;i<=res.data_num;i++){
                 for(var j=0;j<res.data_length;j++){
                     $("#tbody").append("<tr><td class='center'>文件转播</td> <td class='center'>"+id[j]+"</td>"+
@@ -537,7 +526,7 @@ function doFile() {
                         "<i class='ace-icon fa fa-arrow-up bigger-120' title='上移'></i></a>&nbsp;&nbsp;" +
                         "<a class='red' onclick='moveDown(this)'>" +
                         "<i class='ace-icon fa fa-arrow-down bigger-120' title='下移'></i></a></div></td></tr>");
-                    time = getTime(data+" "+baseTime,res.data_time);
+                    time = getTime(data+" "+baseTime,"00:00:00");
                 }
             }
         }, cancel: function () {
@@ -608,7 +597,7 @@ function doCham() {
         }
     });
 }
-function saves(){
+function saves(scategory){
     if($("#tbody").children().length<=0){
         //小tips
         layer.tips('请添加节目','#saves', {
@@ -732,6 +721,7 @@ function saves(){
         data: {
             userId:userId,
             ProDate: broaddate,
+            scategory:scategory,
             ProDay:continuenum,
             ProIMEI:JSON.stringify(terids),
             ProData:JSON.stringify(prolist)
@@ -744,8 +734,13 @@ function saves(){
                     time: 500,
                     shade: [0.1, '#8F8F8F']
                 },function() {
-                    $.modal.openTab("节目播出单管理","/broad/proSinmanage");
-                    location.reload();
+                    if(scategory=="正常播出单"){
+                        $.modal.openTab("节目播出单管理","/broad/proSinmanage");
+                        location.reload();
+                    }else{
+                        $.modal.openTab("紧急播出单管理","/broad/proSinmanage/wproSinmanage");
+                        location.reload();
+                    }
                 });
             }else {
                 layer.msg("错误", {
@@ -807,7 +802,6 @@ function timeAuto(obj) {
 }
 function getTimeAuto(intervaltime,beginTime,fileLength,dataTime){
     var basenum = 5;  //5秒钟延迟播放
-
     var seconds =0;
     if(beginTime!=null&&beginTime!=""){
         var H3 = parseInt(beginTime.split(":")[0]);

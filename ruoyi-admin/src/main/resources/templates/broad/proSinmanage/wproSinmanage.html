@@ -47,6 +47,9 @@
 <div class="container-div">
     <div class="row">
         <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
+            <a class="btn btn-success" onclick="$.operate.addTab()" shiro:hasPermission="system:user:add">
+                <i class="fa fa-plus"></i> 新增
+            </a>
             <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="broad:proSinmanage:export">
                 <i class="fa fa-download"></i> 导出
             </a>
@@ -62,11 +65,11 @@
 
     $(function() {
         var options = {
-            url: prefix + "/list",
+            url: prefix + "/criticalList",
             exportUrl: prefix + "/export",
             detailUrl: prefix + "/detail/{id}",
             modalName: "紧急节目播出单",
-            createUrl: prefix + "/add",
+            createUrl: prefix + "/addtest/1",//紧急节目单
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             search: false,

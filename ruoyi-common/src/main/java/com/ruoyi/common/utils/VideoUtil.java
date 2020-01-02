@@ -45,11 +45,11 @@ public class VideoUtil {
         String strHour = hour < 10 ? "0" + hour : "" + hour;//小时
         String strMinute = minute < 10 ? "0" + minute : "" + minute;//分钟
         String strSecond = second < 10 ? "0" + second : "" + second;//秒
-        if (strHour.equals("00")) {
-            return strMinute + ":" + strSecond;
-        } else {
+//        if (strHour.equals("00")) {
+//            return strMinute + ":" + strSecond;
+//        } else {
             return strHour + ":" + strMinute + ":" + strSecond;
-        }
+//        }
     }
 
     /**

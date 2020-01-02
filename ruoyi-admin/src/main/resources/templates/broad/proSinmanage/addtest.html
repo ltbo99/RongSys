@@ -26,7 +26,7 @@
                 <td style="padding-left:2px;">
                     <input  name="continuenum" id="continuenum"  value="1" type="number" min="1" max="15" step="1" style="width:88px;"  placeholder="连续天数" title="节目单连续播出天数"/></td>
                 <td style="padding-left:10px">
-                    <a class="btn btn-success btn-xs" onclick="saves();"  title="保存" id="saves">
+                    <a class="btn btn-success btn-xs" onclick="savesurl();"  title="保存" id="saves">
                         <i  class="ace-icon fa fa-floppy-o bigger-110 white"></i>&nbsp;保存
                     </a>
                 </td>
@@ -103,7 +103,17 @@
 </div>
 <div th:include="include :: footer"></div>
 
-<script type="text/javascript">
+<script th:inline="javascript">
+    var scategory = [[${scategory}]]
+
+    function savesurl() {
+        if(scategory==0){
+            scategory="正常播出单"
+        }else{
+            scategory="紧急播出单"
+        }
+        saves(scategory);
+    }
     var userId = [[${user.userId}]];
     //使表格行上移，接收参数为链接对象
     function moveUp(_a){

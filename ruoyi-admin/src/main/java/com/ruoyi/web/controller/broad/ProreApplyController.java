@@ -209,7 +209,7 @@ public class ProreApplyController extends BaseController
 		proreApply.setPaid(Integer.parseInt(paid));
 		proreApply.setReplyperson(replyperson);
 		proreApply.setReplytime(time);
-		proreApply.setFileurl(g.getUrls());
+		proreApply.setFilename(g.getUrls());
 		proreApply.setIsreply(true);
 		return toAjax(proreApplyService.updateProreApply(proreApply));
 	}
