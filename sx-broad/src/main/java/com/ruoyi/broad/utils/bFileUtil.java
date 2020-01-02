@@ -61,32 +61,21 @@ public class bFileUtil {
 //        return saveName;
 
         //获取文件上传的根目录 C:\Users\wanghao/upload/img
-        String  path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME; //改为bConstant.UPLOAD_PATH
-
-        //拿到文件的后缀名和UUID进行拼接形成新的文件名
-        //4ca64e85b1544c96b4a6154bb521476f.jpg
-        //String saveName = bCommonUtil.getUuid() + "." + getFileSuffix(file.getOriginalFilename());
-        logger.info(" --- 音频保存路径：{}, 音频保存名称：{},文件名称：{} --- ", path, saveName,file.getOriginalFilename());
-
-        // 保存
+        String  path = bConst.UPLOAD_PATH + bConst.VIRTUAL_IMG_PATH; //图片存储路径
+        saveName = bCommonUtil.getUuid() + "." + getFileSuffix(file.getOriginalFilename());
+        logger.info(" --- 终端图片保存路径：{}, 终端图片保存名称：{},终端图片名称：{} --- ", path, saveName,file.getOriginalFilename());
         try {
-            // 保存文件音频
             File targetFile = new File(path);
             if (!targetFile.exists()) {
                 targetFile.mkdirs();
             }
-            file.transferTo(new File(path + "/" + saveName));  //文件保存，写入内存
+            file.transferTo(new File(path + "/" + saveName));  //文件保存，写入硬盘
         } catch (Exception e) {
             e.printStackTrace();
             logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
             return null;
         }
-
-        //返回相对路径  img/virtual/4ca64e85b1544c96b4a6154bb521476f.jpg
-        return saveName; //filePath + "/" + saveName
-
-
-
+        return "profile/img/virtual/"+saveName;
     }
 
     /**
