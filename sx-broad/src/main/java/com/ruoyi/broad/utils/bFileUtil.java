@@ -103,7 +103,7 @@ public class bFileUtil {
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 
         int fileid = 0;
-        if(maxfileid!=null&& Integer.parseInt(maxfileid)>10){
+        if(maxfileid!=null&& Integer.parseInt(maxfileid)>0){
             fileid = Integer.parseInt(maxfileid)+1;
         }else{
             fileid = 1;
