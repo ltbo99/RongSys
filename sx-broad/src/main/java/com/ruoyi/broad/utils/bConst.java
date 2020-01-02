@@ -13,7 +13,7 @@ public class bConst {
     public static final String UPLOAD_PATH = Global.getProfile(); //bConst.FILEPATHPER
 
     /** 图片目录 */
-    public static final String MP3_FILE_NAME = "audiofile";
+    public static final String MP3_FILE_NAME = "audiofile/";
 
     /** 图片相对路径 */
     public static final String VIRTUAL_IMG_PATH = "img/virtual";
