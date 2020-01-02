@@ -50,7 +50,9 @@ public class bFileUtil {
             if (!targetFile.exists()) {
                 targetFile.mkdirs();
             }
+            System.out.println("=======1");
             file.transferTo(new File(path, saveName));  //文件保存，写入内存
+            System.out.println("=======2");
         } catch (Exception e) {
             e.printStackTrace();
             logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
