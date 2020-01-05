@@ -120,6 +120,7 @@ public class StreamHandler  implements WebSocketHandler {
                         streamstates.add(i,true);
                     }
                 }
+                /**向页面发送连接成功通知*/
                 conn.sendMessage(new TextMessage("start:success"));
                 log.info( "正常日志："+conn.getRemoteAddress() + ":开始直播 ");
                 break;
@@ -135,6 +136,9 @@ public class StreamHandler  implements WebSocketHandler {
                 conn.sendMessage(new TextMessage("end:success"));
                 log.info( "正常日志："+ conn.getRemoteAddress() + ":结束直播 ");
                 break;
+                default:
+                    log.info("错误日志：页面发送命令出错！");
+                    break;
         }
 //        发送指令给终端
         sendCMDtoSocket(conn,message.getPayload().toString());
