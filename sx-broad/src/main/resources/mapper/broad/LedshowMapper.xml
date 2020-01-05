@@ -77,5 +77,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{lsid}
         </foreach>
     </delete>
-    
+
+    <select id="selectLedshowList1" parameterType="PersonApi" resultMap="LedshowResult">
+        select SQL_CALC_FOUND_ROWS distinct ledshow.lsid,ledshow.userid,ledshow.content,ledshow.showtime,ledshow.createtime,ledshow.remark
+        from
+        ledshow left join terminals_ledshow on ledshow.lsid=terminals_ledshow.lsid
+        <where>
+            <if test="userid != null  and userid != '' "> and userid like '%${userid}%'</if>
+            <if test="tid != null  and tid != '' "> and terminals_ledshow.tid like '%${tid}%'</if>
+        </where>
+        ORDER BY createtime DESC
+        limit #{pageSize} offset #{pageIndex}
+    </select>
 </mapper>

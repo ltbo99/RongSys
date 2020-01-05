@@ -34,6 +34,17 @@
         </where>
     </select>
 
+    <select id="selectSendmessagesList1" parameterType="Sendmessages" resultMap="SendmessagesResult">
+        select SQL_CALC_FOUND_ROWS distinct sendmessages.*,userinfo.userid,userinfo.uphone
+        from sendmessages left join userinfo on sendmessages.smobile= userinfo.uphone
+        <where>
+            <if test="userid != null "> and userid = #{userid}</if>
+            <if test="tid != null "> and tid = #{tid}</if>
+        </where>
+        order by  sendtime desc,smid desc
+        limit #{pageSize} offset #{pageIndex}
+    </select>
+
     <select id="selectSendmessagesById" parameterType="Integer" resultMap="SendmessagesResult">
         <include refid="selectSendmessagesVo"/>
         where smid = #{smid}
@@ -91,4 +102,16 @@
         </foreach>
     </delete>
 
+    <select id="selectSendmessagesBytid" parameterType="Sendmessages" resultMap="SendmessagesResult">
+        select sendmessages.*,userinfo.userid,userinfo.uphone,recivedmessages.rmobile,recivedmessages.recivedtime
+        from sendmessages left join userinfo on sendmessages.smobile= userinfo.uphone
+                          left join recivedmessages on sendmessages.smobile= recivedmessages.rmobile
+        <where>
+            <if test="userid != null "> and userid = #{userid}</if>
+            <if test="recivedtime != null "> and recivedtime = #{recivedtime}</if>
+            <if test="tid != null "> and tid = #{tid}</if>
+            <if test="scontent != null "> and scontent = #{scontent}</if>
+        </where>
+        order by recivedtime desc,smid desc
+    </select>
 </mapper>

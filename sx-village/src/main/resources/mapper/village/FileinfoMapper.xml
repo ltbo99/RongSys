@@ -123,8 +123,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <delete id="deleteFileinfoByIds" parameterType="String">
         delete from fileinfo where fileid in 
         <foreach item="fileid" collection="array" open="(" separator="," close=")">
-            #{fileid}
-        </foreach>
+        #{fileid}
+    </foreach>
     </delete>
     <select id="selectMyFileListById" parameterType="pubObjApi" resultMap="FileinfoResult">
         <include refid="selectFileinfoVo"/>

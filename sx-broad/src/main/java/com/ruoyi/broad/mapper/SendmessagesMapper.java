@@ -1,8 +1,7 @@
 package com.ruoyi.broad.mapper;
 
 import com.ruoyi.broad.domain.Sendmessages;
-import com.ruoyi.common.annotation.DataSource;
-import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.village.domain.PersonApi;
 
 import java.util.List;
 
@@ -29,6 +28,14 @@ public interface SendmessagesMapper
      * @return 短信发送记录集合
      */
 	public List<Sendmessages> selectSendmessagesList(Sendmessages sendmessages);
+
+	/**
+	 * 查询短信发送记录列表（村务宝典）
+	 *
+	 * @param sendmessages 短信发送记录信息
+	 * @return 短信发送记录集合
+	 */
+	public List<Sendmessages> selectSendmessagesList1(PersonApi sendmessages);
 	
 	/**
      * 新增短信发送记录
@@ -61,5 +68,14 @@ public interface SendmessagesMapper
      * @return 结果
      */
 	public int deleteSendmessagesByIds(String[] smids);
+
+	/**
+	 * 短信转语音播出
+	 * 通过选择终端，发送短信直接到终端进行语音播出。(村务宝典)
+	 *
+	 * @param sendmessages 短信发送记录信息
+	 * @return 短信发送记录集合
+	 */
+	public List<Sendmessages> selectSendmessagesBytid(Sendmessages sendmessages);
 	
 }

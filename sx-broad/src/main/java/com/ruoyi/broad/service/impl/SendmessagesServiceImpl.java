@@ -7,6 +7,7 @@ import com.ruoyi.broad.mapper.SendmessagesMapper;
 import com.ruoyi.broad.service.ISendmessagesService;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.village.domain.PersonApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.common.support.Convert;
@@ -37,7 +38,7 @@ public class SendmessagesServiceImpl implements ISendmessagesService
 	
 	/**
      * 查询短信发送记录列表
-     * 
+     *
      * @param sendmessages 短信发送记录信息
      * @return 短信发送记录集合
      */
@@ -46,6 +47,19 @@ public class SendmessagesServiceImpl implements ISendmessagesService
 	public List<Sendmessages> selectSendmessagesList(Sendmessages sendmessages)
 	{
 	    return sendmessagesMapper.selectSendmessagesList(sendmessages);
+	}
+
+	/**
+	 * 查询短信发送记录列表（村务宝典）
+	 *
+	 * @param sendmessages 短信发送记录信息
+	 * @return 短信发送记录集合
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<Sendmessages> selectSendmessagesList1(PersonApi sendmessages)
+	{
+		return sendmessagesMapper.selectSendmessagesList1(sendmessages);
 	}
 	
     /**
@@ -86,5 +100,18 @@ public class SendmessagesServiceImpl implements ISendmessagesService
 	{
 		return sendmessagesMapper.deleteSendmessagesByIds(Convert.toStrArray(ids));
 	}
-	
+
+	/**
+	 * 短信转语音播出
+	 * 通过选择终端，发送短信直接到终端进行语音播出。(村务宝典)
+	 *
+	 * @param sendmessages 短信发送记录信息
+	 * @return 短信发送记录集合
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<Sendmessages> selectSendmessagesBytid(Sendmessages sendmessages)
+	{
+		return sendmessagesMapper.selectSendmessagesBytid(sendmessages);
+	}
 }

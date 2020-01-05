@@ -6,7 +6,6 @@ import com.ruoyi.broad.domain.TerminalTels;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 终端地域 数据层
@@ -166,7 +165,23 @@ public interface OrganizationMapper
 	 * @return 终端信息集合信息
 	 */
 	public List<Organization> exportOrganization(Organization organization);
+	/**
+	 * 根据用户id查询终端对象
+	 *
+	 * @param userid 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByUserid(@Param("userid") String userid);
+
+	public List<Organization> selecttidBytwo(@Param("tids") String[] tids , @Param("userid") String userid);
 
 	public  List<Area> listNextAidName(String aid);
 
+	/**
+	 * 根据用户id获取LED终端列表
+	 *
+	 * @param organization 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByLedUserid(Organization organization);
 }

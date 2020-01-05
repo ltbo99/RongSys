@@ -17,10 +17,10 @@ public class Progbroad {
     private String userid;//操作（所属）用户编号
     private String uname;//操作（所属）用户
     private String remark;//备注
-
     private List<Program_List> prolist;//节目列表
 //	private List<Area> arealist;//播出该节目单的分组
 //	private List<Terminal> terminallist;//播出该节目单的终端
+
 
     public String getSfid() {
         return sfid;

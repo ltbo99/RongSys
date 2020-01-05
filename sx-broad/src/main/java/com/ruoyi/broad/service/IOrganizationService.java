@@ -169,4 +169,25 @@ public interface IOrganizationService
 	 * @return 终端信息集合信息
 	 */
 	public List<Organization> exportOrganization(Organization organization);
+	/**
+	 * 根据用户id查询终端对象(村务宝典)
+	 * hfz
+	 * @param userid 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByUserid(String userid);
+
+	/**
+	 * 流媒体直播---选择直播终端(村务宝典)
+	 * hfz
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selecttidBytwo(String tids , String userid);
+	/**
+	 * 根据用户id获取LED终端列表
+	 * hfz
+	 * @param organization
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByLedUserid(Organization organization);
 }
