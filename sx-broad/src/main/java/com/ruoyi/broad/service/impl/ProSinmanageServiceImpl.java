@@ -50,7 +50,18 @@ public class ProSinmanageServiceImpl implements IProSinmanageService
 	{
 	    return proSinmanageMapper.selectProSinmanageList(proSinmanage);
 	}
-
+	/**
+	 * 查询节目播出单列表（村务）
+	 *
+	 * @param proSinmanage 节目播出单信息
+	 * @return 节目播出单集合
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<ProSinmanage> selectProSinmanageList1(ProSinmanage proSinmanage)
+	{
+		return proSinmanageMapper.selectProSinmanageList1(proSinmanage);
+	}
 	/**
 	 * 查询紧急节目播出单列表
 	 *

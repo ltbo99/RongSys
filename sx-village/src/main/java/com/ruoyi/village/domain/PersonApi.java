@@ -4,6 +4,8 @@ import java.util.List;
 
 public class PersonApi {
     private Integer userid; //用户id
+    private String fname; //节目名称
+    private String cname; //电台名称
     private String aid; //地区编号
     private String uname; //姓名
     private String sex; //姓名
@@ -14,12 +16,38 @@ public class PersonApi {
     private String state;//
     private Integer minage;
     private Integer maxage;
+    private String tid; //终端号
+
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
     public Integer getUserid() {
         return userid;
     }
 
     public void setUserid(Integer userid) {
         this.userid = userid;
+    }
+
+    public String getFname() {
+        return fname;
+    }
+
+    public void setFname(String fname) {
+        this.fname = fname;
+    }
+
+    public String getCname() {
+        return cname;
+    }
+
+    public void setCname(String cname) {
+        this.cname = cname;
     }
 
     public String getAid() {

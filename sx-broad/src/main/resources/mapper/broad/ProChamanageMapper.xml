@@ -36,7 +36,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </where>
          order by cid desc
     </select>
-    
+
+    <select id="selectProChamanageList1" parameterType="com.ruoyi.village.domain.PersonApi" resultMap="ProChamanageResult">
+        select cid,cname,frequencies,userid,pronote,remark
+        from pro_chamanage
+        <where>
+            <if test="userid != null  and userid != '' "> and userid = #{userid}</if>
+            <if test="cname != null  and cname != '' "> and cname = #{cname}</if>
+        </where>
+        order by cid desc
+    </select>
+
     <select id="selectProChamanageById" parameterType="Integer" resultMap="ProChamanageResult">
         <include refid="selectProChamanageVo"/>
         where cid = #{cid}

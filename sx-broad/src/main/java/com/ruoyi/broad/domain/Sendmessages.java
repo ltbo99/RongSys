@@ -35,6 +35,25 @@ public class Sendmessages extends BaseEntity
 	/** 发送次数 */
 	private Integer sendtimes;
 
+	private Integer userid; //用户id
+	private String recivedtime; //信息接收时间
+
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
+	public String getRecivedtime() {
+		return recivedtime;
+	}
+
+	public void setRecivedtime(String recivedtime) {
+		this.recivedtime = recivedtime;
+	}
+
 	public void setSmid(Integer smid)
 	{
 		this.smid = smid;

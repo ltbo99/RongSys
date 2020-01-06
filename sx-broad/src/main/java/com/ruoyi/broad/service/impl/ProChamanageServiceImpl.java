@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.village.domain.PersonApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.broad.mapper.ProChamanageMapper;
@@ -47,6 +48,19 @@ public class ProChamanageServiceImpl implements IProChamanageService
 	public List<ProChamanage> selectProChamanageList(ProChamanage proChamanage)
 	{
 	    return proChamanageMapper.selectProChamanageList(proChamanage);
+	}
+
+	/**
+	 * 获取电台列表（村务宝典）
+	 *
+	 * @param proChamanage 节目转播管理信息
+	 * @return 节目转播管理集合
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<ProChamanage> selectProChamanageList1(PersonApi proChamanage)
+	{
+		return proChamanageMapper.selectProChamanageList1(proChamanage);
 	}
 	
     /**

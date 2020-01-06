@@ -2,7 +2,8 @@ package com.ruoyi.broad.service.impl;
 
 import java.util.HashMap;
 import java.util.List;
-
+import com.ruoyi.broad.domain.ProSinmanage;
+import com.ruoyi.broad.domain.ProTerminal;
 import com.ruoyi.broad.domain.Progbroad;
 import com.ruoyi.broad.domain.Program_List;
 import com.ruoyi.broad.domain.TerReceives;
@@ -205,8 +206,14 @@ public class ProListServiceImpl implements IProListService
 
     @Override
     @DataSource(value = DataSourceType.SLAVE)
-    public List<ProList> 	selectProListListByPid(String pid){
+    public List<ProList> selectProListListByPid(String pid){
         return proListMapper.selectProListListByPid(pid);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public List<ProList> selectProListByAll(ProList proList){
+        return proListMapper.selectProListByAll(proList);
     }
 
 }
