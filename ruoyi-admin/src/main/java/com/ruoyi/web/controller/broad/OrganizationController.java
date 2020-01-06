@@ -1,11 +1,8 @@
 package com.ruoyi.web.controller.broad;
 
-import com.ruoyi.broad.domain.Area;
-import com.ruoyi.broad.domain.BroadMessage;
-import com.ruoyi.broad.domain.Organization;
-import com.ruoyi.broad.service.IAreaService;
-import com.ruoyi.broad.service.IMessageService;
-import com.ruoyi.broad.service.IOrganizationService;
+import com.ruoyi.broad.domain.*;
+import com.ruoyi.broad.service.*;
+import com.ruoyi.broad.utils.bFileUtil;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
@@ -20,9 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 /**
@@ -49,6 +45,11 @@ public class OrganizationController extends BaseController
 	@Autowired
 	private IAreaService areaService;
 
+	@Autowired
+	IAreaGroupingService iAreaGroupingService;
+
+	@Autowired
+	private IUserInfoDTOService userInfoDTOService;
 
 	@RequiresPermissions("broad:organization:view")
 	@GetMapping()
@@ -57,17 +58,34 @@ public class OrganizationController extends BaseController
 		return prefix + "/organization";
 	}
 
-
-
 	/**
 	 * 查询终端信息列表
 	 */
-//	@RequiresPermissions("broad:organization:list")
+	@RequiresPermissions("broad:organization:list")
 	@PostMapping("/list")
 	@ResponseBody
 	public TableDataInfo list(Organization organization)
 	{
 		startPage();
+		String aid = null;
+		if(organization.getAname()!=null&&organization.getAname()!=""){
+			AreaGrouping areaGrouping=new AreaGrouping();
+			areaGrouping.setAname(organization.getAname());
+			List<AreaGrouping> list = iAreaGroupingService.listAreaGrouping(areaGrouping);
+			aid = list.get(0).getAid();
+			organization.setAid(aid);
+		}else{
+			organization.setAid(organization.getAid()+"%");
+		}
+
+		if(organization.getUsername()!=null&&organization.getUsername()!=""){
+			String uname =organization.getUsername();
+			List<UserInfoDTO> users = userInfoDTOService.findUserByName(uname);
+			if(users.size()>0){
+				organization.setUserid(users.get(0).getUserid());
+				organization.setUsername(null);
+			}
+		}
 		List<Organization> list = organizationService.selectOrganizationList1(organization);
 		return getDataTable(list);
 	}
@@ -87,6 +105,7 @@ public class OrganizationController extends BaseController
 	 * 删除终端信息
 	 */
 	@Log(title = "终端信息删除", businessType = BusinessType.DELETE)
+	@RequiresPermissions("broad:organization:remove")
 	@PostMapping( "/remove")
 	@ResponseBody
 	public AjaxResult remove(String ids)
@@ -97,12 +116,13 @@ public class OrganizationController extends BaseController
 	/**
 	 * 编辑终端信息
 	 */
+
 	@GetMapping("/edit/{tid}")
 	public String edit(@PathVariable("tid") String tid, ModelMap mmap)
 	{
-		Organization organization = organizationService.selectOrganizationByTid(tid);
-		mmap.put("organization", organization);
-		return prefix + "/edit";
+        Organization organization = organizationService.selectOrganizationByTid(tid);
+        mmap.put("organization", organization);
+        return prefix + "/edit";
 	}
 	/**
 	 * 编辑保存终端信息
@@ -129,10 +149,14 @@ public class OrganizationController extends BaseController
 
 
 	@PostMapping("/add")
+	@RequiresPermissions("broad:organization:add")
 	@ResponseBody
 	public AjaxResult addSave(Organization organization){
-
-
+		//获取上传的图片，保存
+		MultipartFile pic= organization.getPoscenepic();
+		String picname = pic.getOriginalFilename();
+		String fileurl = bFileUtil.saveImg(pic,picname);//存文件
+		organization.setPoscene(fileurl);
 		return toAjax(organizationService.insertOrganization(organization));
 	}
 
@@ -180,6 +204,7 @@ public class OrganizationController extends BaseController
 	 * @return 终端管理表集合
 	 */
 	@Log(title = "终端管理", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:organization:export")
 	@PostMapping("/export")
 	@ResponseBody
 	public AjaxResult export(Organization organization)
@@ -202,5 +227,65 @@ public class OrganizationController extends BaseController
 		/*return prefix + "/tree";*/
 		return prefix + "/listProBroadTree";
 	}
+	@GetMapping("/phoneEdit/{tid}")
+	public String phoneEdit(@PathVariable("tid") String tid, ModelMap mmap){
+		return prefix + "/phoneEdit";
+	}
+	@PostMapping("/phoneEdit/{tid}")
+	@ResponseBody
+	public List<TerminalTels> phoneEditpost(@PathVariable("tid") String tid, ModelMap mmap){
+		List<TerminalTels> terminalTels= organizationService.selectTelsByTid(tid);
+		mmap.put("terminalTels", terminalTels);
+		return terminalTels;
+	}
+
+	@PostMapping("/addphoneedit")
+	@ResponseBody
+	public int addphoneEdit(TerminalTels terminalTels){
+		return organizationService.addphoneEdit(terminalTels);
+	}
+
+	@GetMapping("/deletephoneedit/{telid}")
+	@ResponseBody
+	public String deletephoneedit(@PathVariable("telid") String telid){
+		if(organizationService.deletephoneedit(telid)==1);
+		return "操作成功";
+	}
+
+	/**
+	 * 查询节目单终端列表
+	 */
+	@PostMapping("/listProBroad")
+	@ResponseBody
+	public TableDataInfo listProBroad(Organization organization)
+	{
+		startPage() ;
+		List<Organization> list = organizationService.selectProBroadList(organization);
+		return getDataTable(list);
+	}
+
+	@PostMapping( "/isuseSet")
+	@ResponseBody
+	public AjaxResult isuseSet(String tid, Boolean isuse)
+	{
+		return toAjax(organizationService.updateIsuseByTid(tid,isuse));
+	}
+
+	/** @author qwerty
+	 * @description 导出√中的数据
+	 *
+	 * @param sfids
+	 * @return
+	 */
+	@Log(title = "终端导出", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:organization:export")
+	@PostMapping("/exportbysingle")
+	@ResponseBody
+	public AjaxResult exportOrganizationByIds(@RequestParam("sjids") List<String> sfids) {
+		List<Organization> list = organizationService.selectOrganizationListByids(sfids);
+		ExcelUtil<Organization> util = new ExcelUtil<Organization>(Organization.class);
+		return util.exportExcel(list, "Organization");
+	}
+
 }
 

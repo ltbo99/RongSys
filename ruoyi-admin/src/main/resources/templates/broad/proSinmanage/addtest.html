@@ -26,7 +26,7 @@
                 <td style="padding-left:2px;">
                     <input  name="continuenum" id="continuenum"  value="1" type="number" min="1" max="15" step="1" style="width:88px;"  placeholder="连续天数" title="节目单连续播出天数"/></td>
                 <td style="padding-left:10px">
-                    <a class="btn btn-success btn-xs" onclick="saves();"  title="保存" id="saves">
+                    <a class="btn btn-success btn-xs" onclick="savesurl();"  title="保存" id="saves">
                         <i  class="ace-icon fa fa-floppy-o bigger-110 white"></i>&nbsp;保存
                     </a>
                 </td>
@@ -57,20 +57,10 @@
                         <i class="ace-icon fa fa-power-off bigger-110 green"></i>&nbsp;停止播放
                     </a>
                 </td>
-<!--                <td style="vertical-align:top;padding-left:10px;width: 700px">-->
-<!--                    <div class="ibox float-e-margins">-->
-<!--                        <input name="deptId"  type="hidden" id="treeId"/>-->
-<!--                        <div class="form-group">-->
-<!--                            <div class="col-sm-8">-->
-<!--                                选择终端：<input class="btn btn-success" type="text" name="organName" onclick="selectOrganTree()" readonly="true" id="treeName">-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </td>-->
             </tr>
         </table>
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="ibox">
                     <div class="ibox-content">
                         <table id="simple-tables" class="table" style="margin-top:5px;">
@@ -91,17 +81,39 @@
                     </div>
                 </div>
             </div>
-           <div class="col-md-4">
-               <div class="ui-layout-content">
-                   <div id="tree" class="ztree treeselect"></div>
-               </div>
-           </div>
+
+            <div class="btn-group">
+                <button class="btn btn-primary" type="button" id="areabtn" onclick="toggle1('area')">地域分组</button>
+                <button class="btn btn-white" type="button" id="tempbtn" onclick="toggle1('temp')">特殊分组</button>
+            </div>
+            <div>
+                <div class="col-md-6" id="areagroup">
+                    <div class="ui-layout-content">
+                        <div id="tree" class="ztree treeselect"></div>
+                    </div>
+                </div>
+                <div class="col-md-6" id="tempgroup" style="display: none">
+                    <div class="ui-layout-content">
+                        <div id="tree1" class="ztree treeselect"></div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <div th:include="include :: footer"></div>
 
-<script type="text/javascript">
+<script th:inline="javascript">
+    var scategory = [[${scategory}]]
+
+    function savesurl() {
+        if(scategory==0){
+            scategory="正常播出单"
+        }else{
+            scategory="紧急播出单"
+        }
+        saves(scategory);
+    }
     var userId = [[${user.userId}]];
     //使表格行上移，接收参数为链接对象
     function moveUp(_a){
@@ -141,12 +153,8 @@
     }
 </script>
 <script th:src="@{/ajax/libs/layer/layer.min.js}"></script>
-
-<!--<script th:src="@{/js/bootstrap.min.js}"></script>-->
-<!--<script th:src="@{/js/jquery.tips.js}"></script>-->
 <script th:src="@{/js/views/addpglist/addpglist.js}"></script>
 <script th:src="@{/js/plugins/layer/laydate/laydate.js}"></script>
-<!--<script th:src="@{/js/plugins/layer/layui-v2.4.5/layui/layui.js}"></script>-->
 <script th:src="@{/ajax/libs/jquery-layout/jquery.layout-latest.js}"></script>
 <script th:src="@{/ajax/libs/jquery-ztree/3.5/js/jquery.ztree.all-3.5.js}"></script>
 <!--时间插件-->
@@ -164,10 +172,9 @@
     });
 </script>
 <script th:inline="javascript">
-    function queryAreaTree(){
+    $(function queryAreaTree(){
         var url = ctx + "broad/areaGrouping/treeData";
         function zTreeOnCheck(event, treeId, treeNode) {
-            console.log(treeNode.tId + ", " + treeNode.name + "," + treeNode.checked);
             var treeObj = $.fn.zTree.getZTreeObj("tree");
             var nodes = treeObj.getCheckedNodes(true);
         }
@@ -176,17 +183,58 @@
             $.table.search();
         }
         var options = {
+            treeId:"tree",
             url: url,
             check: {
                 enable: true,
                 chkStyle: "checkbox"
             },
             onCheck: zTreeOnCheck,
-            onClick : zOnClick
+            onClick: zOnClick
         };
+        var options1 = {
+            data: {
+                key: {
+                    title: "title"
+                },
+                simpleData: {
+                    enable: true
+                }
+            },
+            treeId:"tree1",
+            check: {
+                enable: true,
+                chkStyle: "checkbox"
+            },
+            async: {
+                enable: true,
+                type:"get",
+                url:"/broad/areaGrouping/treeData1"
+            }
+        };
+
         $.tree.init(options);
+        $.fn.zTree.init($("#tree1"), options1);
+    })
+
+    function toggle1(value) {
+        if(value=='temp'){
+            $("#areagroup").hide();
+            $("#tempgroup").show();
+            $("#areabtn").addClass("btn-white");
+            $("#areabtn").removeClass("btn-primary");
+            $("#tempbtn").addClass("btn-primary");
+            $("#tempbtn").removeClass("btn-white")
+        }else{
+            $("#areagroup").show();
+            $("#tempgroup").hide();
+            $("#tempbtn").addClass("btn-white");
+            $("#tempbtn").removeClass("btn-primary");
+            $("#areabtn").addClass("btn-primary");
+            $("#areabtn").removeClass("btn-white")
+        }
     }
-    queryAreaTree()
+
 </script>
 </body>
 </html>

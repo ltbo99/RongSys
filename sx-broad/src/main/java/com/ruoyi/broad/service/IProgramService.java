@@ -53,4 +53,10 @@ public interface IProgramService {
      */
 
     public int deleteProgram(String fid);
+
+
+    public List<Program> selectProgramListByids(List<String> sfids);
+
+    public int setIsPublic(String fid);
+
 }

@@ -27,6 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <resultMap type="ProApplyUser" id="ProApplyUserResult">
+        <result property="requires"    column="requires"    />
         <result property="paid"    column="paid"    />
         <result property="pname"    column="pname"    />
         <result property="uname"    column="uname"    />
@@ -73,14 +74,19 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="selectProrApplyUserList" parameterType="ProApplyUser" resultMap="ProApplyUserResult">
         select
+        pa.requires as requires,
         pa.paid as paid,
         pa.pname as pname,
         u.uname as uname,
+        u.userid as userid,
+        pa.isread as isread,
         pa.isemergency as isemergency,
         pa.timelimit as timelimit,
         pa.submittime as submittime,
         pa.iscancel as iscancel,
-        pa.isreply as isreply
+        pa.isreply as isreply,
+        pa.replyperson as replyperson,
+        pa.replytime as replytime
         from
         prore_apply as pa,
         userinfo as u
@@ -98,7 +104,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="paid != null  and paid != '' ">and paid like CONCAT('%',#{paid},'%')</if>
             <if test="pname != null  and pname != '' ">and pname like CONCAT('%',#{pname},'%')</if>
             <if test="uname != null  and uname != '' ">and uname like CONCAT('%',#{uname},'%')</if>
-            <if test="userid != null  and userid != '' ">and userid like CONCAT('%',#{userid},'%')</if>
+            <if test="userid != null  and userid != '' ">and pa.userid like CONCAT('%',#{userid},'%')</if>
             <if test="isemergency != null  and isemergency != '' ">and isemergency like CONCAT('%',#{isemergency},'%')</if>
             <if test="timelimit != null  and timelimit != '' ">and timelimit like CONCAT('%',#{timelimit},'%')</if>
             <if test="submittime != null  and submittime != '' ">and submittime like CONCAT('%',#{submittime},'%')</if>
@@ -199,5 +205,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             #{paid}
         </foreach>
     </delete>
-    
+
+    <update id="recall">
+        update prore_apply set iscancel=b'1'
+        where paid=#{fid}
+    </update>
+
 </mapper>

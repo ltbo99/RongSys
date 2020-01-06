@@ -1,8 +1,17 @@
 package com.ruoyi.web.controller.broad;
 
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import com.ruoyi.broad.domain.ProApplyUser;
+import com.ruoyi.broad.domain.Program;
+import com.ruoyi.broad.service.IProgramService;
+import com.ruoyi.broad.utils.bConst;
+import com.ruoyi.broad.utils.bFileUtil;
+import com.ruoyi.common.utils.DateUtil;
+import com.ruoyi.common.utils.VideoUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
@@ -10,11 +19,7 @@ import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.broad.domain.ProreApply;
@@ -23,6 +28,7 @@ import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.utils.ExcelUtil;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 节目申请 信息操作处理
@@ -40,6 +46,8 @@ public class ProreApplyController extends BaseController
 	private IProreApplyService proreApplyService;
 	@Autowired
 	private ISysUserService sysUserService;
+	@Autowired
+	private IProgramService iProgramService;
 //	@RequiresPermissions("broad:proreApply:view")
 	@GetMapping()
 	public String proreApply()
@@ -52,6 +60,7 @@ public class ProreApplyController extends BaseController
 	 */
 	@RequiresPermissions("broad:proreApply:list")
 	@PostMapping("/list")
+
 	@ResponseBody
 	public TableDataInfo list(ProApplyUser proapplyuser)
 	{
@@ -72,20 +81,6 @@ public class ProreApplyController extends BaseController
 
 	}
 
-//	/**
-//	 * 查询节目申请列表
-//	 */
-//	@RequiresPermissions("broad:proreApply:list")
-//	@PostMapping("/list")
-//	@ResponseBody
-//	public TableDataInfo list(ProreApply proreApply)
-//	{
-//		startPage();
-//		List<ProreApply> list = proreApplyService.selectProreApplyList(proreApply);
-//		return getDataTable(list);
-//	}
-	
-	
 	/**
 	 * 导出节目申请列表
 	 */
@@ -111,12 +106,30 @@ public class ProreApplyController extends BaseController
 	/**
 	 * 新增保存节目申请
 	 */
-	@RequiresPermissions("broad:proreApply:add")
+//	@RequiresPermissions("broad:proreApply:add")
 	@Log(title = "新增节目申请", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
-	public AjaxResult addSave(ProreApply proreApply)
-	{		
+	public AjaxResult addSave(@RequestParam(value = "files") MultipartFile file,
+							  @RequestParam(value="requires") String requires,
+							  @RequestParam(value="timelimit") String timelimit,
+							  @RequestParam(value="isemergency") String isemergency,
+							  @RequestParam(value="pname") String panme){
+		SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time=sim.format(new Date());
+
+		String userId = ShiroUtils.getSysUser().getUserId().toString();//获取用户信息
+		String fileurl = bFileUtil.uplodeDocFile(file);//存文件
+
+		//存放节目名称、录制要求、是否紧急、时间要求、doc文件、filename要求文稿名称、fileurl文件路径、申请时间
+		ProreApply  proreApply = new ProreApply();
+		proreApply.setPname(panme);
+		proreApply.setUserid(userId);
+		proreApply.setRequires(requires);
+		proreApply.setIsemergency(isemergency=="true"?true:false);
+		proreApply.setTimelimit(timelimit);
+		proreApply.setFileurl(fileurl);
+		proreApply.setSubmittime(time);
 		return toAjax(proreApplyService.insertProreApply(proreApply));
 	}
 
@@ -130,7 +143,15 @@ public class ProreApplyController extends BaseController
 		mmap.put("proreApply", proreApply);
 	    return prefix + "/edit";
 	}
-	
+
+	/**
+	 * 修改节目申请
+	 */
+	@GetMapping("/reply")
+	public String reply(){
+		return prefix + "/reply";
+	}
+
 	/**
 	 * 修改保存节目申请
 	 */
@@ -154,5 +175,43 @@ public class ProreApplyController extends BaseController
 	{		
 		return toAjax(proreApplyService.deleteProreApplyByIds(ids));
 	}
-	
+
+	@Log(title = "节目撤回", businessType = BusinessType.UPDATE)
+	@GetMapping("/recall/{fid}")
+	@ResponseBody
+	public int recall(@PathVariable("fid") String fid) {
+		return proreApplyService.recall(fid);
+	}
+
+	/**
+	 * 修改节目申请
+	 */
+	@Log(title = "修改节目申请", businessType = BusinessType.UPDATE)
+	@PostMapping("/reply")
+	@ResponseBody
+	public AjaxResult replyfile(String paid,String replyperson,MultipartFile file,String userid){
+		SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		String time=sim.format(new Date());
+
+		ProreApply  proreApply = new ProreApply();
+		String duration = VideoUtil.ReadVideoTimeMs(file);
+		String year = DateUtil.getYear();
+
+		String maxfileid = iProgramService.getMaxFileidofYear(year);
+		Program g = bFileUtil.uplodeFile(maxfileid, file, file.getOriginalFilename(),duration, String.valueOf(file.getSize()), year, userid);
+		g.setPtype(true);
+		g.setCreatedtime(time);
+		g.setIspublic(false);
+		iProgramService.insertProgram(g);
+
+
+		System.out.println(Integer.valueOf(paid));
+		proreApply.setPaid(Integer.parseInt(paid));
+		proreApply.setReplyperson(replyperson);
+		proreApply.setReplytime(time);
+		proreApply.setFilename(g.getUrls());
+		proreApply.setIsreply(true);
+		return toAjax(proreApplyService.updateProreApply(proreApply));
+	}
+
 }

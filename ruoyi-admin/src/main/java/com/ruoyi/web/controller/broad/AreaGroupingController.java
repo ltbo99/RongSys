@@ -40,6 +40,7 @@ public class AreaGroupingController extends BaseController{
     @Autowired
     private ISysUserService iSysUserService;
 
+    @RequiresPermissions("broad:areaGrouping:view")
     @GetMapping()
     public String areaGrouping()
     {
@@ -49,8 +50,9 @@ public class AreaGroupingController extends BaseController{
     @Autowired
     private IMessageService messageService;
 
-    @GetMapping("/list")
+    @PostMapping("/list")
     @Log(title = "分组管理列表")
+    @RequiresPermissions("broad:areaGrouping:list")
     @ResponseBody
     public TableDataInfo list(AreaGrouping areaGrouping)
     {
@@ -131,4 +133,15 @@ public class AreaGroupingController extends BaseController{
     {
         return toAjax(iAreaGroupingService.updateAreaGrouping(areaGrouping));
     }
+
+    /**
+     * 加载特殊分组及终端列表树
+     */
+    @GetMapping("/treeData1")
+    @ResponseBody
+    public List<Map<String, Object>> treeData1() {
+        List<Map<String, Object>> tree = messageService.selectMessageList1((new BroadMessage()));
+        return tree;
+    }
+
 }

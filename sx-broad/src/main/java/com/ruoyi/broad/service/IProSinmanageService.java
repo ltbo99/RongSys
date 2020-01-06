@@ -88,4 +88,5 @@ public interface IProSinmanageService
 
 	public int addProTerminals(List<ProTerminal> proTerminal);
 
+	public List<ProSinmanage> selectProSinmanageListByids(List<String> sfids);
 }

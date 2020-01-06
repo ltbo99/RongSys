@@ -2,6 +2,7 @@ package com.ruoyi.broad.domain;
 
 import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 终端表 tb_organization
@@ -178,12 +179,23 @@ public class Organization extends BaseEntity
     private String eovolume;
     /**现场照片*/
     private String poscene;
+    private MultipartFile poscenepic;
     /**父地域id*/
     private String parentaid;
     /**所属用户编号*/
     private String userid;
     /**心跳包时间*/
     private String hbtime;
+    /**终端授权号码*/
+    private String tel;
+
+    public MultipartFile getPoscenepic() {
+        return poscenepic;
+    }
+
+    public void setPoscenepic(MultipartFile poscenepic) {
+        this.poscenepic = poscenepic;
+    }
 
     public static long getSerialVersionUID() {
         return serialVersionUID;
@@ -660,5 +672,13 @@ public class Organization extends BaseEntity
 
     public void setLongitudelatitude(String longitudelatitude) {
         this.longitudelatitude = longitudelatitude;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }

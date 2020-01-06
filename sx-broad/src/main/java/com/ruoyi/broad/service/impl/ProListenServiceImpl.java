@@ -100,4 +100,14 @@ public class ProListenServiceImpl implements IProListenService {
         return proListenMapper.selectProrApplyUserList(proApplyUser);
     }
 
+    /**
+     * 该方法设置节目审听通过
+     * @param paid
+     * @return java.util.List<com.ruoyi.broad.domain.ProApplyUser>
+     */
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public int checkpass(String paid) {
+        return proListenMapper.checkpass(paid);
+    }
 }

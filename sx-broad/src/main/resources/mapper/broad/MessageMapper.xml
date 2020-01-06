@@ -60,4 +60,25 @@
         </where>
     </select>
 
+    <select id="selectMessageList1" resultMap="MessageResult">
+        SELECT
+             "0" AS parentaid,
+            tempgroup.tgname AS aname,
+            tempgroup.tgid AS aid
+        FROM
+            tempgroup
+            UNION
+        SELECT
+            tempgroup_ter.tgid AS parentaid,
+            terminals.tname AS aname,
+            tempgroup_ter.tid AS aid
+        FROM
+            tempgroup,
+            tempgroup_ter
+            LEFT JOIN terminals ON tempgroup_ter.tid = terminals.tid
+        WHERE
+            tempgroup.tgid = tempgroup_ter.tgid
+    </select>
+
+
 </mapper>
