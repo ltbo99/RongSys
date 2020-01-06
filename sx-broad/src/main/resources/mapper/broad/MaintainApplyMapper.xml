@@ -14,6 +14,7 @@
         <result property="status" column="status"/>
         <result property="remark" column="remark"/>
         <result property="userid" column="userid"/>
+        <result property="applicant" column="applicant"/>
     </resultMap>
 
     <sql id="selectMaintainApplyVo">
@@ -25,7 +26,8 @@
             downtime,
             applytime,
             status,
-            remark
+            remark,
+            ma.applicant
             FROM maintain_apply ma
         LEFT JOIN (userinfo ui
         LEFT JOIN area a on a.aid = ui.aid) on ui.user_id = ma.userid
@@ -33,7 +35,6 @@
 
     <select id="selectMaintainApplyList" parameterType="MaintainApply" resultMap="MaintainApplyResult">
         <include refid="selectMaintainApplyVo"/>
-
         <where>
         <if test="maid != null  and maid != '' ">and maid like CONCAT('%',#{maid},'%')</if>
         <if test="teraddress != null  and teraddress != '' ">and teraddress like CONCAT('%',#{teraddress},'%')</if>
@@ -42,8 +43,8 @@
         <if test="downtime != null  and downtime != '' ">and downtime like CONCAT('%',#{downtime},'%')</if>
         <if test="applytime != null  and applytime != '' ">and applytime like CONCAT('%',#{applytime},'%')</if>
         <if test="status != null  and status != '' ">and status like CONCAT('%',#{status},'%')</if>
+        <if test="applicant != null  and applicant != '' ">and applicant like CONCAT('%',#{applicant},'%')</if>
         <if test="remark != null  and remark != '' ">and remark like CONCAT('%',#{remark},'%')</if>
-        <if test="uid != null  and uid != '' ">and uid like CONCAT('%',#{uid},'%')</if>
         </where>
         ORDER BY downtime DESC
     </select>
@@ -85,7 +86,8 @@
             <if test="applytime != null  and applytime != '' ">applytime,</if>
             <if test="status != null  and status != '' ">status,</if>
             <if test="remark != null  and remark != '' ">remark,</if>
-            <if test="uid != null  and uid != '' ">uid</if>
+            <if test="uid != null  and uid != '' ">uid,</if>
+            <if test="applicant != null  and applicant != '' ">applicant</if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
             <if test="teraddress != null  and teraddress != '' ">#{teraddress},</if>
@@ -96,7 +98,8 @@
             <if test="applytime != null  and applytime != '' ">#{applytime},</if>
             <if test="status != null  and status != '' ">#{status},</if>
             <if test="remark != null  and remark != '' ">#{remark},</if>
-            <if test="uid != null  and uid != '' ">#{uid}</if>
+            <if test="uid != null  and uid != '' ">#{uid},</if>
+            <if test="applicant != null  and applicant != '' ">#{applicant}</if>
         </trim>
     </insert>
 

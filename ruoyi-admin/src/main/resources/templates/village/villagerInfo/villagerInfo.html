@@ -1,7 +1,13 @@
 <!DOCTYPE HTML>
 <html lang="zh" xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
 <meta charset="utf-8">
-<head th:include="include :: header"></head>
+<head th:include="include :: header">
+    <style>
+        .progress-area {
+            padding: 20px;
+        }
+    </style>
+</head>
 <body class="gray-bg">
 
 <div class="container-div">
@@ -10,9 +16,6 @@
             <form id="formId">
                 <div class="select-list">
                     <ul>
-                        <!--<li>-->
-                        <!--地域编号：<input type="text" name="aid"/>-->
-                        <!--</li>-->
 
                         <li>
                             姓名：<input type="text" name="vname"/>
@@ -95,83 +98,6 @@
                             手机号码：<input type="text" name="phone"/>
                         </li>
 
-                        <!--<li>
-                            健康状况：<input type="text" name="health"/>
-                        </li>
-
-                        <li>
-                            特种（残疾）信息：<input type="text" name="special"/>
-                        </li>
-
-                        <li>
-                            优抚信息：<input type="text" name="entitle"/>
-                        </li>
-
-                        <li>
-                            计生情况：<input type="text" name="familyplan"/>
-                        </li>
-
-                        <li>
-                            医疗情况：<input type="text" name="medical"/>
-                        </li>
-
-                        <li>
-                            补助情况：<input type="text" name="subsidy"/>
-                        </li>
-
-                        <li>
-                            保险情况：<input type="text" name="insurance"/>
-                        </li>
-
-                        <li>
-                            犯罪史：<input type="text" name="criminal"/>
-                        </li>
-
-                        <li>
-                            吸毒史：<input type="text" name="drug"/>
-                        </li>
-
-                        <li>
-                            驾照：<input type="text" name="drive"/>
-                        </li>
-
-                        <li>
-                            车辆：<input type="text" name="car"/>
-                        </li>
-
-                        <li>
-                            车辆类型：<input type="text" name="vtype"/>
-                        </li>
-
-                        <li>
-                            车牌号：<input type="text" name="carnum"/>
-                        </li>
-
-                        <li>
-                            职业：<input type="text" name="job"/>
-                        </li>
-
-                        <li>
-                            工作单位：<input type="text" name="company"/>
-                        </li>
-
-                        <li>
-                            户籍地址：<input type="text" name="pra"/>
-                        </li>
-
-                        <li>
-                            现居地址：<input type="text" name="home"/>
-                        </li>-->
-
-
-                        <!--<li>
-                            住房性质：<input type="text" name="house"/>
-                        </li>
-
-                        <li>
-                            户口性质：<input type="text" name="prt"/>
-                        </li>-->
-
                         <li>
                             <a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
                             <a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
@@ -193,6 +119,9 @@
             </a>
             <a class="btn btn-info" onclick="importExcel()">
                 <i class="fa fa-upload"></i> 导入
+            </a>
+            <a class="btn btn-info" onclick="importphoto()">
+                <i class="fa fa-upload"></i> 上传
             </a>
             <a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="village:villagerInfo:export">
                 <i class="fa fa-download"></i> 导出
@@ -216,6 +145,7 @@
             updateUrl: prefix + "/edit/{id}",
             removeUrl: prefix + "/remove",
             exportUrl: prefix + "/export",
+            uploadUrl: prefix+"/testuploadimg",
             modalName: "村民",
 
             importUrl: prefix + "/importData",
@@ -327,6 +257,41 @@
         </div>
     </form>
 </script>
+<!-- 上传区域 -->
+<script id="importpt" type="text/template">
+
+        <div class="col-xs-offset-1">
+            <div align="center">
+
+                <input class="file" type="file" id="pic" name="piclist" multiple data-min-file-count="1" data-theme="fas">
+            </div>
+                <table width="300" border="0" cellspacing="0" cellpadding="0"align="center">
+                    <tr>
+                        <td align="center" id="progressPersent"></td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="progress-area">
+                                进度
+                                <div class="progress">
+                                    <div class="progress-bar" id="progress" role="progressbar"  aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">0%</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="center" id="complete"></td>
+                    </tr>
+                </table>
+
+            <font color="red" class="pull-left mt10">
+                提示：仅允许导入“jpg”或“png”格式照片！
+            </font>
+        </div>
+    <!--</form>-->
+</script>
+
+
 <script>
     // 下载模板
     function importTemplate() {
@@ -358,6 +323,7 @@
             // 弹层外区域关闭
             shadeClose: true,
             btn1: function(index, layero){
+
                 var file = layero.find('#file').val();
                 if (file == '' || (!$.common.endWith(file, '.xls') && !$.common.endWith(file, '.xlsx'))){
                     $.modal.msgWarning("请选择后缀为 “xls”或“xlsx”的文件。");
@@ -437,5 +403,122 @@
         });
     }
 </script>
+<script>
+    // 批量上传图片
+    function importphoto(formId){
+        var currentId = $.common.isEmpty(formId) ? 'importpt' : formId;
+
+        layer.open({
+            type: 1,
+            area: ['400px', '230px'],
+            fix: false,
+            //不固定
+            maxmin: true,
+            shade: 0.3,
+            title: '导入' + $.table._option.modalName + '数据',
+            content: $('#' + currentId).html(),
+            btn: ['<i class="fa fa-check"></i> 导入', '<i class="fa fa-remove"></i> 关闭'],
+            // 弹层外区域关闭
+            shadeClose: true,
+            btn1: function(index, layero) {
+                // var file = layero.find('#file').val();
+                // if (file == '' || (!$.common.endWith(file, '.jpg') && !$.common.endWith(file, '.png'))){
+                //     $.modal.msgWarning("请选择后缀为 “jpg”或“png”的文件。");
+                //     return false;
+                // }
+
+
+                //将上传的多个文件放入formData中
+
+                var picFileList = document.getElementById("pic").files;
+
+                var formData = new FormData();
+
+                for(var i=0;i<picFileList.length;i++){
+                    formData.append("file" , picFileList[i] );
+                }
+
+
+
+                //监听事件
+
+                //xhr.upload.addEventListener("progress", onprogress, false);
+                xhr.upload.onprogress = setProgress;
+                //xhr.addEventListener("error", uploadFailed, false);//发送文件和表单自定义参数
+
+                var FileController = $.table._option.uploadUrl;
+                xhr.open("POST", FileController,true);
+                //记得加入上传数据formData
+                xhr.send(formData);
+                // xhr.onload = uploadSuccess;
+                xhr.onreadystatechange = function() {
+
+                    if (xhr.readyState == 4 && xhr.status == 200) {
+
+                        if(xhr.responseText == "succes"){
+
+
+
+                            document.getElementById("complete").innerText ="上传成功！" ;
+
+                        }else{
+
+                            document.getElementById("complete").innerText ="上传失败！" ;
+
+                        }
+
+                    }
+
+                }
+
+            }
+        });
+    }
+
+
+    var xhr = new XMLHttpRequest();
+
+    //上传失败
+
+    function uploadFailed(evt) {
+
+        document.getElementById("progressBar").style.visibility="hidden";
+
+        document.getElementById("complete").innerText ="上传异常！" ;
+
+    }
+    // 成功上传
+    function uploadSuccess(event) {
+        if (xhr.readyState === 4 && xhr.status === 200) { // 判断接口调用成功的重要标识
+
+                alert('上传成功')
+
+        }
+    }
+    /**
+
+     * 侦查附件上传情况 ,这个方法大概0.05-0.1秒执行一次
+
+     */
+    // 进度条
+    function setProgress(event) {
+        console.log(event)
+        if (event.lengthComputable) {
+            // 先判断这个上传进程是否有这个文件长度的判断
+            loaded = event.loaded
+            // 已经加载的字节
+            total = event.total
+            // 上传伊始时候计算的总字节数
+            var complete = Number.parseInt(event.loaded / event.total * 100);
+            // 取百分比
+            progress.style.width = complete + '%';
+            progress.innerHTML = complete + '%';
+            // css 偷了懒，用了bootstrap4的css
+        }
+    }
+
+</script>
+
+
 </body>
 </html>

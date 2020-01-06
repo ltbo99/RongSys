@@ -65,14 +65,6 @@ public interface OrganizationMapper
 	 */
 	public int insertOrganizationPic(Organization organization);
 
-//	/**
-//	 * 修改终端地域
-//	 *
-//	 * @param organization 终端地域信息
-//	 * @return 结果
-//	 */
-//	public int updateOrganization(Organization organization);
-
 	/**
 	 * 删除终端地域
 	 *
@@ -131,7 +123,11 @@ public interface OrganizationMapper
 	 */
 	public  List<String> listNextAid(String aid);
 
-	//	通过 aid 查询所有终端
+	/**
+	 * 通过Aid查询所有终端
+	 * @param aid
+	 * @return
+	 */
 	public List<Organization> listOrgByAid(@Param("list")List<String> aid);
 
 	//	通过 tid 查询对应终端的RDS码
@@ -168,5 +164,23 @@ public interface OrganizationMapper
 	public List<Organization> exportOrganization(Organization organization);
 
 	public  List<Area> listNextAidName(String aid);
+
+	public int addphoneEdit(TerminalTels terminalTels);
+
+	public int deletephoneedit(String telid);
+
+	public List<Organization> selectOrganizationListByids(List<String> sfids);
+
+	int terinfoedittime(String time,List<String> sfids);
+
+	int terinfoeditrds(String time,List<String> sfids);
+
+	int terinfoeditfrequency(String time,List<String> sfids);
+
+	int terinfoeditphone(List<Organization> organizations);
+
+	int terinfoeditphonedelete(String time,List<String> sfids);
+
+	public int insertTerminalTes(Organization organization);
 
 }

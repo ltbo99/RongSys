@@ -93,6 +93,18 @@ public class MaintainController extends BaseController
 	}
 
 	/**
+	 * 新增保存终端维护记录
+	 */
+	@RequiresPermissions("broad:maintain:add")
+	@Log(title = "终端维护记录", businessType = BusinessType.INSERT)
+	@PostMapping("/add")
+	@ResponseBody
+	public AjaxResult addSave(Maintain maintain)
+	{
+		return toAjax(maintainService.insertMaintain(maintain));
+	}
+
+	/**
 	 * 导出终端维护记录列表
 	 */
 	@RequiresPermissions("broad:maintain:export")
@@ -105,26 +117,8 @@ public class MaintainController extends BaseController
         return util.exportExcel(list, "maintain");
     }
 
-	/**
-	 * 新增终端维护记录
-	 */
-//	@GetMapping("/add")
-//	public String add()
-//	{
-//	    return prefix + "/add";
-//	}
 
-	/**
-	 * 新增保存终端维护记录
-	 */
-	@RequiresPermissions("broad:maintain:add")
-	@Log(title = "终端维护记录", businessType = BusinessType.INSERT)
-	@PostMapping("/add")
-	@ResponseBody
-	public AjaxResult addSave(Maintain maintain)
-	{
-		return toAjax(maintainService.insertMaintain(maintain));
-	}
+
 
 	/**
 	 * 修改终端维护记录

@@ -1,5 +1,6 @@
 package com.ruoyi.broad.domain;
 
+import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
 
 /**
@@ -10,21 +11,49 @@ import com.ruoyi.common.base.BaseEntity;
  **/
 public class Program extends BaseEntity {
     private static final long serialVersionUID = 1L;
-
+    @Excel(name = "节目申请-节目ID")
     private String fid;//节目申请-节目ID
+    @Excel(name = "节目名称")
     private String fname;//节目名称
+    @Excel(name = "用户ID")
     private String userid;//用户ID
+    @Excel(name = "备注")
     private String remark;//备注
+    @Excel(name = "是否公共")
     private Boolean ispublic;//是否公共
+    @Excel(name = "保存名称")
     private String filename;//要求文稿名
     private String address;//要求文稿路径
+    @Excel(name = "上传路径")
     private String urls;//要求文稿路径
+    @Excel(name = "创建时间")
     private String createdtime;//申请提交时间
+    @Excel(name = "节目时长")
     private String flenth;//节目时长
+    @Excel(name = "文件大小")
     private Double fsize;//文件大小
     private Boolean islisten;//是否审听
     private Boolean ptype;//节目类型，是否是录制节目
+    @Excel(name = "上传用户名")
     private String uname;//上传用户名
+    private String downtime;
+    private String endtime;
+
+    public String getDowntime() {
+        return downtime;
+    }
+
+    public void setDowntime(String downtime) {
+        this.downtime = downtime;
+    }
+
+    public String getEndtime() {
+        return endtime;
+    }
+
+    public void setEndtime(String endtime) {
+        this.endtime = endtime;
+    }
 
     public String getFid() {
         return fid;

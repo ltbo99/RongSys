@@ -16,4 +16,5 @@ public interface MessageMapper {
 
     public List<MessageExample> selectMessageExampleList();
 
+    List<BroadMessage> selectMessageList1(BroadMessage broadMessage);
 }

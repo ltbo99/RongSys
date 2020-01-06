@@ -130,11 +130,32 @@
                 <h4>获得低保时间:</h4><p2 th:utext="${listByid.getlowdate}"></p2><br />
                 <h4>是否复员军人:</h4><p1 th:utext="${listByid.isdemob}"></p1><br />
                 <h4>复员时间:</h4><p2 th:utext="${listByid.demobdate}"></p2><br />
-                <h4>个人照片:</h4><p th:utext="${listByid.personphoto}"></p><br />
-                <h4>户口照片:</h4><p th:utext="${listByid.hkphoto}"></p><br />
-                <h4>身份证照片:</h4><p th:utext="${listByid.idphoto}"></p><br />
-                <h4>汽车照片:</h4><p th:utext="${listByid.carphoto}"></p><br />
-                <h4>房屋照片:</h4><p th:utext="${listByid.housephoto}"></p><br />
+                <h4>个人照片:</h4><p><input id="personphoto" name="personphoto" th:value="${listByid.personphoto}" type="hidden">
+                <div class="layui-carousel" id="test1">
+                <div carousel-item id="pspic">
+                </div>
+                </div></p><br />
+                <!--<h4>个人照片:</h4><p th:utext="${listByid.personphoto}"></p><br />-->
+                <h4>户口照片:</h4><p><input id="hkphoto" name="hkphoto" th:value="${listByid.hkphoto}" type="hidden">
+                <div class="layui-carousel" id="test2">
+                    <div carousel-item id="hkpic">
+                    </div>
+                </div></p><br />
+                <h4>身份证照片:</h4><p><input id="idphoto" name="idphoto" th:value="${listByid.idphoto}" type="hidden">
+                <div class="layui-carousel" id="test3">
+                    <div carousel-item id="idpic">
+                    </div>
+                </div></p><br />
+                <h4>汽车照片:</h4><p><input id="carphoto" name="carphoto" th:value="${listByid.carphoto}" type="hidden">
+                <div class="layui-carousel" id="test4">
+                    <div carousel-item id="carpic">
+                    </div>
+                </div></p><br />
+                <h4>房屋照片:</h4><p><input id="housephoto" name="housephoto" th:value="${listByid.housephoto}" type="hidden">
+                <div class="layui-carousel" id="test5">
+                    <div carousel-item id="hopic">
+                    </div>
+                </div></p><br /><br /><br />
                 <h4>获奖情况:</h4><p th:utext="${listByid.winaward}"></p><br />
                 <h4>处分情况:</h4><p th:utext="${listByid.punish}"></p>
             </div>
@@ -150,6 +171,7 @@
 <script src="js/bootstrap.min.js?v=3.3.6"></script>
 <script src="js/content.min.js?v=1.0.0"></script>
 <script type="text/javascript" src="http://tajs.qq.com/stats?sId=9051096" charset="UTF-8"></script>
+<script th:src="@{/layui/layui.js}"></script>
 <script>
     window.onload=function(){
 
@@ -193,7 +215,58 @@
     };
 
 </script>
+<script>
+    var personphoto = document.getElementById("personphoto").value;
+    var hkphoto = document.getElementById("hkphoto").value;
+    var idphoto=document.getElementById("idphoto").value;
+    var carphoto=document.getElementById("carphoto").value;
+    var housephoto=document.getElementById("housephoto").value;
+    //把str按逗号分隔后,并把分隔后的内容存放在strArr数组中
+    var psimgdata = personphoto.split(";");
+    var psoBox = document.getElementById('pspic');
+    var psstr = '';
+    var psnum = psimgdata.length - 1;
+    var j;
+    for (j=0;j<psnum;j++) {
+        psstr += '<img id="pslun" src="'+ psimgdata[j] +'" width="400px" height="300px" />';}
+    psoBox.innerHTML = psstr;
 
+    var hkimgdata=hkphoto.split(";");
+    var hkoBox = document.getElementById('hkpic');
+    var hkstr='';
+    var hknum=hkimgdata.length-1;
+    for(j=0;j<hknum;j++){
+        hkstr+= '<img id="hklun" src="'+ hkimgdata[j] +'" width="400px" height="300px" />';
+    }
+    hkoBox.innerHTML=hkstr;
+
+    var idimgdata=idphoto.split(";");
+    var idoBox = document.getElementById('idpic');
+    var idstr='';
+    var idnum=idimgdata.length-1;
+    for(j=0;j<idnum;j++){
+        idstr+= '<img id="idlun" src="'+ idimgdata[j] +'" width="400px" height="300px" />';
+    }
+    idoBox.innerHTML=idstr;
+
+    var carimgdata=carphoto.split(";");
+    var caroBox = document.getElementById('carpic');
+    var carstr='';
+    var carnum=carimgdata.length-1;
+    for(j=0;j<carnum;j++){
+        carstr+= '<img id="carlun" src="'+ carimgdata[j] +'" width="400px" height="300px" />';
+    }
+    caroBox.innerHTML=carstr;
+
+    var hoimgdata=housephoto.split(";");
+    var hooBox = document.getElementById('hopic');
+    var hostr='';
+    var honum=hoimgdata.length-1;
+    for(j=0;j<honum;j++){
+        hostr+= '<img id="holun" src="'+ hoimgdata[j] +'" width="400px" height="300px" />';
+    }
+    hooBox.innerHTML=hostr;
+</script>
 
 </body>
 

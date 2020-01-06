@@ -21,7 +21,7 @@ var isstreamliving=2;
 // var  rtmpAddress = "rtmp://110.53.162.164:1936/live";
 
 // 陈霞 RED5流媒体
-var  rtmpAddress = "rtmp://110.53.162.165:1936/live";
+var  rtmpAddress = "rtmp://120.27.241.221:1936/live";
 var list = new Array();
 var nameList = new Array();
 /**
@@ -82,7 +82,7 @@ function connectWS() {
     if(ws==null){
         setLiveButton(2);
     }
-    // 开启直播，打印提醒
+    // 开启连接的回调函数
     ws.onopen = function () {
         // 滚动状态
         scrollStatus("text-info","正在开启直播...");
@@ -126,7 +126,7 @@ function connectWS() {
         }
 
     };
-    // 直播关闭
+    // 关闭连接的回调函数
     ws.onclose = function (event) {
         if(event.code==1006){
             $.modal.confirm("服务器 WebSocket 连接失败！");

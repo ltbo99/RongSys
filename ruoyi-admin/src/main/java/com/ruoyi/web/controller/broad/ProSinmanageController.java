@@ -71,6 +71,31 @@ public class ProSinmanageController extends BaseController
 	@ResponseBody
 	public TableDataInfo list(ProSinmanage proSinmanage)
 	{
+		proSinmanage.setScategory("正常播出单");
+		SysUser currentUser = ShiroUtils.getSysUser();//从session中获取当前登陆用户的userid
+		Long userid =  currentUser.getUserId();
+		int returnId = new Long(userid).intValue();
+		int roleid = sysUserService.selectRoleid(returnId);//通过所获取的userid去广播用户表中查询用户所属区域的Roleid
+		if(roleid == 1) {
+			startPage();
+			List<ProSinmanage> list = proSinmanageService.selectProSinmanageList(proSinmanage);
+			return getDataTable(list);
+		}else{
+			proSinmanage.setUserid(userid.toString());
+			startPage();
+			List<ProSinmanage> list = proSinmanageService.selectProSinmanageList(proSinmanage);
+			return getDataTable(list);
+		}
+	}
+
+	/**
+	 * 查询紧急节目播出单列表
+	 */
+	@RequiresPermissions("broad:proSinmanage:list")
+	@PostMapping("/criticalList")
+	@ResponseBody
+	public TableDataInfo criticalList(ProSinmanage proSinmanage){
+		proSinmanage.setScategory("紧急播出单");
 		SysUser currentUser = ShiroUtils.getSysUser();//从session中获取当前登陆用户的userid
 		Long userid =  currentUser.getUserId();
 		int returnId = new Long(userid).intValue();
@@ -163,12 +188,13 @@ public class ProSinmanageController extends BaseController
 
 
 	/*************************************************************************************************
-	 * 新增节目播出单
+	 * 新增节目播出单,修改区分正常和紧急节目单
 	 */
-	@GetMapping("/addtest")
-	public String addtest(ModelMap mmap)
+	@GetMapping("/addtest/{scategory}")
+	public String addtest(ModelMap mmap,@PathVariable String scategory)
 	{
 		SysUser user = getSysUser();
+        mmap.put("type", scategory);
 		mmap.put("user", user);
 		return prefix + "/addtest";
 	}
@@ -296,6 +322,7 @@ public class ProSinmanageController extends BaseController
 	@RequestMapping("/addProList")
 	@ResponseBody
 	public Map<String,Object> addProList(@RequestParam("userId") String userId,
+                                         @RequestParam("scategory") String scategory,
 										 @RequestParam("ProDate") String ProDate,
 										 @RequestParam("ProDay") String ProDay,
 										 @RequestParam("ProIMEI") List ProIMEI,
@@ -306,7 +333,7 @@ public class ProSinmanageController extends BaseController
 		ProSinmanage ps = new ProSinmanage();
 		ps.setUserid(userId);
 		ps.setCreatetime(DateUtil.getTime());
-		ps.setScategory("正常播出单");
+		ps.setScategory(scategory);
 		ps.setBroaddate(ProDate);//节目播放开始日期
 		ps.setBroadtimes(ProDay);
 	 	int programmeID = ProSinmanageService.insertProSinmanage(ps);//返回的新创建的节目单id
@@ -363,4 +390,35 @@ public class ProSinmanageController extends BaseController
 	}
 
 
+	/** @author qwerty
+	 * @description 导出节目单详情数据
+	 *
+	 * @param sjid
+	 * @return
+	 */
+	@Log(title = "节目播出单管理", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:proSinmanage:export")
+	@GetMapping("/export/{sjid}")
+	@ResponseBody
+	public AjaxResult export(@PathVariable("sjid")String sjid){
+		List<ProList> list = proListService.selectProListListByPid(sjid);
+		ExcelUtil<ProList> util = new ExcelUtil<ProList>(ProList.class);
+		return util.exportExcel(list, "节目播出列表");
+	}
+
+	/** @author qwerty
+	 * @description 导出√中的数据
+	 *
+	 * @param sfids
+	 * @return
+	 */
+	@Log(title = "节目播出单", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:proSinmanage:export")
+	@PostMapping("/exportbysingle")
+	@ResponseBody
+	public AjaxResult exportProSinmanageByIds(@RequestParam("sjids") List<String> sfids) {
+		List<ProSinmanage> list = proSinmanageService.selectProSinmanageListByids(sfids);
+		ExcelUtil<ProSinmanage> util = new ExcelUtil<ProSinmanage>(ProSinmanage.class);
+		return util.exportExcel(list, "proSinmanage");
+	}
 }

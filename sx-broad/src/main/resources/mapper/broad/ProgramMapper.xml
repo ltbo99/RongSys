@@ -58,7 +58,6 @@
         <result property="ptype"    column="ptype"    />
         <result property="flenth"    column="flenth"    />
         <result property="fsize"    column="fsize"    />
-        <result property="uname"    column="uname"    />
     </resultMap>
     <!--根据用户查询节目列表 -->
     <select id="selectProList" parameterType="com.ruoyi.broad.domain.Program" resultMap="programMap">
@@ -68,9 +67,15 @@
         <include refid="tableName"></include> g
         LEFT JOIN <include refid="userstable"></include> ui on g.userid=ui.userid
         <where>
-            <if test="fid != null and fid != '' "> and fid like '%${fid}%'</if>
+            <if test="uname != null and uname != '' "> and ui.uname like '%${uname}%'</if>
             <if test="fname != null  and fname != '' "> and fname like '%${fname}%'</if>
-            <if test="createdtime != null  and createdtime != '' "> and createdtime like '%${createdtime}%'</if>
+            <if test="ispublic != null "> and ispublic = ${ispublic}</if>
+            <if test="downtime != null and downtime != ''"><!-- 开始时间检索 -->
+                AND date_format(createdtime,'%y%m%d') &gt;= date_format(#{downtime},'%y%m%d')
+            </if>
+            <if test="endtime != null and endtime != ''"><!-- 结束时间检索 -->
+                AND date_format(createdtime,'%y%m%d') &lt;= date_format(#{endtime},'%y%m%d')
+            </if>
         </where>
         order by  createdtime desc,fid desc
     </select>
@@ -102,7 +107,7 @@
 	     flenth,
 	     fsize,
 	     createdtime,
-	     islisten,ptype,uname
+	     islisten,ptype
 		) values (
 	     #{fname},
          #{filename},
@@ -113,7 +118,7 @@
 	     #{flenth},
 	     #{fsize},
 	     #{createdtime},
-	     #{islisten},#{ptype},#{uname}
+	     #{islisten},#{ptype}
 		)
     </insert>
 
@@ -123,4 +128,22 @@
             #{fid}
         </foreach>
     </delete>
+
+    <select id="selectProgramListByids" parameterType="java.util.List" resultMap="programMap">
+        select
+        fid,fname,g.userid as userid,remark,ispublic,filename,urls,address,createdtime,ptype,flenth,fsize,ui.uname
+        from
+        <include refid="tableName"></include> g
+        LEFT JOIN <include refid="userstable"></include> ui on g.userid=ui.userid
+        where
+        fid in
+        <foreach collection="list" item="sfid" open="(" close=")" separator=",">
+            #{sfid}
+        </foreach>
+        order by  createdtime desc,fid desc
+    </select>
+
+    <update id="setIsPublic" parameterType="String">
+        update programs SET ispublic= not ispublic where fid=#{fid}
+    </update>
 </mapper>

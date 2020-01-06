@@ -19,22 +19,6 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="ruoyi-system" />
-    <orderEntry type="module" module-name="ruoyi-common" />
-    <orderEntry type="module" module-name="ruoyi-quartz" />
-    <orderEntry type="module" module-name="ruoyi-generator" />
-    <orderEntry type="module" module-name="ruoyi-system" />
-    <orderEntry type="module" module-name="ruoyi-common" />
-    <orderEntry type="module" module-name="ruoyi-quartz" />
-    <orderEntry type="module" module-name="ruoyi-generator" />
-    <orderEntry type="module" module-name="ruoyi-system" />
-    <orderEntry type="module" module-name="ruoyi-common" />
-    <orderEntry type="module" module-name="ruoyi-quartz" />
-    <orderEntry type="module" module-name="ruoyi-generator" />
-    <orderEntry type="module" module-name="ruoyi-system" />
-    <orderEntry type="module" module-name="ruoyi-common" />
-    <orderEntry type="module" module-name="ruoyi-quartz" />
-    <orderEntry type="module" module-name="ruoyi-generator" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter:2.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-logging:2.1.1.RELEASE" level="project" />
@@ -106,6 +90,7 @@
     <orderEntry type="library" name="Maven: org.apache.xmlbeans:xmlbeans:2.6.0" level="project" />
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.virtuald:curvesapi:1.04" level="project" />
+    <orderEntry type="library" name="Maven: it.sauronsoftware:jave:1.0.2" level="project" />
     <orderEntry type="library" name="Maven: javax.validation:validation-api:2.0.1.Final" level="project" />
     <orderEntry type="module" module-name="ruoyi-quartz" />
     <orderEntry type="library" name="Maven: org.quartz-scheduler:quartz:2.3.0" level="project" />

@@ -30,7 +30,7 @@ public class PartyactiveController extends BaseController
 	
 	@Autowired
 	private IPartyactiveService partyactiveService;
-	
+
 	@RequiresPermissions("village:partyactive:view")
 	@GetMapping()
 	public String partyactive()
@@ -71,7 +71,8 @@ public class PartyactiveController extends BaseController
 	@GetMapping("/add")
 	public String add()
 	{
-	    return prefix + "/add";
+
+		return prefix + "/add";
 	}
 	
 	/**
@@ -82,8 +83,13 @@ public class PartyactiveController extends BaseController
 	@PostMapping("/add")
 	@ResponseBody
 	public AjaxResult addSave(Partyactive partyactive)
-	{		
+	{
+
+
+
+
 		return toAjax(partyactiveService.insertPartyactive(partyactive));
+		//return toAjax(1);
 	}
 
 	/**

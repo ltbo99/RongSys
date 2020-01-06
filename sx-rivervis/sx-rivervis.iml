@@ -21,18 +21,6 @@
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="ruoyi-common" />
-    <orderEntry type="module" module-name="ruoyi-system" />
-    <orderEntry type="module" module-name="ruoyi-quartz" />
-    <orderEntry type="module" module-name="ruoyi-generator" />
-    <orderEntry type="module" module-name="ruoyi-common" />
-    <orderEntry type="module" module-name="ruoyi-system" />
-    <orderEntry type="module" module-name="ruoyi-quartz" />
-    <orderEntry type="module" module-name="ruoyi-generator" />
-    <orderEntry type="module" module-name="ruoyi-common" />
-    <orderEntry type="module" module-name="ruoyi-system" />
-    <orderEntry type="module" module-name="ruoyi-quartz" />
-    <orderEntry type="module" module-name="ruoyi-generator" />
-    <orderEntry type="module" module-name="ruoyi-common" />
     <orderEntry type="library" name="Maven: org.apache.commons:commons-lang3:3.8.1" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.9.7" level="project" />
     <orderEntry type="library" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
@@ -49,6 +37,7 @@
     <orderEntry type="library" name="Maven: stax:stax-api:1.0.1" level="project" />
     <orderEntry type="library" name="Maven: com.github.virtuald:curvesapi:1.04" level="project" />
     <orderEntry type="library" name="Maven: org.yaml:snakeyaml:1.23" level="project" />
+    <orderEntry type="library" name="Maven: it.sauronsoftware:jave:1.0.2" level="project" />
     <orderEntry type="module" module-name="ruoyi-framework" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-web:2.1.1.RELEASE" level="project" />
     <orderEntry type="library" name="Maven: org.springframework.boot:spring-boot-starter-json:2.1.1.RELEASE" level="project" />
