@@ -65,6 +65,7 @@
                         <p><a href="http://www.adobe.com/go/getflashplayer"><img src="http://www.adobe.com/images/shared/download_buttons/get_flash_player.gif" alt="下载 Adobe Flash player 插件" /></a></p>
                     </div>
                     <div >
+                        <button class="btn btn-primary"  name="organName" onclick="selectOrganTree()" id="treeName">选择终端</button>
                         <button id="start" class="btn btn-primary"   onclick="startlive(this);"  >
                             <i  class="ace-icon fa fa-play bigger-110 "></i>&nbsp;开启直播</button>
                         <button id="end" class="btn btn-danger"  disabled onclick="endlive();"   >
@@ -112,15 +113,15 @@
                 </div>
                 <div class="ibox-title">
                     <div class="form-group" style="margin-bottom: 0px">
-                        <button class="btn btn-primary"  name="organName" onclick="selectOrganTree()" id="treeName">选择终端</button>
+                        <!--<button class="btn btn-primary"  name="organName" onclick="selectOrganTree()" id="treeName">选择终端</button>-->
                         <!--&lt;!&ndash;<label class="col-sm-3 control-label">选择终端：</label>&ndash;&gt;
                         <div class="col-sm-8">
                             <input class="form-control" type="text" name="organName" onclick="selectOrganTree()" style="width: 100%" readonly="true" id="treeName">
                         </div>-->
-                        <button class="btn btn-primary" id="file"  onclick="doFile();" name="">选择文件</button>
-                        <!--flushfile();-->
-                        <button class="btn btn-primary buttonsd"  onclick="vid()">播放文件</button>
-                        <button class="btn btn-primary buttonsb"  onclick="clo()" disabled="disabled">停止播放文件</button>
+                        <!--<button class="btn btn-primary" id="file"  onclick="doFile();" name="">选择文件</button>-->
+                        <!--&lt;!&ndash;flushfile();&ndash;&gt;-->
+                        <!--<button class="btn btn-primary buttonsd"  onclick="vid()">播放文件</button>-->
+                        <!--<button class="btn btn-primary buttonsb"  onclick="clo()" disabled="disabled">停止播放文件</button>-->
                     </div>
                 </div>
                 <input name="deptId"  type="hidden" id="treeId"/>
@@ -441,8 +442,8 @@
             setLiveButton(0);
             // 推流
             publishRtmp();
-            addlog("open",streamid,list, nameList);
             list.splice(list.length-1,1);
+            //addlog("open",streamid,list, nameList);
             console.log("list:",list);
             message_1 = "start:"+streamid+":"+list;
 
