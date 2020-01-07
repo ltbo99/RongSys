@@ -8,7 +8,9 @@ swfobject.embedSWF("/stream/RtmpStreamer.swf",
 
 var ws = null;
 // 流媒体 id
-var streamid=null;
+var streamid = null;
+//流媒体网页与服务器通信之间的信息载体变量
+var message_1 = null;
 // imei 的列表 农大终端测试机器 IMEI 号码
 var imeilist= "862105024040770,862105024020277";
 var imeiNameList= "测试";
@@ -171,11 +173,14 @@ function startlive(obj){
 function startsent(){
     if (ws != null) {
         // 拼接 nessage
-        var message = "start:"+streamid+":"+imeilist;
+        //var message = "start:"+streamid+":"+imeilist;
+        //var message = aa();
         // 控制台打印
         console.log('Sent Start ');
         // 推送信息
-        ws.send(message);
+        console.log("message_1:",message_1);
+        ws.send(message_1);
+
     } else {
         $.modal.confirm("WebSocket 连接建立失败，请重新连接");
         setLiveButton(2);
