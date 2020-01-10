@@ -1,6 +1,8 @@
 package com.ruoyi.village.domain;
 
 import com.ruoyi.common.base.BaseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 
 /**
  * @program: lyb_RongSys
@@ -34,6 +36,10 @@ public class Villagefamily extends BaseEntity {
     private String aid;
     /**是否有效*/
     private String remark;
+    /**图片路径*/
+    private String pic;
+    /**阅读量*/
+    private int readtotal;
 
     public Villagefamily() {
     }
@@ -53,6 +59,8 @@ public class Villagefamily extends BaseEntity {
                 ", uname='" + uname + '\'' +
                 ", aid='" + aid + '\'' +
                 ", remark=" + remark +
+                ", pic=" + pic +
+                ", readtotal=" + readtotal +
                 '}';
     }
 
@@ -60,7 +68,7 @@ public class Villagefamily extends BaseEntity {
                          String adddate, String reldate,
                          String content, int adduid,
                          String adduname, int uid, String uname,
-                         String aid, String remark) {
+                         String aid, String remark, String pic, int readtotal) {
         this.jsid = jsid;
         this.title = title;
         this.type = type;
@@ -73,6 +81,8 @@ public class Villagefamily extends BaseEntity {
         this.uname = uname;
         this.aid = aid;
         this.remark = remark;
+        this.pic = pic;
+        this.readtotal = readtotal;
     }
 
     public int getJsid() {
@@ -170,4 +180,23 @@ public class Villagefamily extends BaseEntity {
     public void setRemark(String remark) {
         this.remark = remark;
     }
+
+    public String getPic() {
+        return pic;
+    }
+
+    public void setPic(String pic) {
+        this.pic = pic;
+    }
+
+    public int getReadtotal() {
+        return readtotal;
+    }
+
+    public void setReadtotal(int readtotal) {
+        this.readtotal = readtotal;
+    }
+
+
 }
+

@@ -3,10 +3,7 @@ package com.ruoyi.village.service.impl;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.common.support.Convert;
-import com.ruoyi.village.domain.Mcount;
-import com.ruoyi.village.domain.PersonApi;
-import com.ruoyi.village.domain.VillagerInfo;
-import com.ruoyi.village.domain.pubObjApi;
+import com.ruoyi.village.domain.*;
 import com.ruoyi.village.mapper.VillagerInfoMapper;
 import com.ruoyi.village.service.IVillagerInfoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +34,27 @@ public class VillagerInfoServiceImpl implements IVillagerInfoService
 	public VillagerInfo selectVillagerInfoById(Integer vid)
 	{
 		return villagerInfoMapper.selectVillagerInfoById(vid);
+	}
+
+	/**
+	 * 在service层中将controller层获取的数据与mapper层读取的数据库的数据进行比较
+	 * */
+	@DataSource(value = DataSourceType.SXVILLAGE)
+	@Override
+	public VillagerInfo findByIdcardAndPassword(String idcard, String password) {
+		VillagerInfo b = villagerInfoMapper.findByIdcardAndPassword(idcard);
+		if (b==null) {
+			return b;
+		}
+		String aString = b.getIdcard();
+		String bString = b.getPassword();
+		if (aString.equals(idcard)&&bString.equals(password)) {
+			System.out.println(9);
+			return b;
+		} else {
+			System.out.println(0);
+			return b;
+		}
 	}
 
 	/**

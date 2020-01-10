@@ -109,6 +109,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result property="carphoto"    column="carphoto"    />
         <result property="housephoto"    column="housephoto"    />
         <result property="isuse"    column="isuse"    />
+        <result property="password"    column="password"    />
     </resultMap>
     <resultMap type="Mcount" id="mcountResult">
         <result property="marea"    column="marea"    />
@@ -122,9 +123,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
 	<sql id="selectVillagerInfoVo">
-        select vid, aid, vname, age, sex, nativeplace, nation, politics, partyjoindate, edulevel, marital, idcard, phone, health, special, entitle, familyplan, medical, subsidy, insurance, criminal, drug, drive, car, vtype, carnum, job, company, pra, home, grouptype, house, height, hhdnum, hhd, hhdidcard, hhdrelation, jobrank, hobby, trend, jobstate, pr, medinsur, fmi, fmistate, security, bsecurity, subsis, fiveinsur, poor, drivenum, techtype, techgrade, titgrade, prt, move, fieldarea, forestarea, poolarea, income, totalppt, mincome, yincome, bank, bankcardnum, landowner, control, housearea, loginname, selfmanage, managetype, cost, mmincome, myincome, organization, landtransfer, landincome, foresttransfer, forestincome, levy, rent, housestate, psa, ca, woban, water, ssa, gfs, wdr, rth, iscadre, cadrelevel, islowincome, getlowdate, isdemob, demobdate, winaward, punish, personphoto, hkphoto, idphoto, carphoto, housephoto, isuse from villager_info
+        select vid, aid, vname, age, sex, nativeplace, nation, politics, partyjoindate, edulevel, marital, idcard, phone, health, special, entitle, familyplan, medical, subsidy, insurance, criminal, drug, drive, car, vtype, carnum, job, company, pra, home, grouptype, house, height, hhdnum, hhd, hhdidcard, hhdrelation, jobrank, hobby, trend, jobstate, pr, medinsur, fmi, fmistate, security, bsecurity, subsis, fiveinsur, poor, drivenum, techtype, techgrade, titgrade, prt, move, fieldarea, forestarea, poolarea, income, totalppt, mincome, yincome, bank, bankcardnum, landowner, control, housearea, loginname, selfmanage, managetype, cost, mmincome, myincome, organization, landtransfer, landincome, foresttransfer, forestincome, levy, rent, housestate, psa, ca, woban, water, ssa, gfs, wdr, rth, iscadre, cadrelevel, islowincome, getlowdate, isdemob, demobdate, winaward, punish, personphoto, hkphoto, idphoto, carphoto, housephoto, isuse, password from villager_info
     </sql>
-
 
     <select id="selectVillagerInfoBygrouptype" parameterType="String" resultMap="VillagerInfoResult">
     <include refid="selectVillagerInfoVo"/>
@@ -148,6 +148,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
              <if test="edulevel != null  and edulevel != '' "> and edulevel = #{edulevel}</if>
              <if test="marital != null  and marital != '' "> and marital = #{marital}</if>
              <if test="idcard != null  and idcard != '' "> and idcard = #{idcard}</if>
+             <if test="password != null  and pwssword != '' "> and password = #{password}</if>
              <if test="phone != null  and phone != '' "> and phone = #{phone}</if>
              <if test="health != null  and health != '' "> and health = #{health}</if>
              <if test="special != null  and special != '' "> and special = #{special}</if>
@@ -243,14 +244,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          </where>
     </select>
 
-
-
-
     <select id="selectVillagerInfoById" parameterType="Integer" resultMap="VillagerInfoResult">
         <include refid="selectVillagerInfoVo"/>
         where vid = #{vid}
     </select>
-        
+
+    <select id="findByIdcardAndPassword" parameterType="String" resultMap="VillagerInfoResult">
+        select * from villager_info where idcard = #{idcard};
+    </select>
+
     <insert id="insertVillagerInfo" parameterType="VillagerInfo">
         insert into villager_info
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -266,6 +268,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="edulevel != null  and edulevel != ''  ">edulevel,</if>
 			<if test="marital != null  and marital != ''  ">marital,</if>
 			<if test="idcard != null  and idcard != ''  ">idcard,</if>
+            <if test="password != null  and password != ''  ">password,</if>
 			<if test="phone != null  and phone != ''  ">phone,</if>
 			<if test="health != null  and health != ''  ">health,</if>
 			<if test="special != null  and special != ''  ">special,</if>
@@ -372,6 +375,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 			<if test="edulevel != null  and edulevel != ''  ">#{edulevel},</if>
 			<if test="marital != null  and marital != ''  ">#{marital},</if>
 			<if test="idcard != null  and idcard != ''  ">#{idcard},</if>
+            <if test="password != null  and password != ''  ">#{password},</if>
 			<if test="phone != null  and phone != ''  ">#{phone},</if>
 			<if test="health != null  and health != ''  ">#{health},</if>
 			<if test="special != null  and special != ''  ">#{special},</if>
@@ -481,6 +485,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <if test="edulevel != null  and edulevel != ''  ">edulevel = #{edulevel},</if>
             <if test="marital != null  and marital != ''  ">marital = #{marital},</if>
             <if test="idcard != null  and idcard != ''  ">idcard = #{idcard},</if>
+            <if test="password != null  and password != ''  ">password = #{password},</if>
             <if test="phone != null  and phone != ''  ">phone = #{phone},</if>
             <if test="health != null  and health != ''  ">health = #{health},</if>
             <if test="special != null  and special != ''  ">special = #{special},</if>

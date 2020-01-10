@@ -6,7 +6,7 @@ import java.util.List;
 
 /**
  * @program: lyb_RongSys
- * @description: 小村家事数据层
+ * @description: 小村家事数据层  Mapper层接口编写
  * @author: Mr.Liu
  * @create: 2019-01-15 14:59
  **/

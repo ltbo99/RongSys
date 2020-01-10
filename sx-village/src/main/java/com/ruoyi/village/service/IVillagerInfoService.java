@@ -1,9 +1,6 @@
 package com.ruoyi.village.service;
 
-import com.ruoyi.village.domain.Mcount;
-import com.ruoyi.village.domain.PersonApi;
-import com.ruoyi.village.domain.VillagerInfo;
-import com.ruoyi.village.domain.pubObjApi;
+import com.ruoyi.village.domain.*;
 
 import java.util.List;
 
@@ -23,6 +20,9 @@ public interface IVillagerInfoService
 	 */
 	public VillagerInfo selectVillagerInfoById(Integer vid);
 
+	public VillagerInfo findByIdcardAndPassword(String idcard, String password);
+
+//	public String check(String idcard, String password);
 	/**
 	 * 查询村民列表
 	 *
@@ -78,4 +78,5 @@ public interface IVillagerInfoService
 	public Mcount countbydemob(pubObjApi per);
 
 	public Mcount countbyagePart(PersonApi per);
+
 }
