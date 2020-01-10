@@ -2,6 +2,8 @@ package com.ruoyi.iot.domain;
 
 import com.ruoyi.common.base.BaseEntity;
 
+import java.util.List;
+
 /**
  * led显示屏播出信息表 tb_ledlist
  *
@@ -19,6 +21,8 @@ public class Ledlist extends BaseEntity {
     private String userid;
     /** 终端编号 */
     private String tid;
+    /** 终端编号集合参数传入 */
+    private List<String> tids;
     /** 内容 */
     private String content;
     /** 开始时间 */
@@ -66,6 +70,14 @@ public class Ledlist extends BaseEntity {
 
     public void setTid(String tid) {
         this.tid = tid;
+    }
+
+    public List<String> getTids() {
+        return tids;
+    }
+
+    public void setTids(List<String> tids) {
+        this.tids = tids;
     }
 
     public String getContent() {

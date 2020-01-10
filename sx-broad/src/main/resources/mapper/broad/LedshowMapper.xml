@@ -84,7 +84,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ledshow left join terminals_ledshow on ledshow.lsid=terminals_ledshow.lsid
         <where>
             <if test="userid != null  and userid != '' "> and userid like '%${userid}%'</if>
-            <if test="tid != null  and tid != '' "> and terminals_ledshow.tid like '%${tid}%'</if>
+            <if test="tids != null "> and tid in
+                <foreach item="tids" collection="tids" open="(" separator="," close=")">
+                    #{tids}
+                </foreach>
+            </if>
         </where>
         ORDER BY createtime DESC
         limit #{pageSize} offset #{pageIndex}

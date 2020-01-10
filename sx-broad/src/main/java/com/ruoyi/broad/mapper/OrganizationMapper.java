@@ -164,10 +164,10 @@ public interface OrganizationMapper
 	/**
 	 * 根据用户id查询终端对象
 	 *
-	 * @param userid 导出终端字段
+	 * @param aid 导出终端字段
 	 * @return 终端信息集合信息
 	 */
-	public List<Organization> selectByUserid(@Param("userid") String userid);
+	public List<Organization> selectByaid(@Param("aid") String aid);
 
 	public List<Organization> selecttidBytwo(@Param("tids") String[] tids , @Param("userid") String userid);
 

@@ -27,7 +27,11 @@
         <include refid="selectLedlistVo"/>
         <where>
             <if test="userid != null  and userid != '' "> and userid = #{userid}</if>
-            <if test="tid != null  and tid != '' "> and tid = #{tid}</if>
+            <if test="tids != null "> and tid in
+                <foreach item="tids" collection="tids" open="(" separator="," close=")">
+                    #{tids}
+                </foreach>
+            </if>
             <if test="startdate != null  and startdate != '' "> and startdate = #{startdate}</if>
             <if test="enddate != null  and enddate != '' "> and enddate = #{enddate}</if>
             <if test="effect != null  and effect != '' "> and effect = #{effect}</if>

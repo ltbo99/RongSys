@@ -48,8 +48,8 @@ public class EnergyshowServiceImpl implements IEnergyshowService{
 
     @Override
     @DataSource(value = DataSourceType.SXVILLAGE)
-    public List<Energyshow> selectEnergyshowListById(pubObjApi energyshow) {
-        return energyshowMapper.selectEnergyshowListById(energyshow);
+    public List<Energyshow> selectEnergyshowListByAll(Energyshow energyshow){
+        return energyshowMapper.selectEnergyshowListByAll(energyshow);
     }
 
 

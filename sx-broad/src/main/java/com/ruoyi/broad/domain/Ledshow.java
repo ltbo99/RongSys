@@ -13,7 +13,7 @@ import com.ruoyi.common.base.BaseEntity;
 public class Ledshow extends BaseEntity
 {
 	private static final long serialVersionUID = 1L;
-	
+
 	/** led显示编号 */
 	private Integer lsid;
 	/** 用户编号 */
@@ -27,7 +27,7 @@ public class Ledshow extends BaseEntity
 	/** 备注 */
 	private String remark;
 
-	public void setLsid(Integer lsid) 
+	public void setLsid(Integer lsid)
 	{
 		this.lsid = lsid;
 	}

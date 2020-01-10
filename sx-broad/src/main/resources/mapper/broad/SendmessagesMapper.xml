@@ -35,11 +35,17 @@
     </select>
 
     <select id="selectSendmessagesList1" parameterType="Sendmessages" resultMap="SendmessagesResult">
-        select SQL_CALC_FOUND_ROWS distinct sendmessages.*,userinfo.userid,userinfo.uphone
+        select SQL_CALC_FOUND_ROWS distinct sendmessages.smid, sendmessages.smobile, sendmessages.scontent, sendmessages.issend,
+        sendmessages.sendtime, sendmessages.remark, sendmessages.tid, sendmessages.spelanguage, sendmessages.sendtimes
+        ,userinfo.userid,userinfo.uphone
         from sendmessages left join userinfo on sendmessages.smobile= userinfo.uphone
         <where>
             <if test="userid != null "> and userid = #{userid}</if>
-            <if test="tid != null "> and tid = #{tid}</if>
+            <if test="tids != null "> and tid in
+                <foreach item="tids" collection="tids" open="(" separator="," close=")">
+                    #{tids}
+                </foreach>
+            </if>
         </where>
         order by  sendtime desc,smid desc
         limit #{pageSize} offset #{pageIndex}
@@ -109,7 +115,11 @@
         <where>
             <if test="userid != null "> and userid = #{userid}</if>
             <if test="recivedtime != null "> and recivedtime = #{recivedtime}</if>
-            <if test="tid != null "> and tid = #{tid}</if>
+            <if test="tids != null "> and tid in
+                <foreach item="tids" collection="tids" open="(" separator="," close=")">
+                    #{tids}
+                </foreach>
+            </if>
             <if test="scontent != null "> and scontent = #{scontent}</if>
         </where>
         order by recivedtime desc,smid desc

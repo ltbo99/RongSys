@@ -3,13 +3,15 @@ package com.ruoyi.api.controller.village;
 import com.ruoyi.api.domain.RongApiRes;
 import com.ruoyi.api.service.RongApiService;
 import com.ruoyi.broad.domain.Organization;
-import com.ruoyi.broad.domain.ProList;
 import com.ruoyi.broad.domain.ProSinmanage;
 import com.ruoyi.broad.domain.Sendmessages;
 import com.ruoyi.broad.service.*;
 import com.ruoyi.iot.domain.Ledlist;
 import com.ruoyi.iot.service.ILedlistService;
+import com.ruoyi.village.domain.CwProList;
 import com.ruoyi.village.domain.PersonApi;
+import com.ruoyi.village.domain.Wxnews;
+import com.ruoyi.village.service.IWxnewsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,13 +48,15 @@ public class Infopublish {
     private ILedshowService ledshowService;
     @Autowired
     private ILedlistService ledlistService;
+    @Autowired
+    private IWxnewsService wxnewsService;
 
     @GetMapping("/terminalslist")
     @CrossOrigin
-    @ApiOperation(value = "根据用户id分类的应急广播终端列表")
-    public RongApiRes searchterminalslist(String userid)
+    @ApiOperation(value = "根据aid分类的应急广播终端列表")
+    public RongApiRes searchterminalslist(String aid)
     {
-        return RongApiService.get_list(organizationService.selectByUserid(userid));
+        return RongApiService.get_list(organizationService.selectByaid(aid));
     }
 
     @GetMapping("/terminalslistbytid")
@@ -90,7 +94,7 @@ public class Infopublish {
     @GetMapping("/prolist")
     @CrossOrigin
     @ApiOperation(value = "编辑节目单播出")
-    public RongApiRes selectprolistlist(ProList proList)
+    public RongApiRes selectprolistlist(CwProList proList)
     {
         return RongApiService.get_list(proListService.selectProListByAll(proList));
     }
@@ -140,5 +144,21 @@ public class Infopublish {
     public RongApiRes selectemergencyprogramist(int userid)
     {
         return RongApiService.get_list(proSinmanageService.selectProSinmanageListForWarning(userid));
+    }
+
+    @GetMapping("/wxnews")
+    @CrossOrigin
+    @ApiOperation(value = "获取微信公众号新闻列表")
+    public RongApiRes selectwxnewslist(Wxnews wxnews)
+    {
+        return RongApiService.get_list(wxnewsService.selectWxnewslist(wxnews));
+    }
+
+    @GetMapping("/wxnewsall")
+    @CrossOrigin
+    @ApiOperation(value = "微信公众号新闻发布列表")
+    public RongApiRes selectwxnewsByAll(Wxnews wxnews)
+    {
+        return RongApiService.get_list(wxnewsService.selectWxnewsByAll(wxnews));
     }
 }

@@ -44,6 +44,14 @@ public class Energyshow extends BaseEntity {
     /**信息状态*/
     private String remark;
 
+    /**用户id*/
+    private String userid;
+    /**安装位置*/
+    private String address;
+    /**终端号码*/
+    private String phone;
+
+
     public Integer getId() {
         return id;
     }
@@ -164,6 +172,30 @@ public class Energyshow extends BaseEntity {
     @Override
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     @Override

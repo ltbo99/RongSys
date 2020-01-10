@@ -1,12 +1,11 @@
 package com.ruoyi.broad.mapper;
 
-import com.github.pagehelper.Page;
 import com.ruoyi.broad.domain.ProList;
 import com.ruoyi.broad.domain.Progbroad;
 import com.ruoyi.broad.domain.Program_List;
 import com.ruoyi.broad.domain.TerReceives;
-import com.ruoyi.broad.domain.ProSinmanage;
-import com.ruoyi.broad.domain.ProTerminal;
+import com.ruoyi.village.domain.CwProList;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -146,5 +145,5 @@ public interface ProListMapper
 	public List<ProList> selectProListListByPid(String pid);
 
 	//根据用户id、播放日期、选择播放的终端以及一系列prolist表中的一系列参数显示prolist表的数据
-	public List<ProList> selectProListByAll(ProList proList);
+	public List<ProList>  selectProListByAll(CwProList proList);
 }

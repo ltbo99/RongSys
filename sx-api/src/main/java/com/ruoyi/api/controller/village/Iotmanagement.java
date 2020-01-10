@@ -4,6 +4,9 @@ import com.ruoyi.api.domain.RongApiRes;
 import com.ruoyi.api.service.RongApiService;
 import com.ruoyi.broad.domain.Organization;
 import com.ruoyi.broad.service.IOrganizationService;
+import com.ruoyi.village.domain.Energyshow;
+import com.ruoyi.village.service.IEnergyshowService;
+import com.ruoyi.village.service.IWeatherdataService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 public class Iotmanagement {
     @Autowired
     private IOrganizationService organizationService;
+    @Autowired
+    private IEnergyshowService energyshowService;
+    @Autowired
+    private IWeatherdataService weatherdataService;
+
 
     @GetMapping("/terminalschange")
     @CrossOrigin
@@ -34,4 +42,30 @@ public class Iotmanagement {
         return RongApiService.get_list(organizationService.selectOrganizationList(organization));
     }
 
+    /**
+     * 能源管理终端采集信息 控制层
+     *
+     * @author 薛莎莎
+     * @date 2019-11-24
+     */
+    @GetMapping("/energyshow")
+    @CrossOrigin
+    @ApiOperation(value = "获取终端能源监测列表及监测参数修改")
+    public RongApiRes list(Energyshow energyshow)
+    {
+        return RongApiService.get_list(energyshowService.selectEnergyshowListByAll(energyshow));
+    }
+
+
+    /**
+     * 查询天气信息采集列表
+     */
+    @CrossOrigin
+    @GetMapping("/weatherdatalist")
+    @ApiOperation(value = "查询天气信息采集列表")
+    public RongApiRes list(String userid)
+    {
+
+        return RongApiService.get_list(weatherdataService.selectWeatherdataList(userid));
+    }
 }

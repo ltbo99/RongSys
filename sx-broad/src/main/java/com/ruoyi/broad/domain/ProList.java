@@ -48,7 +48,7 @@ public class ProList extends BaseEntity
 	private String userid;
 	/** 播放日期 */
 	private String broaddate;
-	/** 节目文件路径 */
+	/** 终端编号 */
 	private String terminalID;
 
 

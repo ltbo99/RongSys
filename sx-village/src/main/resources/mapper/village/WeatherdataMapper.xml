@@ -34,17 +34,14 @@
         select id, tid, addrid,aname, colltime, surrtemp, surrhumi, surrlight, soiltemp, soilhumi,atmopress,windspeed,windire,weathertype,pm25,co2,co,so2,ch4,rainfall,ph,remark from vw_weatherdata
     </sql>
 
-    <select id="selectWeatherdataList" parameterType="Weatherdata" resultMap="WeatherdataResult">
-        <include refid="selectWeatherdataVo"/>
+    <select id="selectWeatherdataList" parameterType="String" resultMap="WeatherdataResult">
+        select vw_weatherdata.*,broad.tb_organization.tid,broad.tb_organization.userid
+        from vw_weatherdata
+        left join broad.tb_organization on vw_weatherdata.tid=broad.tb_organization.tid
         <where>
-            <if test="addrid != null and addrid != '' "> addrid = #{addrid}</if>
+            <if test="userid != null and userid != '' "> userid = #{userid}</if>
         </where>
         ORDER BY id desc
-    </select>
-
-    <select id="selectWeatherdataById" parameterType="Integer" resultMap="WeatherdataResult">
-        <include refid="selectWeatherdataVo"/>
-        where id = #{id}
     </select>
 
 </mapper>
