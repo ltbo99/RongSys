@@ -21,6 +21,25 @@
         <result property="remark"    column="remark"    />
     </resultMap>
 
+    <resultMap type="Energyshow" id="CwEnergyshowResult">
+        <result property="id"    column="id"    />
+        <result property="tid"    column="tid"    />
+        <result property="addrid"    column="addrid"    />
+        <result property="address"    column="address"    />
+        <result property="phone"    column="phone"    />
+        <result property="colltime"    column="colltime"    />
+        <result property="fvoltage"    column="fvoltage"    />
+        <result property="rechcurrent"    column="rechcurrent"    />
+        <result property="loadcurrent"    column="loadcurrent"    />
+        <result property="outvoltage"    column="outvoltage"    />
+        <result property="extvoltage"    column="extvoltage"    />
+        <result property="sunvoltage"    column="sunvoltage"    />
+        <result property="worktemp"    column="worktemp"    />
+        <result property="rechstatus"    column="rechstatus"    />
+        <result property="workstatus"    column="workstatus"    />
+        <result property="remark"    column="remark"    />
+    </resultMap>
+
     <sql id="selectEnergyshowVo">
         select id, tid, addrid,colltime,fvoltage,rechcurrent,loadcurrent,outvoltage,extvoltage,sunvoltage,worktemp,rechstatus,workstatus,remark from tb_energy
     </sql>
@@ -51,16 +70,14 @@
         where id = #{id}
     </select>
 
-    <select id="selectEnergyshowListById" parameterType="pubObjApi" resultMap="EnergyshowResult">
-        <include refid="selectEnergyshowVo"/>
+    <select id="selectEnergyshowListByAll" parameterType="Energyshow" resultMap="CwEnergyshowResult">
+        select tb_energy.*,terminals.tid,terminals.userid,terminals.address,terminals.phone from tb_energy
+        left join broad.terminals on tb_energy.tid = broad.terminals.tid
         <where>
-            <if test="id != null  and id != '' ">id in
-                <foreach collection="listaid" item="item" separator="," open="(" close=")">
-                    #{item}
-                </foreach></if>
-            <if test="tid != null  and tid != '' "> and tid LIKE CONCAT(CONCAT('%', #{tid}),'%')</if>
+            <if test="userid != null and userid != '' "> and userid = #{userid}</if>
+            <if test="tid != null and tid != ''"> and tb_energy.tid = #{tid}</if>
+            <if test="phone != null and phone != ''"> and broad.terminals.phone = #{phone}</if>
         </where>
-        ORDER BY aid ASC
-        limit #{pageSize} offset #{pageIndex}
+        ORDER BY id DESC
     </select>
 </mapper>

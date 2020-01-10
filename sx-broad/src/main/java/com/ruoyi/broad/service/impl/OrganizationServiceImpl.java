@@ -324,14 +324,14 @@ public class OrganizationServiceImpl implements IOrganizationService
 	@DataSource(value = DataSourceType.SLAVE)
 	public List<Organization> exportOrganization(Organization organization){return organizationMapper.exportOrganization(organization);}
 	/**
-	 * 根据用户id查询终端对象(村务宝典)
+	 * 根据aid查询终端对象(村务宝典)
 	 *
-	 * @param userid 导出终端字段
+	 * @param aid 导出终端字段
 	 * @return 终端信息集合信息
 	 */
 	@Override
 	@DataSource(value = DataSourceType.SLAVE)
-	public List<Organization> selectByUserid(String userid){return organizationMapper.selectByUserid(userid);}
+	public List<Organization> selectByaid(String aid){return organizationMapper.selectByaid(aid);}
 
 	/**
 	 * 流媒体直播---选择直播终端(村务宝典)

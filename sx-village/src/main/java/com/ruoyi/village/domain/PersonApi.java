@@ -17,6 +17,15 @@ public class PersonApi {
     private Integer minage;
     private Integer maxage;
     private String tid; //终端号
+    private List<String> tids;  //终端号集合
+
+    public List<String> getTids() {
+        return tids;
+    }
+
+    public void setTids(List<String> tids) {
+        this.tids = tids;
+    }
 
     public String getTid() {
         return tid;

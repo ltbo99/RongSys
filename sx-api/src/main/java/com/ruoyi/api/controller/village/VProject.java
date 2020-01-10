@@ -6,10 +6,10 @@ import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.utils.DateUtil;
 import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.village.domain.Files;
+import com.ruoyi.village.domain.Project;
 import com.ruoyi.village.domain.Worklog;
 import com.ruoyi.village.domain.pubObjApi;
 import com.ruoyi.village.service.IProjectService;
-import com.ruoyi.village.domain.Project;
 import com.ruoyi.village.service.IVareaService;
 import com.ruoyi.village.service.IWorklogService;
 import com.ruoyi.village.util.bFileUtil1;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.text.SimpleDateFormat;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -83,7 +82,7 @@ public class VProject extends BaseController {
     @GetMapping("/pro_all")
     @CrossOrigin
     @ApiOperation(value = "返回所有项目")
-    public RongApiRes searchProAll(pubObjApi project )
+    public RongApiRes searchProAll(pubObjApi project)
     {
         project.setPageIndex((project.getPageIndex()-1)*project.getPageSize());
         List<Project> res;

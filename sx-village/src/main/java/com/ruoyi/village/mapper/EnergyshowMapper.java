@@ -1,7 +1,6 @@
 package com.ruoyi.village.mapper;
 
 import com.ruoyi.village.domain.Energyshow;
-import com.ruoyi.village.domain.pubObjApi;
 
 import java.util.List;
 
@@ -28,5 +27,5 @@ public interface EnergyshowMapper {
     public List<Energyshow> selectEnergyshowList(Energyshow energyshow);
 
 
-    public List<Energyshow> selectEnergyshowListById(pubObjApi energyshow);
+    public List<Energyshow> selectEnergyshowListByAll(Energyshow energyshow);
 }
