@@ -1,20 +1,19 @@
 package com.ruoyi.web.controller.broad;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.logging.Logger;
-
-import com.ruoyi.broad.domain.ProChamanage;
-import com.ruoyi.broad.domain.ProList;
-import com.ruoyi.broad.domain.Program;
+import com.ruoyi.broad.domain.*;
 import com.ruoyi.broad.service.IProChamanageService;
 import com.ruoyi.broad.service.IProListService;
+import com.ruoyi.broad.service.IProSinmanageService;
 import com.ruoyi.broad.service.IProgramService;
-import com.ruoyi.common.json.JSON;
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.json.JSONObject;
+import com.ruoyi.common.page.TableDataInfo;
+import com.ruoyi.common.utils.DateUtil;
+import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
@@ -22,16 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.broad.domain.ProSinmanage;
-import com.ruoyi.broad.service.IProSinmanageService;
-import com.ruoyi.framework.web.base.BaseController;
-import com.ruoyi.common.page.TableDataInfo;
-import com.ruoyi.common.base.AjaxResult;
-import com.ruoyi.common.utils.ExcelUtil;
 
 import javax.websocket.server.PathParam;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * 节目播出单 信息操作处理
@@ -55,7 +50,8 @@ public class ProSinmanageController extends BaseController
 	private IProChamanageService iProChamanageService;
 	@Autowired
 	private ISysUserService sysUserService;
-
+	@Autowired
+	private IProSinmanageService ProSinmanageService;
 	@RequiresPermissions("broad:proSinmanage:view")
 	@GetMapping()
 	public String proSinmanage()
@@ -71,6 +67,7 @@ public class ProSinmanageController extends BaseController
 	@ResponseBody
 	public TableDataInfo list(ProSinmanage proSinmanage)
 	{
+		proSinmanage.setScategory("正常播出单");
 		SysUser currentUser = ShiroUtils.getSysUser();//从session中获取当前登陆用户的userid
 		Long userid =  currentUser.getUserId();
 		int returnId = new Long(userid).intValue();
@@ -80,7 +77,31 @@ public class ProSinmanageController extends BaseController
 			List<ProSinmanage> list = proSinmanageService.selectProSinmanageList(proSinmanage);
 			return getDataTable(list);
 		}else{
-			proSinmanage.setUserid(userid);
+			proSinmanage.setUserid(userid.toString());
+			startPage();
+			List<ProSinmanage> list = proSinmanageService.selectProSinmanageList(proSinmanage);
+			return getDataTable(list);
+		}
+	}
+
+	/**
+	 * 查询紧急节目播出单列表
+	 */
+	@RequiresPermissions("broad:proSinmanage:list")
+	@PostMapping("/criticalList")
+	@ResponseBody
+	public TableDataInfo criticalList(ProSinmanage proSinmanage){
+		proSinmanage.setScategory("紧急播出单");
+		SysUser currentUser = ShiroUtils.getSysUser();//从session中获取当前登陆用户的userid
+		Long userid =  currentUser.getUserId();
+		int returnId = new Long(userid).intValue();
+		int roleid = sysUserService.selectRoleid(returnId);//通过所获取的userid去广播用户表中查询用户所属区域的Roleid
+		if(roleid == 1) {
+			startPage();
+			List<ProSinmanage> list = proSinmanageService.selectProSinmanageList(proSinmanage);
+			return getDataTable(list);
+		}else{
+			proSinmanage.setUserid(userid.toString());
 			startPage();
 			List<ProSinmanage> list = proSinmanageService.selectProSinmanageList(proSinmanage);
 			return getDataTable(list);
@@ -163,12 +184,13 @@ public class ProSinmanageController extends BaseController
 
 
 	/*************************************************************************************************
-	 * 新增节目播出单
+	 * 新增节目播出单,修改区分正常和紧急节目单
 	 */
-	@GetMapping("/addtest")
-	public String addtest(ModelMap mmap)
+	@GetMapping("/addtest/{scategory}")
+	public String addtest(ModelMap mmap,@PathVariable String scategory)
 	{
 		SysUser user = getSysUser();
+        mmap.put("type", scategory);
 		mmap.put("user", user);
 		return prefix + "/addtest";
 	}
@@ -288,7 +310,6 @@ public class ProSinmanageController extends BaseController
 
 	/**
 	 * 获取新增播出单详情数据
-	 * @param ProData
 	 * @param ProDay
 	 * @param ProIMEI
 	 * @param ProLists
@@ -296,10 +317,44 @@ public class ProSinmanageController extends BaseController
 	 */
 	@RequestMapping("/addProList")
 	@ResponseBody
-	public Map<String,Object> addProList(@RequestParam("userId") String userId,@RequestParam("ProDate") String ProData,
-										 @RequestParam("ProDay") String ProDay, @RequestParam("ProIMEI") String ProIMEI,
+	public Map<String,Object> addProList(@RequestParam("userId") String userId,
+                                         @RequestParam("scategory") String scategory,
+										 @RequestParam("ProDate") String ProDate,
+										 @RequestParam("ProDay") String ProDay,
+										 @RequestParam("ProIMEI") List ProIMEI,
 										 @RequestParam("ProData") JSONObject.JSONArray ProLists){
-		System.out.println(">>>userId>>>"+userId+">>>ProData>>>"+ProData+">>>ProDay>>>"+ProDay+">>>ProIMEI>>>"+ProIMEI+">>>ProLists>>>"+ProLists.getClass());
+		System.out.println(">>>userId>>>"+userId+">>>ProData>>>"+ProDate+">>>ProDay>>>"+ProDay+">>>ProIMEI>>>"+ProIMEI+">>>ProLists>>>"+ProLists.getClass());
+
+		//节目播出单，ProSinmanage
+		ProSinmanage ps = new ProSinmanage();
+		ps.setUserid(userId);
+		ps.setCreatetime(DateUtil.getTime());
+		ps.setScategory(scategory);
+		ps.setBroaddate(ProDate);//节目播放开始日期
+		ps.setBroadtimes(ProDay);
+	 	int programmeID = ProSinmanageService.insertProSinmanage(ps);//返回的新创建的节目单id
+
+		List<String> ptlist = new ArrayList<>();
+		for (int i = 0; i < ProIMEI.size(); i++) {
+			String data = (String) ProIMEI.get(i);
+			data= data.replace("[","");
+			data = data.replace("]","");
+			data = data.replaceAll("\"","");
+			ptlist.add(data);
+		}
+		List<ProTerminal> ptlists = new ArrayList<>();
+		for (int i = 0; i < ptlist.size(); i++) {
+			ProTerminal proTerminal = new ProTerminal();
+			proTerminal.setProgrammeID(programmeID);
+			proTerminal.setTerminalID(ptlist.get(i));
+			ptlists.add(proTerminal);
+		}
+		ProSinmanageService.addProTerminals(ptlists);
+
+
+//		ProSinmanageService.
+		System.out.println(programmeID+"++++++++++++++++++++++++++++++++++++++++++++++");
+		//解析出所有的单个节目，存放到节目单proList中
 		List<String> list = new ArrayList<>();
 		for (int i=0;i<ProLists.size();i++){
 			String data = ProLists.get(i).toString()
@@ -308,12 +363,12 @@ public class ProSinmanageController extends BaseController
 					.replace("[","")
 					.replace("]","")
 					.replace("\"","");
-			//System.out.println(">>>"+data.substring(data.indexOf(":")+2,data.length()-1));
 			list.add(data.substring(data.indexOf(":")+2,data.length()-1));
 		}
 		List<ProList> lists = new ArrayList<>();
 		for(int j=0,i=0;j<list.size()/5;j++){
 			ProList proList = new ProList();
+			proList.setPid(String.valueOf(programmeID));
 			proList.setPtp(list.get(i));
 			proList.setFid(list.get(i+1));
 			proList.setfN(list.get(i+2));
@@ -322,11 +377,44 @@ public class ProSinmanageController extends BaseController
 			i+=5;
 			lists.add(proList);
 		}
-		System.out.println(">>>"+lists.toString());
+		//将节目单proList的节目批量存储到数据库pro_list表
+		int a = ProSinmanageService.addProList(lists);
+//		System.out.println(">>>"+lists.toString());
 		Map<String, Object> map = new HashMap<>();
 		map.put("code",200);
 		return map;
 	}
 
 
+	/** @author qwerty
+	 * @description 导出节目单详情数据
+	 *
+	 * @param sjid
+	 * @return
+	 */
+	@Log(title = "节目播出单管理", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:proSinmanage:export")
+	@GetMapping("/export/{sjid}")
+	@ResponseBody
+	public AjaxResult export(@PathVariable("sjid")String sjid){
+		List<ProList> list = proListService.selectProListListByPid(sjid);
+		ExcelUtil<ProList> util = new ExcelUtil<ProList>(ProList.class);
+		return util.exportExcel(list, "节目播出列表");
+	}
+
+	/** @author qwerty
+	 * @description 导出√中的数据
+	 *
+	 * @param sfids
+	 * @return
+	 */
+	@Log(title = "节目播出单", businessType = BusinessType.EXPORT)
+	@RequiresPermissions("broad:proSinmanage:export")
+	@PostMapping("/exportbysingle")
+	@ResponseBody
+	public AjaxResult exportProSinmanageByIds(@RequestParam("sjids") List<String> sfids) {
+		List<ProSinmanage> list = proSinmanageService.selectProSinmanageListByids(sfids);
+		ExcelUtil<ProSinmanage> util = new ExcelUtil<ProSinmanage>(ProSinmanage.class);
+		return util.exportExcel(list, "proSinmanage");
+	}
 }

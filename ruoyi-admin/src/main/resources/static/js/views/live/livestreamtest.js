@@ -8,7 +8,11 @@ swfobject.embedSWF("/stream/RtmpStreamer.swf",
 
 var ws = null;
 // 流媒体 id
-var streamid=null;
+var streamid = null;
+//流媒体网页与服务器通信之间的信息载体变量
+var message_1 = null;
+//此变量用来统计直播终端数量
+var terminalCount = null;
 // imei 的列表 农大终端测试机器 IMEI 号码
 var imeilist= "862105024040770,862105024020277";
 var imeiNameList= "测试";
@@ -21,7 +25,7 @@ var isstreamliving=2;
 // var  rtmpAddress = "rtmp://110.53.162.164:1936/live";
 
 // 陈霞 RED5流媒体
-var  rtmpAddress = "rtmp://110.53.162.165:1936/live";
+var  rtmpAddress = "rtmp://120.27.241.221:1936/live";
 var list = new Array();
 var nameList = new Array();
 /**
@@ -82,7 +86,7 @@ function connectWS() {
     if(ws==null){
         setLiveButton(2);
     }
-    // 开启直播，打印提醒
+    // 开启连接的回调函数
     ws.onopen = function () {
         // 滚动状态
         scrollStatus("text-info","正在开启直播...");
@@ -126,7 +130,7 @@ function connectWS() {
         }
 
     };
-    // 直播关闭
+    // 关闭连接的回调函数
     ws.onclose = function (event) {
         if(event.code==1006){
             $.modal.confirm("服务器 WebSocket 连接失败！");
@@ -171,11 +175,14 @@ function startlive(obj){
 function startsent(){
     if (ws != null) {
         // 拼接 nessage
-        var message = "start:"+streamid+":"+imeilist;
+        //var message = "start:"+streamid+":"+imeilist;
+        //var message = aa();
         // 控制台打印
         console.log('Sent Start ');
         // 推送信息
-        ws.send(message);
+        console.log("message_1:",message_1);
+        ws.send(message_1);
+
     } else {
         $.modal.confirm("WebSocket 连接建立失败，请重新连接");
         setLiveButton(2);

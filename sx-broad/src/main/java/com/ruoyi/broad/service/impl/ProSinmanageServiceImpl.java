@@ -2,6 +2,8 @@ package com.ruoyi.broad.service.impl;
 
 import java.util.List;
 
+import com.ruoyi.broad.domain.ProList;
+import com.ruoyi.broad.domain.ProTerminal;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +20,7 @@ import com.ruoyi.common.support.Convert;
  * @date 2019-03-02
  */
 @Service
-public class ProSinmanageServiceImpl implements IProSinmanageService 
+public class ProSinmanageServiceImpl implements IProSinmanageService
 {
 	@Autowired
 	private ProSinmanageMapper proSinmanageMapper;
@@ -48,7 +50,18 @@ public class ProSinmanageServiceImpl implements IProSinmanageService
 	{
 	    return proSinmanageMapper.selectProSinmanageList(proSinmanage);
 	}
-
+	/**
+	 * 查询节目播出单列表（村务）
+	 *
+	 * @param proSinmanage 节目播出单信息
+	 * @return 节目播出单集合
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<ProSinmanage> selectProSinmanageList1(ProSinmanage proSinmanage)
+	{
+		return proSinmanageMapper.selectProSinmanageList1(proSinmanage);
+	}
 	/**
 	 * 查询紧急节目播出单列表
 	 *
@@ -71,7 +84,8 @@ public class ProSinmanageServiceImpl implements IProSinmanageService
 	@DataSource(value = DataSourceType.SLAVE)
 	public int insertProSinmanage(ProSinmanage proSinmanage)
 	{
-	    return proSinmanageMapper.insertProSinmanage(proSinmanage);
+	    proSinmanageMapper.insertProSinmanage(proSinmanage);
+	    return proSinmanageMapper.selectLastInsertID();
 	}
 	
 	/**
@@ -124,5 +138,22 @@ public class ProSinmanageServiceImpl implements IProSinmanageService
 	@DataSource(value = DataSourceType.SLAVE)
 	public List<ProSinmanage> selectProSinmanageByTId(String tid) {
 		return proSinmanageMapper.selectProSinmanageByTId(tid);
+	}
+
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public int addProList(List<ProList> proList) {
+		return proSinmanageMapper.addProList(proList);
+	}
+
+	@Override
+	public int addProTerminals(List<ProTerminal> proTerminal) {
+		return proSinmanageMapper.addProTerminals(proTerminal);
+	}
+
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<ProSinmanage> selectProSinmanageListByids(List<String> sfids) {
+		return proSinmanageMapper.selectProSinmanageListByids(sfids);
 	}
 }

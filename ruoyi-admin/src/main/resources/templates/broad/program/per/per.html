@@ -9,36 +9,36 @@
 </head>
 
 <body class="gray-bg">
-<div class="wrapper wrapper-content" style="padding-top: 20px; padding-left: 20px;">
-	<div class="row">
-		<div class="col-sm-2">
-			<div class="ibox">
-				<div class="ibox-content">
-					<button class="btn btn-primary" onclick="startRecording(this);">录音</button>
-					<button class="btn btn-success" onclick="stopRecording(this);" disabled>停止录音</button>
-					<h2>录音</h2>
+     <div class="wrapper wrapper-content" style="padding-top: 20px; padding-left: 20px;">
+		<div class="row">
+			<div class="col-sm-2">
+				<div class="ibox">
+					<div class="ibox-content">
+						<button class="btn btn-primary" onclick="startRecording(this);">录音</button>
+						<button class="btn btn-success" onclick="stopRecording(this);" disabled>停止录音</button>
+						<h2>录音</h2>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="col-sm-3">
-			<div class="ibox">
-				<div class="ibox-content">
-					<h1 id="count_dev" class="no-margins"></h1>
-					<ul id="recordingslist"></ul>
+			<div class="col-sm-3">
+				<div class="ibox">
+					<div class="ibox-content">
+						<h1 id="count_dev" class="no-margins"></h1>
+						<ul id="recordingslist"></ul>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<div class="col-sm-7">
-			<div class="ibox">
-				<div class="ibox-content">
-					<audio class="recPlay" style="width:100%"></audio>
+			<div class="col-sm-7">
+				<div class="ibox">
+					<div class="ibox-content">
+						<audio class="recPlay" style="width:100%"></audio>
+					</div>
 				</div>
 			</div>
 		</div>
 	</div>
-</div>
      <div class="container-div">
 		<div class="row">
 			<div class="col-sm-12 search-collapse">
@@ -46,13 +46,18 @@
 					<div class="select-list">
 						<ul>
 							<li>
-								节目编号：<input type="text" name="fid"/>
+								节目名称：<input type="text" name="fname" placeholder="节目名称"/>
 							</li>
-
 							<li>
-								节目名称：<input type="text" name="fname"/>
+								所属用户：<input type="text" name="uname" placeholder="所属用户"/>
 							</li>
-
+							<li>
+								是否公共：<select class="form-control" name="ispublic" style="display: inline;">
+									<option value="">所有</option>
+									<option value="0">非公共</option>
+									<option value="1">公共</option>
+								</select>
+							</li>
 							<li class="select-time">
 								<label>创建时间：</label><input class="laydate-icon  layer-date"
 														   name="downtime"
@@ -73,11 +78,11 @@
 									   placeholder="结束日期"
 									   title="结束日期"/>
 							</li>
-
 							<li>
 								<a class="btn btn-primary btn-rounded btn-sm" onclick="$.table.search()"><i class="fa fa-search"></i>&nbsp;搜索</a>
 								<a class="btn btn-warning btn-rounded btn-sm" onclick="$.form.reset()"><i class="fa fa-refresh"></i>&nbsp;重置</a>
 							</li>
+
 						</ul>
 					</div>
 				</form>
@@ -88,10 +93,10 @@
 				<a class="btn btn-success" onclick="$.operate.add()" shiro:hasPermission="broad:per:add">
 					<i class="fa fa-plus"></i> 添加
 				</a>
-				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="broad:per:remove">
-					<i class="fa fa-remove"></i> 删除
-				</a>
-				<a class="btn btn-warning" onclick="$.table.exportExcel()" shiro:hasPermission="broad:per:export">
+<!--				<a class="btn btn-danger btn-del btn-del disabled" onclick="$.operate.removeAll()" shiro:hasPermission="broad:per:remove">-->
+<!--					<i class="fa fa-remove"></i> 删除-->
+<!--				</a>-->
+				<a class="btn btn-warning" onclick="$.operate.exportExcelBySingle()">
 						<i class="fa fa-download"></i> 导出
 				 </a>
 			</div>
@@ -119,9 +124,10 @@
                 updateUrl: prefix + "/edit/{id}",
                 removeUrl: prefix + "/remove",
                 exportUrl: prefix + "/export",
+				exportBySingleUrl: prefix + "/exportbysingle",
                 modalName: "节目单管理",
                 search: false,
-                showExport: false,
+				showExport: false,
                 columns: [{
                     checkbox: true
                 },
@@ -194,8 +200,8 @@
                         align: 'center',
                         visible: true,
                         formatter: function (value, row, index) {
-                            var msg = '<a class="btn btn-xs btn-primary" >设为公共</a> ';
-                            var actions = '<a class="btn btn-xs btn-success">设为非公共</a>';
+                            var msg = '<a class="btn btn-xs btn-primary" onclick=setIsPublic(\'' + row.fid + '\') >设为公共</a> ';
+                            var actions = '<a class="btn btn-xs btn-success" onclick=setIsPublic(\'' + row.fid + '\')>设为非公共</a>';
                             if (row.ispublic == 0) {
                                 return msg;
                             } else {
@@ -252,6 +258,15 @@
 			window.location.href = value;
             console.log(value);
         }
+
+        function setIsPublic(rowid) {
+			$.get("/broad/per/setispublic/"+rowid, function(data){
+				if(data==1){
+					alert("修改成功");
+					$.table.refresh();
+				}
+			});
+		}
 
      </script>
 

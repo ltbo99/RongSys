@@ -43,6 +43,15 @@ public class MessageServiceImpl implements IMessageService {
 
     @Override
     @DataSource(value = DataSourceType.SLAVE)
+    public List<Map<String, Object>>  selectMessageList1(BroadMessage broadMessage) {
+        List<Map<String, Object>> trees = new ArrayList<Map<String, Object>>();
+        List<BroadMessage> areaList = messageMapper.selectMessageList1(broadMessage);
+        trees = getTrees(areaList);
+        return trees;
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
     public List<MessageExample> selectMessageExampleList() {
         return messageMapper.selectMessageExampleList();
     }

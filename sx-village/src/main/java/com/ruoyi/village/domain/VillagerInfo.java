@@ -4,9 +4,10 @@ import com.ruoyi.common.annotation.Excel;
 import com.ruoyi.common.base.BaseEntity;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.util.Date;
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * 村民表 villager_info
@@ -19,6 +20,50 @@ public class VillagerInfo extends BaseEntity
 
 	private static final long serialVersionUID = 1L;
 
+	public MultipartFile[] getPersonphotolist() {
+		return personphotolist;
+	}
+
+	public void setPersonphotolist(MultipartFile[] personphotolist) {
+		this.personphotolist = personphotolist;
+	}
+
+	public MultipartFile[] getHkphotolist() {
+		return hkphotolist;
+	}
+
+	public void setHkphotolist(MultipartFile[] hkphotolist) {
+		this.hkphotolist = hkphotolist;
+	}
+
+	public MultipartFile[] getIdphotolist() {
+		return idphotolist;
+	}
+
+	public void setIdphotolist(MultipartFile[] idphotolist) {
+		this.idphotolist = idphotolist;
+	}
+
+	public MultipartFile[] getCarphotolist() {
+		return carphotolist;
+	}
+
+	public void setCarphotolist(MultipartFile[] carphotolist) {
+		this.carphotolist = carphotolist;
+	}
+
+	public MultipartFile[] getHousephotolist() {
+		return housephotolist;
+	}
+
+	public void setHousephotolist(MultipartFile[] housephotolist) {
+		this.housephotolist = housephotolist;
+	}
+	private  MultipartFile[] personphotolist;
+	private  MultipartFile[] hkphotolist;
+	private  MultipartFile[] idphotolist;
+	private  MultipartFile[] carphotolist;
+	private  MultipartFile[] housephotolist;
 	/** 数据编号 */
 	private Integer vid;
 	/** 地域编号 */

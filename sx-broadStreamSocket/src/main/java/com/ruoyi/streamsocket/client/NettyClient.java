@@ -27,7 +27,7 @@ public class NettyClient {
     //思信地址
 //    private  String host = "110.53.162.164";
 //    private  String host = "114.67.88.76";
-    private String host = "110.53.162.165";
+    private String host = "120.27.241.221";
 //    交互端口
     private  int port = 8800;
 
@@ -69,7 +69,7 @@ public class NettyClient {
                     // 使用NioSocketChannel来作为连接用的channel类 ， TCP Socket
                     .channel(NioSocketChannel.class)
                     // 绑定连接端口和host信息
-                    .remoteAddress(new InetSocketAddress(this.port))
+                    .remoteAddress(new InetSocketAddress(this.host,this.port))
                     // 绑定连接初始化器
                     .handler(new ChannelInitializer<SocketChannel>() {
                         // 注册通道

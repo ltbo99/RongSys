@@ -1,6 +1,8 @@
 package com.ruoyi.broad.service;
 
 import com.ruoyi.broad.domain.Ledshow;
+import com.ruoyi.village.domain.PersonApi;
+
 import java.util.List;
 
 /**
@@ -50,5 +52,12 @@ public interface ILedshowService
      * @return 结果
      */
 	public int deleteLedshowByIds(String ids);
-	
+
+	/**
+	 * 获取led显示屏播出记录列表
+	 *
+	 * @param ledshow led显示信息
+	 * @return led显示集合
+	 */
+	public List<Ledshow> selectLedshowList1(PersonApi ledshow);
 }
