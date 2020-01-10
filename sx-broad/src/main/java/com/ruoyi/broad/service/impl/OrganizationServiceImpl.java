@@ -396,4 +396,6 @@ public class OrganizationServiceImpl implements IOrganizationService
 	public int terinfoeditphonedelete(String time,List<String> tids) {
 		return organizationMapper.terinfoeditphonedelete(time,tids);
 	}
+
+
 }

@@ -10,6 +10,10 @@ import java.util.List;
  */
 public interface TerminalCountMapper {
 
+    /**
+     * @Description 返回终端数量
+     */
     List<TerminalCount> getAllTerminal();
+
 
 }
