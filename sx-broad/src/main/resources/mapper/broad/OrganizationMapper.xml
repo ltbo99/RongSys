@@ -133,57 +133,57 @@
     </sql>
     <sql id="selectOrganizationVo">
         SELECT
-	t.tid,
-	t.tname,
-	userinfo.uname,
-	area.aname,
-	t.lastaccesstime,
-	t.mflowusing,
-	t.irfrequency,
-	t.intertime,
-	t.terminaltype,
-	t.longitude,
-	t.latitude,
-	ter_conditions.basestation,
-	t.phone,
-	terminal_management.maintenanceFunds,
-	t.ypowerconsumption,
-	terminal_traffic.usetraffic,
-	t.onlinestate,
-	t.dcs,
-	t.rds,
-	t.pdmode,
-	t.chargecurrent,
-	t.brfrequency,
-	t.transmitpower,
-	t.reflectedpower,
-	t.workvoltage,
-	t.batteryvoltage,
-	t.loadcurrent,
-	t.fmfrequency,
-	t.manager,
-	t.managertel,
-	t.createdtime,
-	t.isuse,
-	t.address,
-	t.aid,
-	ter_conditions.nettype,
-	t.note,
-	t.atphone,
-	t.facid,
-	t.mflowusing,
-	t.eovolume,
-	t.poscene,
-	t.hbtime,
-	area.parentaid,
-	t.transmitfrequency
-    from (
-            ((((terminals t left join userinfo on t.userid = userinfo.userid)
-            left join area on t.aid = area.aid)
-            left join terminal_management on t.tid = terminal_management.tid)
-            left join ter_conditions on t.tid = ter_conditions.tid)
-            left join terminal_traffic on t.tid = terminal_traffic.tid
-          )
+            t.tid,
+            t.tname,
+            userinfo.uname,
+            area.aname,
+            t.lastaccesstime,
+            t.mflowusing,
+            t.irfrequency,
+            t.intertime,
+            t.terminaltype,
+            t.longitude,
+            t.latitude,
+            ter_conditions.basestation,
+            t.phone,
+            terminal_management.maintenanceFunds,
+            t.ypowerconsumption,
+            terminal_traffic.usetraffic,
+            t.onlinestate,
+            t.dcs,
+            t.rds,
+            t.pdmode,
+            t.chargecurrent,
+            t.brfrequency,
+            t.transmitpower,
+            t.reflectedpower,
+            t.workvoltage,
+            t.batteryvoltage,
+            t.loadcurrent,
+            t.fmfrequency,
+            t.manager,
+            t.managertel,
+            t.createdtime,
+            t.isuse,
+            t.address,
+            t.aid,
+            ter_conditions.nettype,
+            t.note,
+            t.atphone,
+            t.facid,
+            t.mflowusing,
+            t.eovolume,
+            t.poscene,
+            t.hbtime,
+            area.parentaid,
+            t.transmitfrequency
+        from (
+                ((((terminals t left join userinfo on t.userid = userinfo.userid)
+                left join area on t.aid = area.aid)
+                left join terminal_management on t.tid = terminal_management.tid)
+                left join ter_conditions on t.tid = ter_conditions.tid)
+                left join terminal_traffic on t.tid = terminal_traffic.tid
+              )
     </sql>
 
     <select id="listOrgByAid" parameterType="String" resultMap="OrganizationResult">
@@ -570,11 +570,13 @@
     </delete>
     <select id="selectProBroadList" parameterType="Organization" resultMap="OrganizationResult">
         select
-        tid,tname,aid
+        tid,
+        tname,
+        aid
         from
         <include refid="tableName"></include>
         <where>
-            <if test="aid != null  and aid != '' "> aid = #{aid}</if>
+            <if test="aid != null  and aid != '' "> aid like CONCAT(#{aid},'%')</if>
         </where>
     </select>
     <update id="updateRdsByIds" >
@@ -757,4 +759,6 @@
             #{arg}
         </foreach>
     </update>
+
+
 </mapper>

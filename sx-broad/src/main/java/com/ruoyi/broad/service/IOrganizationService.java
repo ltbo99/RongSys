@@ -206,4 +206,6 @@ public interface IOrganizationService
 	 * @return 终端信息集合信息
 	 */
 	public List<Organization> selectByLedUserid(Organization organization);
+
+
 }

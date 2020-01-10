@@ -198,4 +198,5 @@ public interface OrganizationMapper
 
 	public int insertTerminalTes(Organization organization);
 
+
 }
