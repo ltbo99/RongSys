@@ -11,6 +11,8 @@ var ws = null;
 var streamid = null;
 //流媒体网页与服务器通信之间的信息载体变量
 var message_1 = null;
+//此变量用来统计直播终端数量
+var terminalCount = null;
 // imei 的列表 农大终端测试机器 IMEI 号码
 var imeilist= "862105024040770,862105024020277";
 var imeiNameList= "测试";
