@@ -10,8 +10,9 @@ import java.util.List;
  * @data 2019/3/20.
  */
 public interface ITerminalCountService {
-    /*统计故障终端，按时间分布
-    * */
+    /**
+     * @Description 统计故障终端，按时间分布
+     */
     List<TerminalCount> getAllTerminal();
 
 }

@@ -31,4 +31,5 @@ public class BTerminalCount {
         RongApiRes test = RongApiService.get_list(pre);
         return test;
     }
+
 }
