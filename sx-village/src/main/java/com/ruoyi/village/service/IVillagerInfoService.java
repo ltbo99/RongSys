@@ -1,6 +1,10 @@
 package com.ruoyi.village.service;
 
-import com.ruoyi.village.domain.*;
+import com.ruoyi.village.domain.Mcount;
+import com.ruoyi.village.domain.PersonApi;
+import com.ruoyi.village.domain.VillagerInfo;
+import com.ruoyi.village.domain.pubObjApi;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -81,5 +85,4 @@ public interface IVillagerInfoService
 	public Mcount countbydemob(pubObjApi per);
 
 	public Mcount countbyagePart(PersonApi per);
-
 }
