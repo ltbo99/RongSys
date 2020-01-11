@@ -5,8 +5,11 @@ import com.ruoyi.api.service.RongApiService;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.utils.DateUtil;
 import com.ruoyi.framework.web.base.BaseController;
-import com.ruoyi.village.domain.*;
+import com.ruoyi.village.domain.Files;
+import com.ruoyi.village.domain.Worklog;
+import com.ruoyi.village.domain.pubObjApi;
 import com.ruoyi.village.service.IProjectService;
+import com.ruoyi.village.domain.Project;
 import com.ruoyi.village.service.IVareaService;
 import com.ruoyi.village.service.IWorklogService;
 import com.ruoyi.village.util.bFileUtil1;
@@ -32,8 +35,6 @@ public class VProject extends BaseController {
     private IWorklogService workLogService;
     @Autowired
     private IVareaService vareaService;
-
-
     @GetMapping("/all")
     @CrossOrigin
     @ApiOperation(value = "返回所有项目")

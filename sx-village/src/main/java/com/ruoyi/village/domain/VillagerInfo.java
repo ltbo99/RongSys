@@ -7,7 +7,6 @@ import org.apache.commons.lang3.builder.ToStringStyle;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Date;
 
 /**
@@ -376,9 +375,6 @@ public class VillagerInfo extends BaseEntity
 	private String housephoto;
 	/** 是否有效 */
 	private Integer isuse;
-	/** 用户登陆密码 */
-	@Excel(name = "密码")
-	private String password;
 
 	public String getPersonphoto() {
 		return personphoto;
@@ -1315,11 +1311,6 @@ public class VillagerInfo extends BaseEntity
 		return isuse;
 	}
 
-	public void setPassword(String password) { this.password = password; }
-
-	public String getPassword() { return password; }
-
-	@Override
 	public String toString() {
 		return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
 				.append("vid", getVid())
@@ -1420,8 +1411,6 @@ public class VillagerInfo extends BaseEntity
 				.append("carphoto", getCarphoto())
 				.append("housephoto", getHousephoto())
 				.append("isuse", getIsuse())
-				.append("password", getPassword())
 				.toString();
 	}
-
 }

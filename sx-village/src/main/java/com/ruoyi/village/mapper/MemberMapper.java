@@ -20,7 +20,7 @@ public interface MemberMapper
      * @return 村民基本信息
      */
 	public Member selectMemberById(Integer pid);
-
+	
 	/**
      * 查询村民基本列表
      * 
