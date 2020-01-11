@@ -2,11 +2,14 @@ package com.ruoyi.web.controller.broad;
 
 import com.ruoyi.broad.domain.Organization;
 import com.ruoyi.broad.service.IOrganizationService;
+import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.framework.web.base.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -68,41 +71,45 @@ public class TerInfoController extends BaseController
 	//批量设置终端交互时间
 	@PostMapping("/timeedit")
 	@ResponseBody
-	public String terinfoedittime(@RequestParam("time")String time,@RequestParam("tids") List<String> tids){
-		int rows = organizationService.terinfoedittime(time,tids);
-		return "ok";
+	public AjaxResult terinfoedittime(@RequestParam("time")String time, @RequestParam("tids") List<String> tids){
+		return toAjax(organizationService.terinfoedittime(time,tids));
 	}
 
 	//批量设置终端rds
 	@PostMapping("/rdsedit")
 	@ResponseBody
-	public String terinfoeditrds(@RequestParam("time")String rds,@RequestParam("tids") List<String> tids){
-		int rows = organizationService.terinfoeditrds(rds,tids);
-		return "ok";
+	public AjaxResult terinfoeditrds(@RequestParam("time")String rds,@RequestParam("tids") List<String> tids){
+		return toAjax(organizationService.terinfoeditrds(rds,tids));
 	}
 
 	//批量设置终端接收频率
 	@PostMapping("/frequencyedit")
 	@ResponseBody
-	public String terinfoeditfrequency(@RequestParam("time")String frequency,@RequestParam("tids") List<String> tids){
-		int rows = organizationService.terinfoeditfrequency(frequency,tids);
-		return "ok";
+	public AjaxResult terinfoeditfrequency(@RequestParam("time")String frequency,@RequestParam("tids") List<String> tids){
+		return toAjax(organizationService.terinfoeditfrequency(frequency,tids));
 	}
 
 	//批量设置终端授权号码
 	@PostMapping("/phoneedit")
 	@ResponseBody
-	public String terinfoeditphone(@RequestParam("time")String phone,@RequestParam("tids") List<String> tids){
-		int rows = organizationService.terinfoeditphone(phone,tids);
-		return "ok";
+	public AjaxResult terinfoeditphone(@RequestParam("tel")String phone,@RequestParam("tids") List<String> tids,String telperson){
+		List<Organization> organizations=new ArrayList<Organization>();
+		for (int i = 0; i < tids.size(); i++) {
+			Organization organization = new Organization();
+			organization.setTid(tids.get(i));
+			organization.setAtphone(phone);
+			organization.setManager(telperson);
+			organizations.add(organization);
+			System.out.println(organizations);
+		}
+		return toAjax(organizationService.terinfoeditphone(organizations));
 	}
 
 	//批量删除授权号码
 	@PostMapping("/phonedelete")
 	@ResponseBody
-	public String terinfoeditphonedelete(@RequestParam("time")String phone,@RequestParam("tids") List<String> tids){
-		int rows = organizationService.terinfoeditphonedelete(phone,tids);
-		return "ok";
+	public AjaxResult terinfoeditphonedelete(@RequestParam("time")String phone,@RequestParam("tids") List<String> tids){
+		return toAjax(organizationService.terinfoeditphonedelete(phone,tids));
 	}
 }
 

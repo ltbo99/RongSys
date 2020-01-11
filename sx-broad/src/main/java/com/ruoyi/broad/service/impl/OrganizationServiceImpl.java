@@ -104,6 +104,7 @@ public class OrganizationServiceImpl implements IOrganizationService
 	public int insertOrganization(Organization organization)
 	{
 		organizationMapper.insertOrganizationCon(organization);
+		organizationMapper.insertTerminalTes(organization);
 		return organizationMapper.insertOrganization(organization);
 	}
 
@@ -322,7 +323,35 @@ public class OrganizationServiceImpl implements IOrganizationService
 	@Override
 	@DataSource(value = DataSourceType.SLAVE)
 	public List<Organization> exportOrganization(Organization organization){return organizationMapper.exportOrganization(organization);}
+	/**
+	 * 根据aid查询终端对象(村务宝典)
+	 *
+	 * @param aid 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<Organization> selectByaid(String aid){return organizationMapper.selectByaid(aid);}
 
+	/**
+	 * 流媒体直播---选择直播终端(村务宝典)
+	 *
+	 * @return 终端信息集合信息
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<Organization> selecttidBytwo(String tid , String userid){return organizationMapper.selecttidBytwo(Convert.toStrArray(tid),userid);}
+
+
+	/**
+	 * 根据用户id获取LED终端列表
+	 *
+	 * @param organization 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<Organization> selectByLedUserid(Organization organization){return organizationMapper.selectByLedUserid(organization);}
 	@Override
 	public int addphoneEdit(TerminalTels terminalTels) {
 		return organizationMapper.addphoneEdit(terminalTels);
@@ -358,13 +387,15 @@ public class OrganizationServiceImpl implements IOrganizationService
 
 	@Override
 	@DataSource(value = DataSourceType.SLAVE)
-	public int terinfoeditphone(String time, List<String> tids) {
-		return organizationMapper.terinfoeditphone(time,tids);
+	public int terinfoeditphone(List<Organization> organizations) {
+		return organizationMapper.terinfoeditphone(organizations);
 	}
 
 	@Override
 	@DataSource(value = DataSourceType.SLAVE)
-	public int terinfoeditphonedelete(String time, List<String> tids) {
+	public int terinfoeditphonedelete(String time,List<String> tids) {
 		return organizationMapper.terinfoeditphonedelete(time,tids);
 	}
+
+
 }

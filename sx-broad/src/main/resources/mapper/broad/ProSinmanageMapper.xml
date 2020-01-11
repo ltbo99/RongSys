@@ -37,13 +37,23 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #          ,prore_apply as WS
         <where>
 #             PS.userid = US.userid and
-            PS.scategory = "正常播出单"
+            PS.scategory = #{scategory}
 #         and PS.userid = WS.paid
         <if test="sfid != null and sfid != ''"> and sfid like '%${sfid}%'</if>
         <if test="pname != null and pname != ''"> and pname like '%${pname}%'</if>
+        <if test="userid != null and userid != ''"> and userid = #{userid}</if>
     </where>
     order by sfid desc
     </select>
+
+    <select id="selectProSinmanageList1" parameterType="ProSinmanage" resultMap="ProSinmanageResult">
+        <include refid="selectProSinmanageVo"/>
+        <where>
+            <if test="userid != null and userid != ''"> and userid = #{userid}</if>
+        </where>
+        ORDER BY sfid desc
+    </select>
+
     <select id="selectProSinmanagebyoneday" parameterType="ProSinmanage" resultMap="ProSinmanageResult">
         select PS.sfid as sfid,
         PS.scategory as scategory,

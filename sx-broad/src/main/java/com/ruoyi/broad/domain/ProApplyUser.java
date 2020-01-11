@@ -32,8 +32,38 @@ public class ProApplyUser extends BaseEntity
     private String iscancel;
     /** 是否回复 */
     private String isreply;
+    /** 是否阅读 */
+    private String isread;
 
     private String requires;
+
+    private String replyperson;
+
+    public String getReplyperson() {
+        return replyperson;
+    }
+
+    public void setReplyperson(String replyperson) {
+        this.replyperson = replyperson;
+    }
+
+    private String replytime;
+
+    public String getReplytime() {
+        return replytime;
+    }
+
+    public void setReplytime(String replytime) {
+        this.replytime = replytime;
+    }
+
+    public String getIsread() {
+        return isread;
+    }
+
+    public void setIsread(String isread) {
+        this.isread = isread;
+    }
 
     public String getRequires() {
         return requires;

@@ -1,12 +1,8 @@
 package com.ruoyi.web.controller.broad;
 
-import com.ruoyi.broad.domain.Area;
-import com.ruoyi.broad.domain.BroadMessage;
-import com.ruoyi.broad.domain.Organization;
-import com.ruoyi.broad.domain.TerminalTels;
-import com.ruoyi.broad.service.IAreaService;
-import com.ruoyi.broad.service.IMessageService;
-import com.ruoyi.broad.service.IOrganizationService;
+import com.ruoyi.broad.domain.*;
+import com.ruoyi.broad.service.*;
+import com.ruoyi.broad.utils.bFileUtil;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
@@ -21,9 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 /**
@@ -50,6 +45,11 @@ public class OrganizationController extends BaseController
 	@Autowired
 	private IAreaService areaService;
 
+	@Autowired
+	IAreaGroupingService iAreaGroupingService;
+
+	@Autowired
+	private IUserInfoDTOService userInfoDTOService;
 
 	@RequiresPermissions("broad:organization:view")
 	@GetMapping()
@@ -67,7 +67,25 @@ public class OrganizationController extends BaseController
 	public TableDataInfo list(Organization organization)
 	{
 		startPage();
-		organization.setAid(organization.getAid()+"%");
+		String aid = null;
+		if(organization.getAname()!=null&&organization.getAname()!=""){
+			AreaGrouping areaGrouping=new AreaGrouping();
+			areaGrouping.setAname(organization.getAname());
+			List<AreaGrouping> list = iAreaGroupingService.listAreaGrouping(areaGrouping);
+			aid = list.get(0).getAid();
+			organization.setAid(aid);
+		}else{
+			organization.setAid(organization.getAid()+"%");
+		}
+
+		if(organization.getUsername()!=null&&organization.getUsername()!=""){
+			String uname =organization.getUsername();
+			List<UserInfoDTO> users = userInfoDTOService.findUserByName(uname);
+			if(users.size()>0){
+				organization.setUserid(users.get(0).getUserid());
+				organization.setUsername(null);
+			}
+		}
 		List<Organization> list = organizationService.selectOrganizationList1(organization);
 		return getDataTable(list);
 	}
@@ -134,6 +152,11 @@ public class OrganizationController extends BaseController
 	@RequiresPermissions("broad:organization:add")
 	@ResponseBody
 	public AjaxResult addSave(Organization organization){
+		//获取上传的图片，保存
+		MultipartFile pic= organization.getPoscenepic();
+		String picname = pic.getOriginalFilename();
+		String fileurl = bFileUtil.saveImg(pic,picname);//存文件
+		organization.setPoscene(fileurl);
 		return toAjax(organizationService.insertOrganization(organization));
 	}
 

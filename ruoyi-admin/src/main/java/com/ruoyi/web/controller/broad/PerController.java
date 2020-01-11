@@ -2,7 +2,9 @@ package com.ruoyi.web.controller.broad;
 
 import com.ruoyi.common.config.Global;
 import com.ruoyi.common.utils.ExcelUtil;
+import com.ruoyi.common.utils.VideoUtil;
 import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.framework.web.domain.server.Sys;
 import com.ruoyi.system.domain.SysUser;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,23 +109,16 @@ public class PerController extends BaseController {
     @Log(title = "新增节目单", businessType = BusinessType.INSERT)
     @PostMapping(value = "/add")
     @ResponseBody
-    public AjaxResult addSave(@RequestParam(value = "files") MultipartFile file,
-                              @RequestParam(value = "filename1", required = false) String fname,
-                              @RequestParam(value = "flenth", required = false) String flenth, //时长
-                              @RequestParam(value = "fsize", required = false) String fsize,
-                              @RequestParam(value = "uname", required = false) String uname) throws IOException {//大小
-
-        String year = DateUtil.getYear();
-        String maxfileid = iProgramService.getMaxFileidofYear(year); //获取当年文件最大编号
-
-        //图片上传调用工具类
-
-        //保存图片
-        //String path =  bFileUtil.saveImg(file,filename);
+    public AjaxResult addSave(@RequestParam(value = "files") List<MultipartFile> files,@RequestParam(value = "uname", required = false) String uname) throws IOException {//大小
         String userid =  ShiroUtils.getSysUser().getUserId().toString();
-        Program g = bFileUtil.uplodeFile(maxfileid, file, fname, flenth, fsize, year, userid);
-        System.out.println(g.toString());
-        iProgramService.insertProgram(g);
+        for(int i=0;i<files.size();i++){
+            String duration = VideoUtil.ReadVideoTimeMs(files.get(i));
+            String year = DateUtil.getYear();
+            String maxfileid = iProgramService.getMaxFileidofYear(year);
+            Program g = bFileUtil.uplodeFile(maxfileid, files.get(i), files.get(i).getOriginalFilename(),duration, String.valueOf(files.get(i).getSize()), year, userid);
+            System.out.println("-------------"+files.get(i).getOriginalFilename());
+            iProgramService.insertProgram(g);
+        };
         return toAjax(1);
     }
 

@@ -40,10 +40,10 @@
 				<i class="fa fa-edit"></i> 调频接收频率
 			</a>
 			<a class="btn btn-primary" onclick="phoneedit()">
-				<i class="fa fa-edit"></i> 设置授权号码
+				<i class="fa fa-edit"></i> 添加授权号码
 			</a>
 			<a class="btn btn-primary" onclick="phonedelete()">
-				<i class="fa fa-edit"></i> 删除首选号码
+				<i class="fa fa-edit"></i> 删除授权号码
 			</a>
 		</div>
 		<div class="col-sm-12 select-table table-striped">
@@ -157,7 +157,11 @@
 					time:time
 				}
 				layer.close(index);
-				$.post("/broad/terstatusinfo/timeedit",params);
+				$.post("/broad/terstatusinfo/timeedit",params,function (data) {
+					if(data.code==0){
+						alert("修改成功")
+					}
+				});
 				$.table.refresh();
 			},
 			cancel: function () {
@@ -195,9 +199,13 @@
 					tids:arr.toString(),
 					time:time
 				}
-				// layer.close(index);
-				$.post("/broad/terstatusinfo/rdsedit",params);
-				// $.table.refresh();
+				layer.close(index);
+				$.post("/broad/terstatusinfo/rdsedit",params,function (data) {
+					if(data.code==0){
+						alert("修改成功")
+					}
+				});
+				$.table.refresh();
 			},
 			cancel: function () {
 				return true;
@@ -234,9 +242,13 @@
 					tids:arr.toString(),
 					time:time
 				}
-				// layer.close(index);
-				$.post("/broad/terstatusinfo/timeedit",params);
-				// $.table.refresh();
+				layer.close(index);
+				$.post("/broad/terstatusinfo/frequencyedit",params,function (data) {
+					if(data.code==0){
+						alert("修改成功")
+					}
+				});
+				$.table.refresh();
 			},
 			cancel: function () {
 				return true;
@@ -268,14 +280,20 @@
 					}
 				});
 
-				let time = $(layero).find("iframe")[0].contentWindow.$('#laydate-demo-3')[0].value;
+				let tel = $(layero).find("iframe")[0].contentWindow.$('#laydate-demo-3')[0].value;
+				let telperson = $(layero).find("iframe")[0].contentWindow.$('#telperson')[0].value;
 				var params ={
 					tids:arr.toString(),
-					time:time
+					tel:tel,
+					telperson:telperson
 				}
-				// layer.close(index);
-				$.post("/broad/terstatusinfo/timeedit",params);
-				// $.table.refresh();
+				layer.close(index);
+				$.post("/broad/terstatusinfo/phoneedit",params,function (data) {
+					if(data.code==0){
+						alert("修改成功")
+					}
+				});
+				$.table.refresh();
 			},
 			cancel: function () {
 				return true;
@@ -312,9 +330,13 @@
 					tids:arr.toString(),
 					time:time
 				}
-				// layer.close(index);
-				$.post("/broad/terstatusinfo/timeedit",params);
-				// $.table.refresh();
+				layer.close(index);
+				$.post("/broad/terstatusinfo/phonedelete",params,function (data) {
+					if(data.code==0){
+						alert("修改成功")
+					}
+				});
+				$.table.refresh();
 			},
 			cancel: function () {
 				return true;

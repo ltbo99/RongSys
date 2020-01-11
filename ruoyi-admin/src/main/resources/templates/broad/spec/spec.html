@@ -120,7 +120,6 @@
             audio.pause();
         };
         audio.src=value;
-        console.log(audio);
         audio.play();
     }
 
@@ -143,7 +142,7 @@
             yes: function (index, layero) {
                 let selecteddata = $(layero).find("iframe")[0].contentWindow.$('#bootstrap-table').bootstrapTable('getSelections')[0];
                 selecteddata.oldfid = rowid1
-                console.log(selecteddata)
+
                 layer.close(index);
                 $.post("/broad/spec/changespec",selecteddata);
                 $.table.refresh();

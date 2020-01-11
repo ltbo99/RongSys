@@ -1,19 +1,20 @@
 package com.ruoyi.broad.service.impl;
 
-import java.util.HashMap;
-import java.util.List;
-
+import com.ruoyi.broad.domain.ProList;
 import com.ruoyi.broad.domain.Progbroad;
 import com.ruoyi.broad.domain.Program_List;
 import com.ruoyi.broad.domain.TerReceives;
+import com.ruoyi.broad.mapper.ProListMapper;
+import com.ruoyi.broad.service.IProListService;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.common.support.Convert;
+import com.ruoyi.village.domain.CwProList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.ruoyi.broad.mapper.ProListMapper;
-import com.ruoyi.broad.domain.ProList;
-import com.ruoyi.broad.service.IProListService;
-import com.ruoyi.common.support.Convert;
+
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 节目单记录 服务层实现
@@ -205,8 +206,14 @@ public class ProListServiceImpl implements IProListService
 
     @Override
     @DataSource(value = DataSourceType.SLAVE)
-    public List<ProList> 	selectProListListByPid(String pid){
+    public List<ProList> selectProListListByPid(String pid){
         return proListMapper.selectProListListByPid(pid);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public List<ProList> selectProListByAll(CwProList proList){
+        return proListMapper.selectProListByAll(proList);
     }
 
 }
