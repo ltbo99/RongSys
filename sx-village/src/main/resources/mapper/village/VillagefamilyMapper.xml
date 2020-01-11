@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
-	"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+		"http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.ruoyi.village.mapper.VillagefamilyMapper">
 	<resultMap type="VillageFamily" id="VillageFamilyResultMap">
 		<id column="jsid" property="jsid"/>
@@ -26,7 +26,7 @@
 	<sql id="FieldValue">
 		#{title}, #{type}, #{adddate}, #{reldate}, #{content}, #{adduid}, #{adduname}, #{uid}, #{uname}, #{aid}, #{remark}, #{pic}, #{readtotal}
 	</sql>
-<!--	Mapper层编写sql语句-->
+	<!--	Mapper层编写sql语句-->
 	<!--表名 -->
 	<sql id="tableName">
 		tb_xiaocun
@@ -121,4 +121,4 @@
 	</delete>
 
 
-	</mapper>
+</mapper>

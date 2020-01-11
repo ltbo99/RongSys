@@ -24,8 +24,8 @@ public class VillagefamilyServiceImpl implements IVillagefamilyService {
     private VillagefamilyMapper villagefamilyMapper;
 
     /*
-    *  @DataSource注解是连接数据库数据源
-    * */
+     *  @DataSource注解是连接数据库数据源
+     * */
     @Override
     @DataSource(value = DataSourceType.SXVILLAGE)
     public List<Villagefamily> selectvillagefamilylist(Villagefamily villagefamily) {
@@ -41,7 +41,6 @@ public class VillagefamilyServiceImpl implements IVillagefamilyService {
     @Override
     @DataSource(value = DataSourceType.SXVILLAGE)
     public int insertvillagefamily(Villagefamily villagefamily) {
-        System.out.println(villagefamily);
         return villagefamilyMapper.insertVillageFamily(villagefamily);
     }
 

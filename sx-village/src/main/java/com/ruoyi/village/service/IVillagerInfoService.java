@@ -20,9 +20,12 @@ public interface IVillagerInfoService
 	 */
 	public VillagerInfo selectVillagerInfoById(Integer vid);
 
+	/**
+	 * 公众号登录获取信息
+	 * */
 	public VillagerInfo findByIdcardAndPassword(String idcard, String password);
 
-//	public String check(String idcard, String password);
+
 	/**
 	 * 查询村民列表
 	 *

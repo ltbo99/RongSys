@@ -376,6 +376,18 @@ public class VillagerInfo extends BaseEntity
 	/** 是否有效 */
 	private Integer isuse;
 
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	/** 用户登陆密码 */
+	@Excel(name = "密码")
+	private String password;
+
 	public String getPersonphoto() {
 		return personphoto;
 	}
@@ -1411,6 +1423,7 @@ public class VillagerInfo extends BaseEntity
 				.append("carphoto", getCarphoto())
 				.append("housephoto", getHousephoto())
 				.append("isuse", getIsuse())
+				.append("password", getPassword())
 				.toString();
 	}
 }
