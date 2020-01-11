@@ -57,7 +57,7 @@ public class bFileUtil {
             logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
             return null;
         }
-        return "profile/audiofile/music/"+saveName;
+        return saveName;
     }
 
     /**
