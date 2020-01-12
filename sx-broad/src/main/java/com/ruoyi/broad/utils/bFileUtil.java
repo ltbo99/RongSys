@@ -42,40 +42,22 @@ public class bFileUtil {
      * @return 返回相对路径
      */
     public static String saveMusic(MultipartFile file,String saveName) {
-//        String  path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME;
-//        logger.info(" --- 音频保存路径：{}, 音频保存名称：{},文件名称：{} --- ", path, saveName,file.getOriginalFilename());
-//        try {
-//            File targetFile = new File(path);
-//            if (!targetFile.exists()) {
-//                targetFile.mkdirs();
-//            }
-//            System.out.println("=======1");
-////            file.transferTo(new File(path, saveName));  //文件保存，写入内存
-//            file.transferTo(new File(path + "/" + saveName));
-//            System.out.println("=======2");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
-//            return null;
-//        }
-//        return saveName;
-
-        //获取文件上传的根目录 C:\Users\wanghao/upload/img
-        String  path = bConst.UPLOAD_PATH + bConst.VIRTUAL_IMG_PATH; //图片存储路径
-        saveName = bCommonUtil.getUuid() + "." + getFileSuffix(file.getOriginalFilename());
-        logger.info(" --- 终端图片保存路径：{}, 终端图片保存名称：{},终端图片名称：{} --- ", path, saveName,file.getOriginalFilename());
+        String path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME;
+        logger.info(" --- 音频保存路径：{}, 音频保存名称：{},文件名称：{} --- ", path, saveName,file.getOriginalFilename());
         try {
             File targetFile = new File(path);
             if (!targetFile.exists()) {
                 targetFile.mkdirs();
             }
-            file.transferTo(new File(path + "/" + saveName));  //文件保存，写入硬盘
+            System.out.println("=======1");
+            file.transferTo(new File(path+"/"+saveName));
+            System.out.println("=======2");
         } catch (Exception e) {
             e.printStackTrace();
             logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
             return null;
         }
-        return "profile/img/virtual/"+saveName;
+        return "profile/audiofile/music/"+saveName;
     }
 
     /**
@@ -144,11 +126,11 @@ public class bFileUtil {
                 //保存mp3文件
                 String filetype= getFileSuffix(filename);
                 String mp3 = null;
-                if("mp3".equals(filetype)){
+//                if("mp3".equals(filetype)){
                     mp3 = saveMusic(file,filename);//保存mp3文件
-                }else{
-                    mp3 = uplodeDocFile(file);//保存doc文件
-                }
+//                }else{
+//                    mp3 = uplodeDocFile(file);//保存doc文件
+//                }
                 g.setFilename(filename);
                 g.setAddress(bPathUtil.getClasspath() + bConst.FILEPATHPER+mp3);
                 g.setUrls(bConst.FILEPATHPER+mp3);
