@@ -14,7 +14,7 @@ import java.util.List;
 
 /**
  * @program: lyb_RongSys
- * @description: 小村家事 服务层实现
+ * @description: 小村家事 服务层接口方法实现
  * @author: Mr.Liu
  * @create: 2019-01-15 15:01
  **/
@@ -23,6 +23,9 @@ public class VillagefamilyServiceImpl implements IVillagefamilyService {
     @Autowired
     private VillagefamilyMapper villagefamilyMapper;
 
+    /*
+     *  @DataSource注解是连接数据库数据源
+     * */
     @Override
     @DataSource(value = DataSourceType.SXVILLAGE)
     public List<Villagefamily> selectvillagefamilylist(Villagefamily villagefamily) {
@@ -33,6 +36,7 @@ public class VillagefamilyServiceImpl implements IVillagefamilyService {
         }
         return list;
     }
+
 
     @Override
     @DataSource(value = DataSourceType.SXVILLAGE)

@@ -7,6 +7,7 @@ import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.village.domain.Comment;
 import com.ruoyi.village.domain.pubObjApi;
 import com.ruoyi.village.service.IPolicyinfoService;
+import com.ruoyi.village.service.IPoliticsService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,8 @@ public class Vcomment extends BaseController {
 
     @Autowired
     private IPolicyinfoService policyinfoService;
+    @Autowired
+    private IPoliticsService politicsService;
 
     @GetMapping("/infoAll")
     @CrossOrigin
@@ -36,6 +39,19 @@ public class Vcomment extends BaseController {
         return RongApiService.get_list(commentlist);
     }
 
+    @GetMapping("/infoAllA")
+    @CrossOrigin
+    @ApiOperation(value = "返回最近五条政策评论信息")
+    public RongApiRes searchcommentfive(pubObjApi comm){
+        comm.setPageIndex((comm.getPageIndex()-1)*comm.getPageSize());
+        List<Comment> commentlist = politicsService.selectpoliticsListlimit(comm);
+        // 遍历存储回复的评论
+        for(Comment comment : commentlist){
+            comment.setRecomment(politicsService.selectpoliticsrecommentList(comment.getCoid()));
+        }
+        return RongApiService.get_list(commentlist);
+    }
+
     @PostMapping("/insertInfoCM")
     @CrossOrigin
     @ApiOperation(value = "新增公告评论")
@@ -43,5 +59,14 @@ public class Vcomment extends BaseController {
 
         System.out.println(comment.getPcid());
         return toAjax(policyinfoService.insertInfoCM(comment));
+    }
+
+    @PostMapping("/insertPoliticsCM")
+    @CrossOrigin
+    @ApiOperation(value = "新增政策评论")
+    public AjaxResult insertPoliticsCM(Comment comment){
+
+        System.out.println(comment.getPcid());
+        return toAjax(politicsService.insertPoliticsCM(comment));
     }
 }

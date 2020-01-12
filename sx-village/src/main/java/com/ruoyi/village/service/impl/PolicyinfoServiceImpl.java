@@ -62,19 +62,13 @@ public class PolicyinfoServiceImpl implements IPolicyinfoService {
 
         @Override
         @DataSource(value = DataSourceType.SXVILLAGE)
-        public List<Policyinfo> selectpoliclimitten(){
-            return policyinfoMapper.selectpoliclimitten();
-        }
-
-
+        public List<Policyinfo> selectpoliclimitten(){    return policyinfoMapper.selectpoliclimitten();}
 
         @Override
         @DataSource(value = DataSourceType.SXVILLAGE)
         public List<Comment> selectinfocommentListlimit(pubObjApi info){
             return policyinfoMapper.selectinfocommentListlimit(info);
         }
-
-
 
         @Override
         @DataSource(value = DataSourceType.SXVILLAGE)
