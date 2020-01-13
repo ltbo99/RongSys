@@ -114,7 +114,7 @@ public class PerController extends BaseController {
             //String duration = VideoUtil.ReadVideoTimeMs(files.get(i));
             String year = DateUtil.getYear();
             String maxfileid = iProgramService.getMaxFileidofYear(year);
-            Program g = bFileUtil.uplodeFile(maxfileid, files.get(i), files.get(i).getOriginalFilename(),"00:04:10", String.valueOf(files.get(i).getSize()), year, userid);
+            Program g = bFileUtil.uplodeFile(maxfileid, files.get(i), files.get(i).getOriginalFilename(),"00:00:00", String.valueOf(files.get(i).getSize()), year, userid);
             iProgramService.insertProgram(g);
         };
         return toAjax(1);
