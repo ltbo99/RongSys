@@ -43,7 +43,7 @@ public class bFileUtil {
      */
     public static String saveMusic(MultipartFile file,String saveName) {
 //        String path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME;
-        String  path = bConst.UPLOAD_PATH + bConst.VIRTUAL_IMG_PATH; //图片存储路径
+        String  path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME; //图片存储路径
         logger.info(" --- 音频保存路径：{}, 音频保存名称：{},文件名称：{} --- ", path, saveName,file.getOriginalFilename());
         try {
             File targetFile = new File(path);
