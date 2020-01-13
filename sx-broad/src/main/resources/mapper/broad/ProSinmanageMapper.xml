@@ -41,6 +41,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 #         and PS.userid = WS.paid
         <if test="sfid != null and sfid != ''"> and sfid like '%${sfid}%'</if>
         <if test="pname != null and pname != ''"> and pname like '%${pname}%'</if>
+        <if test="uname != null and uname != ''"> and US.uname like '%${uname}%'</if>
     </where>
     order by sfid desc
     </select>

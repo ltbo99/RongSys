@@ -7,9 +7,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import com.ruoyi.broad.domain.*;
-import com.ruoyi.broad.service.IProChamanageService;
-import com.ruoyi.broad.service.IProListService;
-import com.ruoyi.broad.service.IProgramService;
+import com.ruoyi.broad.service.*;
 import com.ruoyi.broad.service.impl.ProSinmanageServiceImpl;
 import com.ruoyi.common.json.JSON;
 import com.ruoyi.common.json.JSONObject;
@@ -24,7 +22,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.broad.service.IProSinmanageService;
 import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.common.base.AjaxResult;
