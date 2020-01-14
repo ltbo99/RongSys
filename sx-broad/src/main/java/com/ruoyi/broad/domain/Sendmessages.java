@@ -4,6 +4,8 @@ import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.base.BaseEntity;
 
+import java.util.List;
+
 /**
  * 短信发送记录表 sendmessages
  *
@@ -34,6 +36,34 @@ public class Sendmessages extends BaseEntity
 	private String spelanguage;
 	/** 发送次数 */
 	private Integer sendtimes;
+
+	private List<String> tids;
+	private Integer userid; //用户id
+	private String recivedtime; //信息接收时间
+
+	public List<String> getTids() {
+		return tids;
+	}
+
+	public void setTids(List<String> tids) {
+		this.tids = tids;
+	}
+
+	public Integer getUserid() {
+		return userid;
+	}
+
+	public void setUserid(Integer userid) {
+		this.userid = userid;
+	}
+
+	public String getRecivedtime() {
+		return recivedtime;
+	}
+
+	public void setRecivedtime(String recivedtime) {
+		this.recivedtime = recivedtime;
+	}
 
 	public void setSmid(Integer smid)
 	{

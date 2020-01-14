@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.village.domain.PersonApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.ruoyi.broad.mapper.LedshowMapper;
@@ -87,5 +88,17 @@ public class LedshowServiceImpl implements ILedshowService
 	{
 		return ledshowMapper.deleteLedshowByIds(Convert.toStrArray(ids));
 	}
-	
+
+	/**
+	 * 获取led显示屏播出记录列表
+	 *
+	 * @param ledshow led显示信息
+	 * @return led显示集合
+	 */
+	@Override
+	@DataSource(value = DataSourceType.SLAVE)
+	public List<Ledshow> selectLedshowList1(PersonApi ledshow)
+	{
+		return ledshowMapper.selectLedshowList1(ledshow);
+	}
 }

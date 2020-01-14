@@ -25,6 +25,12 @@ public interface VillagerInfoMapper
 	public VillagerInfo selectVillagerInfoById(Integer vid);
 
 	/**
+	 * 使用jpa,程序运行时自动识别findBy后面的字段 查询idcard并获取与idcard匹配的信息
+	 *
+	 * @return*/
+	public VillagerInfo findByIdcardAndPassword(@Param(value = "idcard")String idcard);
+
+	/**
 	 * 通过区域查询村名集合
 	 * @param grouptype 区域
 	 * @return 村民集合

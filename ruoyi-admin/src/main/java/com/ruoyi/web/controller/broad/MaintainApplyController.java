@@ -84,7 +84,7 @@ public class MaintainApplyController extends BaseController {
     }
 
 //    @RequiresPermissions("broad:maintain:maintainapply")
-    @Log(title = "申请维护记录增加", businessType = BusinessType.INSERT)
+    @Log(title = "申请维护记录保存", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(MaintainApply maintainApply)

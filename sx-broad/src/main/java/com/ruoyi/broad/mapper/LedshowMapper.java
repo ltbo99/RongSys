@@ -1,7 +1,9 @@
 package com.ruoyi.broad.mapper;
 
 import com.ruoyi.broad.domain.Ledshow;
-import java.util.List;	
+import com.ruoyi.village.domain.PersonApi;
+
+import java.util.List;
 
 /**
  * led显示 数据层
@@ -58,5 +60,12 @@ public interface LedshowMapper
      * @return 结果
      */
 	public int deleteLedshowByIds(String[] lsids);
-	
+
+	/**
+	 * 查询led显示列表
+	 *
+	 * @param ledshow led显示信息
+	 * @return led显示集合
+	 */
+	public List<Ledshow> selectLedshowList1(PersonApi ledshow);
 }

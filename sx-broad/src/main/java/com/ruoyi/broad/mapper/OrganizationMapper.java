@@ -6,7 +6,6 @@ import com.ruoyi.broad.domain.TerminalTels;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * 终端地域 数据层
@@ -64,14 +63,6 @@ public interface OrganizationMapper
 	 * @return 结果
 	 */
 	public int insertOrganizationPic(Organization organization);
-
-//	/**
-//	 * 修改终端地域
-//	 *
-//	 * @param organization 终端地域信息
-//	 * @return 结果
-//	 */
-//	public int updateOrganization(Organization organization);
 
 	/**
 	 * 删除终端地域
@@ -131,7 +122,11 @@ public interface OrganizationMapper
 	 */
 	public  List<String> listNextAid(String aid);
 
-	//	通过 aid 查询所有终端
+	/**
+	 * 通过Aid查询所有终端
+	 * @param aid
+	 * @return
+	 */
 	public List<Organization> listOrgByAid(@Param("list")List<String> aid);
 
 	//	通过 tid 查询对应终端的RDS码
@@ -166,9 +161,25 @@ public interface OrganizationMapper
 	 * @return 终端信息集合信息
 	 */
 	public List<Organization> exportOrganization(Organization organization);
+	/**
+	 * 根据用户id查询终端对象
+	 *
+	 * @param aid 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByaid(@Param("aid") String aid);
+
+	public List<Organization> selecttidBytwo(@Param("tids") String[] tids , @Param("userid") String userid);
 
 	public  List<Area> listNextAidName(String aid);
 
+	/**
+	 * 根据用户id获取LED终端列表
+	 *
+	 * @param organization 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByLedUserid(Organization organization);
 	public int addphoneEdit(TerminalTels terminalTels);
 
 	public int deletephoneedit(String telid);
@@ -184,5 +195,8 @@ public interface OrganizationMapper
 	int terinfoeditphone(List<Organization> organizations);
 
 	int terinfoeditphonedelete(String time,List<String> sfids);
+
+	public int insertTerminalTes(Organization organization);
+
 
 }

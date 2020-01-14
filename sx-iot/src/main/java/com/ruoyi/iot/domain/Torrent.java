@@ -19,6 +19,10 @@ public class Torrent extends BaseEntity
 	private Integer dataid;
 	/** 终端imei */
 	private String IMEI;
+	/** 用户id */
+	private String useridI;
+	/** 终端号码 */
+	private String phone;
 	/** 电池一电压 */
 	private String pow1;
 	/** 电池组电压 */
@@ -62,6 +66,23 @@ public class Torrent extends BaseEntity
 	{
 		return IMEI;
 	}
+
+	public String getUseridI() {
+		return useridI;
+	}
+
+	public void setUseridI(String useridI) {
+		this.useridI = useridI;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
 	public void setPow1(String pow1)
 	{
 		this.pow1 = pow1;

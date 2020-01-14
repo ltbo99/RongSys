@@ -4,6 +4,7 @@ import com.ruoyi.village.domain.Mcount;
 import com.ruoyi.village.domain.PersonApi;
 import com.ruoyi.village.domain.VillagerInfo;
 import com.ruoyi.village.domain.pubObjApi;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -22,6 +23,12 @@ public interface IVillagerInfoService
 	 * @return 村民信息
 	 */
 	public VillagerInfo selectVillagerInfoById(Integer vid);
+
+	/**
+	 * 公众号登录获取信息
+	 * */
+	public VillagerInfo findByIdcardAndPassword(String idcard, String password);
+
 
 	/**
 	 * 查询村民列表

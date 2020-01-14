@@ -1,7 +1,9 @@
 package com.ruoyi.broad.mapper;
 
 import com.ruoyi.broad.domain.ProChamanage;
-import java.util.List;	
+import com.ruoyi.village.domain.PersonApi;
+
+import java.util.List;
 
 /**
  * 节目转播管理 数据层
@@ -26,6 +28,14 @@ public interface ProChamanageMapper
      * @return 节目转播管理集合
      */
 	public List<ProChamanage> selectProChamanageList(ProChamanage proChamanage);
+
+	/**
+	 * 获取电台列表（村务宝典）
+	 *
+	 * @param proChamanage 节目转播管理信息
+	 * @return 节目转播管理集合
+	 */
+	public List<ProChamanage> selectProChamanageList1(PersonApi proChamanage);
 	
 	/**
      * 新增节目转播管理

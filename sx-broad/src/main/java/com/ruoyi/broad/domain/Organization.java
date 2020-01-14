@@ -1,8 +1,6 @@
 package com.ruoyi.broad.domain;
 
 import com.ruoyi.common.annotation.Excel;
-import org.apache.commons.lang3.builder.ToStringBuilder;
-import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.base.BaseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -15,7 +13,6 @@ import org.springframework.web.multipart.MultipartFile;
 public class Organization extends BaseEntity
 {
     private static final long serialVersionUID = 1L;
-
     /**终端imei*/
     @Excel(name = "终端IMEI号")
     private String tid;
@@ -189,6 +186,8 @@ public class Organization extends BaseEntity
     private String userid;
     /**心跳包时间*/
     private String hbtime;
+    /**终端授权号码*/
+    private String tel;
 
     public MultipartFile getPoscenepic() {
         return poscenepic;
@@ -201,6 +200,7 @@ public class Organization extends BaseEntity
     public static long getSerialVersionUID() {
         return serialVersionUID;
     }
+
 
     public String getTid() {
         return tid;
@@ -672,5 +672,13 @@ public class Organization extends BaseEntity
 
     public void setLongitudelatitude(String longitudelatitude) {
         this.longitudelatitude = longitudelatitude;
+    }
+
+    public String getTel() {
+        return tel;
+    }
+
+    public void setTel(String tel) {
+        this.tel = tel;
     }
 }
