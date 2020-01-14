@@ -195,11 +195,11 @@ public class ProreApplyController extends BaseController
 		String time=sim.format(new Date());
 
 		ProreApply  proreApply = new ProreApply();
-		String duration = VideoUtil.ReadVideoTimeMs(file);
+		//String duration = VideoUtil.ReadVideoTimeMs(file);
 		String year = DateUtil.getYear();
 
 		String maxfileid = iProgramService.getMaxFileidofYear(year);
-		Program g = bFileUtil.uplodeFile(maxfileid, file, file.getOriginalFilename(),duration, String.valueOf(file.getSize()), year, userid);
+		Program g = bFileUtil.uplodeFile(maxfileid, file, file.getOriginalFilename(),"00:00:00", String.valueOf(file.getSize()), year, userid);
 		g.setPtype(true);
 		g.setCreatedtime(time);
 		g.setIspublic(false);
