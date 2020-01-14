@@ -44,6 +44,37 @@ public class ProList extends BaseEntity
 	/** 节目文件路径 */
 	@Excel(name = "节目文件路径")
 	private String urls;
+	/** 用户ID */
+	private String userid;
+	/** 播放日期 */
+	private String broaddate;
+	/** 终端编号 */
+	private String terminalID;
+
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getBroaddate() {
+		return broaddate;
+	}
+
+	public void setBroaddate(String broaddate) {
+		this.broaddate = broaddate;
+	}
+
+	public String getTerminalID() {
+		return terminalID;
+	}
+
+	public void setTerminalID(String terminalID) {
+		this.terminalID = terminalID;
+	}
 
 	public String getId() {
 		return id;

@@ -38,6 +38,14 @@ public interface ProSinmanageMapper
 	public List<ProSinmanage> selectProSinmanageList(ProSinmanage proSinmanage);
 
 	/**
+	 * 查询正常节目播出单列表（村务）
+	 5     *
+	 * @param proSinmanage 节目播出单信息
+	 * @return 节目播出单集合
+	 */
+	public List<ProSinmanage> selectProSinmanageList1(ProSinmanage proSinmanage);
+
+	/**
 	 * 查询紧急节目播出单列表
 	 *
 	 * @param userid 节目播出单信息

@@ -40,6 +40,27 @@ public class VillagerInfoServiceImpl implements IVillagerInfoService
 	}
 
 	/**
+	 * 在service层中将controller层获取的数据与mapper层读取的数据库的数据进行比较
+	 * */
+	@DataSource(value = DataSourceType.SXVILLAGE)
+	@Override
+	public VillagerInfo findByIdcardAndPassword(String idcard, String password) {
+		VillagerInfo b = villagerInfoMapper.findByIdcardAndPassword(idcard);
+		if (b==null) {
+			return b;
+		}
+		String aString = b.getIdcard();
+		String bString = b.getPassword();
+		if (aString.equals(idcard)&&bString.equals(password)) {
+			System.out.println(9);
+			return b;
+		} else {
+			System.out.println(0);
+			return b;
+		}
+	}
+
+	/**
 	 * 通过区域查询村名集合
 	 * @param grouptype 区域
 	 * @return 村民集合

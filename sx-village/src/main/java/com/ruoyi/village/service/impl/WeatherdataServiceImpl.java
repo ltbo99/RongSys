@@ -23,68 +23,16 @@ public class WeatherdataServiceImpl implements IWeatherdataService
     private WeatherdataMapper weatherdataMapper;
 
     /**
-     * 查询采集天气信息
-     *
-     * @param  id 采集天气信息ID
-     * @return 采集天气信息
-     */
-    @Override
-    @DataSource(value = DataSourceType.SXVILLAGE)
-    public Weatherdata selectWeatherdataById(Integer id)
-    {
-        return weatherdataMapper.selectWeatherdataById(id);
-    }
-
-    /**
      * 查询采集天气信息id
      *
-     * @param weatherdata 采集天气信息
+     * @param userid 采集天气信息
      * @return 天气信息集合
      */
     @Override
     @DataSource(value = DataSourceType.SXVILLAGE)
-    public List<Weatherdata> selectWeatherdataList(Weatherdata weatherdata)
+    public List<Weatherdata> selectWeatherdataList(String userid)
     {
-        return weatherdataMapper.selectWeatherdataList(weatherdata);
-    }
-
-    /**
-     * 新增天气采集信息
-     *
-     * @param weatherdata 天气采集信息
-     * @return 结果
-     */
-    @Override
-    @DataSource(value = DataSourceType.SXVILLAGE)
-    public int insertWeatherdata(Weatherdata weatherdata)
-    {
-        return weatherdataMapper.insertWeatherdata(weatherdata);
-    }
-
-    /**
-     * 修改天气采集信息
-     *
-     * @param weatherdata 天气采集信息
-     * @return 结果
-     */
-    @Override
-    @DataSource(value = DataSourceType.SXVILLAGE)
-    public int updateWeatherdata(Weatherdata weatherdata)
-    {
-        return weatherdataMapper.updateWeatherdata(weatherdata);
-    }
-
-    /**
-     * 删除天气采集信息
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    @Override
-    @DataSource(value = DataSourceType.SXVILLAGE)
-    public int deleteWeatherdataByIds(String ids)
-    {
-        return weatherdataMapper.deleteWeatherdataByIds(Convert.toStrArray(ids));
+        return weatherdataMapper.selectWeatherdataList(userid);
     }
 
 }

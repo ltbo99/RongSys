@@ -8,7 +8,7 @@ import java.util.Date;
 /**
  * 党员活动表 tb_huodong
  * 
- * @author 张鸿权
+ * @author zx
  * @date 2019-11-16
  */
 public class TbHuodong extends BaseEntity

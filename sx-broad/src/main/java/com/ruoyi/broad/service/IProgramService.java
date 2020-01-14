@@ -1,6 +1,7 @@
 package com.ruoyi.broad.service;
 
 import com.ruoyi.broad.domain.Program;
+import com.ruoyi.village.domain.PersonApi;
 
 import java.util.List;
 
@@ -19,6 +20,12 @@ public interface IProgramService {
      * @return 结果
      */
     public List<Program> selectProList(Program program);
+    /**
+     * 获取广播MP3文件列表（村务宝典）
+     * @param program 节目实体类
+     * @return 结果
+     */
+    public List<Program> selectProList1(PersonApi program);
     /**
      * 得到当年文件最大编号
      * @param year
@@ -41,7 +48,7 @@ public interface IProgramService {
 
     /**
      * 删除节目
-     * @param fname 节目名称
+     * @param fid 节目名称
      * @return 结果
      */
 

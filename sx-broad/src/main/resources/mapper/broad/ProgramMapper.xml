@@ -79,6 +79,21 @@
         </where>
         order by  createdtime desc,fid desc
     </select>
+
+    <!--根据userid获取广播MP3文件列表 -->
+    <select id="selectProList1" parameterType="com.ruoyi.village.domain.PersonApi" resultMap="programMap">
+        select
+        fid,fname,filename,address,urls,userid,ispublic,flenth,fsize,createdtime,remark,islisten,ptype
+        from
+        <include refid="tableName"></include>
+        <where>
+            <if test="userid != null  and userid != '' "> and userid = #{userid}</if>
+            <if test="fname != null  and fname != '' "> and fname = #{fname}</if>
+        </where>
+        order by  createdtime desc,fid desc
+        limit #{pageSize} offset #{pageIndex}
+    </select>
+
     <!--得到当年最大的文件标号-->
     <select id="getMaxFileidofYear" parameterType="String" resultType="String">
         SELECT SUBSTRING(MAX(SUBSTRING(filename,3)),1,5)

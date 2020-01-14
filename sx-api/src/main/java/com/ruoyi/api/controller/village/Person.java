@@ -12,10 +12,7 @@ import com.ruoyi.village.service.IVillagerInfoService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -37,6 +34,14 @@ public class Person {
     public RongApiRes searchPerson(Integer pdid)
     {
         return RongApiService.get_bean(personalDetailService.selectPersonalDetailById(pdid));
+    }
+
+    @PostMapping("/login")
+    @CrossOrigin
+    @ApiOperation(value = "查询登录用户")//@RequestParam用来接受前台传回的数据
+    public RongApiRes getLogin(@RequestParam("idcard") String idcard,@RequestParam("password") String password){
+        return RongApiService.get_bean(villagerInfoService.findByIdcardAndPassword(idcard, password));
+        // 调用service层的方法并返回获取的数据
     }
 
     @GetMapping("/perAllInfo")

@@ -11,7 +11,9 @@
     <div class="main-content">
         <div class="box box-main">
             <form id="user-form">
-                <input type="hidden" id="aid" name="aid">
+                <li>
+                    <input type="hidden" name="aid"  id="aid" style="width: 100px"/>
+                </li>
             </form>
             <div class="ui-layout-content">
                 <div id="tree" class="ztree"></div>
@@ -24,8 +26,8 @@
     <div class="row">
 
         <div class="btn-group-sm hidden-xs" id="toolbar" role="group">
-            <a class="btn btn-danger btn-del disabled" onclick="addProIdAll()">
-                <i class="fa fa-remove"></i> 节目终端选择
+            <a class="btn btn-success btn-del disabled" onclick="addProIdAll()">
+                <i class="fa fa-edit"></i> 节目终端选择
             </a>
         </div>
     <div>
@@ -76,21 +78,20 @@
         $.table.init(options);
     };
 
-    function queryAreaTree()
-    {
-        var url = ctx + "broad/organization/listProBroadTree";
+    function queryAreaTree(){
+        var url = ctx + "broad/area/treeData";
         var options = {
             url: url,
-            expandLevel: 2,
             onClick : zOnClick
         };
         $.tree.init(options);
 
         function zOnClick(event, treeId, treeNode) {
+            aid1 = treeNode.id;
             $("#aid").val(treeNode.id);
-            /*$("#tid").val(treeNode.pId);*/
             $.table.search();
         }
+        $.tree.init(options);
     }
 
     $('#btnExpand').click(function() {

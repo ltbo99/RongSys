@@ -1,8 +1,11 @@
 package com.ruoyi.village.mapper;
 
 import com.ruoyi.village.domain.Politics;
+import com.ruoyi.village.domain.Comment;
+import com.ruoyi.village.domain.pubObjApi;
 
 import java.util.List;
+
 /**
  * @Description: 政策Mapper$
  * @Param: dyq_RongSys$
@@ -11,7 +14,7 @@ import java.util.List;
  * @Date: $
  */
 public interface PoliticsMapper {
-       /**
+    /**
      * 政策记录列表
      *
      * @return
@@ -51,4 +54,18 @@ public interface PoliticsMapper {
      * @return
      */
     int deletePoliticsByIds(String shiid);
+
+    /**
+     * 按照时间倒序获取十条政策信息
+     *
+     * @return 最近的十条数据
+     */
+    List<Politics> selectpoliticslimitten();
+
+    public List<Comment> selectpoliticsListlimit(pubObjApi info);
+
+    public List<Comment> selectpoliticsrecommentList(int coid);
+
+    //新增评论
+    public int insertPoliticsCM(Comment comment);
 }

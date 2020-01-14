@@ -13,6 +13,8 @@ import java.util.Date;
  */
 public class Weatherdata extends BaseEntity{
     private static final long serialVersionUID = 1L;
+    /**用户id*/
+    private String userid;
     /**编号*/
     private Integer id;
     /**终端设备IMEI*/
@@ -59,6 +61,13 @@ public class Weatherdata extends BaseEntity{
     /**信息状态 */
     private String remark;
 
+    public String getUserid() {
+        return userid;
+    }
+
+    public void setUserid(String userid) {
+        this.userid = userid;
+    }
 
     public Integer getId() {
         return id;
