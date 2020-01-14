@@ -190,6 +190,7 @@ public class ProreApplyController extends BaseController
 	@PostMapping("/reply")
 	@ResponseBody
 	public AjaxResult replyfile(String paid,String replyperson,MultipartFile file,String userid){
+		String path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME;
 		SimpleDateFormat sim=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		String time=sim.format(new Date());
 
@@ -209,7 +210,7 @@ public class ProreApplyController extends BaseController
 		proreApply.setPaid(Integer.parseInt(paid));
 		proreApply.setReplyperson(replyperson);
 		proreApply.setReplytime(time);
-		proreApply.setFilename(g.getUrls());
+		proreApply.setFilename(path+"/"+g.getFilename());
 		proreApply.setIsreply(true);
 		return toAjax(proreApplyService.updateProreApply(proreApply));
 	}
