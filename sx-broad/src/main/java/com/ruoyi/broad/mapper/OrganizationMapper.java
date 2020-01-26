@@ -1,5 +1,6 @@
 package com.ruoyi.broad.mapper;
 
+import com.ruoyi.broad.domain.Area;
 import com.ruoyi.broad.domain.Organization;
 import com.ruoyi.broad.domain.TerminalTels;
 import org.apache.ibatis.annotations.Param;
@@ -9,7 +10,7 @@ import java.util.List;
 /**
  * 终端地域 数据层
  *
- * @author 张鸿权
+ * @author cx
  * @date 2019-02-17
  */
 public interface OrganizationMapper
@@ -20,7 +21,6 @@ public interface OrganizationMapper
 	 *
 	 * @return 终端地域信息
 	 */
-	/*public Organization selectOrganizationById(String aid);*/
 	public Organization selectAllOrganization();
 	/**
 	 * 查询终端地域信息
@@ -39,6 +39,14 @@ public interface OrganizationMapper
 	public List<Organization> selectOrganizationList(Organization organization);
 
 	/**
+	 * 终端管理显示页面
+	 *
+	 * @param organization
+	 * @return 终端管理页面集合
+	 */
+	public List<Organization> selectOrganizationList1(Organization organization);
+
+	/**
 	 * 新增终端地域
 	 *
 	 * @param organization 终端地域信息
@@ -46,6 +54,8 @@ public interface OrganizationMapper
 	 */
 	public int insertOrganization(Organization organization);
 
+
+	public int insertOrganizationCon(Organization organization);
 	/**
 	 * 新增终端地址图片
 	 *
@@ -53,14 +63,6 @@ public interface OrganizationMapper
 	 * @return 结果
 	 */
 	public int insertOrganizationPic(Organization organization);
-
-	/**
-	 * 修改终端地域
-	 *
-	 * @param organization 终端地域信息
-	 * @return 结果
-	 */
-	public int updateOrganization(Organization organization);
 
 	/**
 	 * 删除终端地域
@@ -120,7 +122,11 @@ public interface OrganizationMapper
 	 */
 	public  List<String> listNextAid(String aid);
 
-	//	通过 aid 查询所有终端
+	/**
+	 * 通过Aid查询所有终端
+	 * @param aid
+	 * @return
+	 */
 	public List<Organization> listOrgByAid(@Param("list")List<String> aid);
 
 	//	通过 tid 查询对应终端的RDS码
@@ -131,4 +137,66 @@ public interface OrganizationMapper
 	 * @return
 	 */
 	public  List<TerminalTels> selectTelsByTid(String tid);
+
+	/**
+	 * @author cx
+	 * @param organization
+	 *
+	 * @Description 更新终端数据
+	 */
+	public int updateOrganization(Organization organization);
+
+	/**
+	 * @author cx
+	 * @param organization
+	 *
+	 * @Description 更新终端所属用户
+	 */
+	public int updateUsername(Organization organization);
+
+	/**
+	 * 根据条件分页查询终端对象
+	 *
+	 * @param organization 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> exportOrganization(Organization organization);
+	/**
+	 * 根据用户id查询终端对象
+	 *
+	 * @param aid 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByaid(@Param("aid") String aid);
+
+	public List<Organization> selecttidBytwo(@Param("tids") String[] tids , @Param("userid") String userid);
+
+	public  List<Area> listNextAidName(String aid);
+
+	/**
+	 * 根据用户id获取LED终端列表
+	 *
+	 * @param organization 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByLedUserid(Organization organization);
+	public int addphoneEdit(TerminalTels terminalTels);
+
+	public int deletephoneedit(String telid);
+
+	public List<Organization> selectOrganizationListByids(List<String> sfids);
+
+	int terinfoedittime(String time,List<String> sfids);
+
+	int terinfoeditrds(String time,List<String> sfids);
+
+	int terinfoeditfrequency(String time,List<String> sfids);
+
+	int terinfoeditphone(List<Organization> organizations);
+
+	int terinfoeditphonedelete(String time,List<String> sfids);
+
+	public int insertTerminalTes(Organization organization);
+
+
 }

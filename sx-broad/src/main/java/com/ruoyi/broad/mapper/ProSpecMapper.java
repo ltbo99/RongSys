@@ -17,4 +17,6 @@ public interface ProSpecMapper {
     public List<ProSpec> selectProSpecList(ProSpec proSpec);
 
     public List<ProSpec> selectAllProSpec();
+
+    public int updateprospec(ProSpec proSpec);
 }

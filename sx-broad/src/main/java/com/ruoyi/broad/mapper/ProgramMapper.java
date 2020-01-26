@@ -1,6 +1,7 @@
 package com.ruoyi.broad.mapper;
 
 import com.ruoyi.broad.domain.Program;
+import com.ruoyi.village.domain.PersonApi;
 
 import java.util.List;
 
@@ -21,6 +22,13 @@ public interface ProgramMapper {
     public List<Program> selectProList(Program program);
 
     /**
+     * 获取广播MP3文件列表
+     * @param program 节目实体类
+     * @return 结果
+     */
+    public List<Program> selectProList1(PersonApi program);
+
+    /**
      * 得到当年文件最大编号
      * @param year
      * @return
@@ -33,4 +41,22 @@ public interface ProgramMapper {
      * @return 结果
      */
     public Program selectFileByFileName(String fname);
+
+    /**
+     * 新增节目
+     * @param program 节目名称
+     * @return 结果
+     */
+    public int insertProgram(Program program);
+
+    /**
+     * 删除节目
+     * @param fid 节目编号
+     * @return 结果
+     */
+    public int deleteProgram(String[] fid);
+
+    public List<Program> selectProgramListByids(List<String> sfids);
+
+    public int setIsPublic(String fid);
 }

@@ -3,7 +3,9 @@ package com.ruoyi.village.service.impl;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
 import com.ruoyi.common.support.Convert;
+import com.ruoyi.village.domain.Comment;
 import com.ruoyi.village.domain.Politics;
+import com.ruoyi.village.domain.pubObjApi;
 import com.ruoyi.village.mapper.PoliticsMapper;
 import com.ruoyi.village.service.IPoliticsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,42 +21,64 @@ import java.util.List;
  **/
 @Service
 public class PoliticsServiceImpl implements IPoliticsService {
-        @Autowired
-        private PoliticsMapper politicsMapper;
+    @Autowired
+    private PoliticsMapper politicsMapper;
 
-        @Override
-        @DataSource(value = DataSourceType.SXVILLAGE)
-        public List<Politics> selectPoliticsList(Politics politics) {
-            return politicsMapper.selectPoliticsList(politics);
-        }
-
-        @Override
-        @DataSource(value = DataSourceType.SXVILLAGE)
-        public int deletePoliticsByids(String id) {
-            return politicsMapper.deletePoliticsByids(Convert.toStrArray(id));
-        }
-
-        @Override
-        @DataSource(value = DataSourceType.SXVILLAGE)
-        public int insertpolitics(Politics politics) {
-            return politicsMapper.insertpolitics(politics);
-        }
-
-        @Override
-        @DataSource(value = DataSourceType.SXVILLAGE)
-        public Politics selectByshiid(Integer shiid) {
-            return politicsMapper.selectByshiid(shiid);
-        }
-
-        @Override
-        @DataSource(value = DataSourceType.SXVILLAGE)
-        public int deletePoliticsByIds(String shiid) {
-            return politicsMapper.deletePoliticsByIds(shiid);
-        }
-
-        @Override
-        @DataSource(value = DataSourceType.SXVILLAGE)
-        public int updatePolitics(Politics politics) {
-            return politicsMapper.updatePolitics(politics);
-        }
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public List<Politics> selectPoliticsList(Politics politics) {
+        return politicsMapper.selectPoliticsList(politics);
     }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public int deletePoliticsByids(String id) {
+        return politicsMapper.deletePoliticsByids(Convert.toStrArray(id));
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public int insertpolitics(Politics politics) {
+        return politicsMapper.insertpolitics(politics);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public Politics selectByshiid(Integer shiid) {
+        return politicsMapper.selectByshiid(shiid);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public int deletePoliticsByIds(String shiid) {
+        return politicsMapper.deletePoliticsByIds(shiid);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public int updatePolitics(Politics politics) {
+        return politicsMapper.updatePolitics(politics);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public List<Politics> selectpoliticslimitten() { return politicsMapper.selectpoliticslimitten();}
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public List<Comment> selectpoliticsListlimit(pubObjApi info) {
+        return politicsMapper.selectpoliticsListlimit(info);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public List<Comment> selectpoliticsrecommentList( int coid) {
+        return politicsMapper.selectpoliticsrecommentList(coid);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SXVILLAGE)
+    public int insertPoliticsCM(Comment comment) {
+        return politicsMapper.insertPoliticsCM(comment);
+    }
+}

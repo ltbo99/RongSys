@@ -10,26 +10,28 @@ public class MaintainApply extends BaseEntity {
 
     private static final long serialVersionUID = 1L;
 
-    /* 维护编号*/
+    /**维护编号*/
     private String maid;
-    /*终端编号*/
+    /**终端编号*/
     private String teraddress;
-    /*联系人*/
+    /**联系人*/
     private String linkman;
-    /*联系电话*/
+    /**联系电话*/
     private String linkphone;
-    /*故障时间*/
+    /**故障时间*/
     private String downtime;
-    /*备注*/
+    /**备注*/
     private String applytime;
-    /*维护时间*/
+    /**维护时间*/
     private String status;
-    /*用户id*/
+    /**用户id*/
     private Long userid;
-    /*评论*/
+    /**评论*/
     private String remark;
     /** 操作（所属）用户编号 */
     private Long uid;
+    /**申请人*/
+    private String applicant;
 
     public Long getUid() {
         return uid;
@@ -113,18 +115,40 @@ public class MaintainApply extends BaseEntity {
         this.remark = remark;
     }
 
+    public String getApplicant() {
+        return applicant;
+    }
+
+    public void setApplicant(String applicant) {
+        this.applicant = applicant;
+    }
+
     @Override
     public String toString() {
-        return "MaintainApply{" +
-                "maid='" + maid + '\'' +
-                ", teraddress='" + teraddress + '\'' +
-                ", linkman='" + linkman + '\'' +
-                ", linkphone='" + linkphone + '\'' +
-                ", downtime='" + downtime + '\'' +
-                ", applytime='" + applytime + '\'' +
-                ", status='" + status + '\'' +
-                ", userid='" + userid + '\'' +
-                ", remark='" + remark + '\'' +
-                '}';
+        final StringBuilder sb = new StringBuilder("MaintainApply").append('[')
+                .append("maid=")
+                .append(maid)
+                .append(",teraddress=")
+                .append(teraddress)
+                .append(",linkman=")
+                .append(linkman)
+                .append(",linkphone=")
+                .append(linkphone)
+                .append(",downtime=")
+                .append(downtime)
+                .append(",applytime=")
+                .append(applytime)
+                .append(",status=")
+                .append(status)
+                .append(",userid=")
+                .append(userid)
+                .append(",remark=")
+                .append(remark)
+                .append(",uid=")
+                .append(uid)
+                .append(",applicant=")
+                .append(applicant)
+                .append(']');
+        return sb.toString();
     }
 }

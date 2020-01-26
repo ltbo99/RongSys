@@ -1,5 +1,6 @@
 package com.ruoyi.broad.service;
 
+import com.ruoyi.broad.domain.Area;
 import com.ruoyi.broad.domain.Organization;
 import com.ruoyi.broad.domain.TerminalTels;
 
@@ -8,8 +9,8 @@ import java.util.List;
 /**
  * 终端地域 服务层
  *
- * @author 张鸿权
- * @date 2019-01-17
+ * @author cx
+ * @date 2019-10-03
  */
 public interface IOrganizationService
 {
@@ -37,6 +38,14 @@ public interface IOrganizationService
 	 * @return 终端集合
 	 */
 	public List<Organization> selectOrganizationList(Organization organization);
+
+	/**
+	 * 查询终端列表
+	 *
+	 * @param organization 终端信息
+	 * @return 终端集合
+	 */
+	public List<Organization> selectOrganizationList1(Organization organization);
 
 	/**
 	 * 新增终端
@@ -130,7 +139,7 @@ public interface IOrganizationService
 	 * @return
 	 */
 	public  List<String> listNextAid(String aid);
-
+	public  List<Area> listNextAidName(String aid);
 
 	//	通过 aid 查询所有终端
 	public List<Organization> listOrgByAid(List<String> aid);
@@ -144,4 +153,59 @@ public interface IOrganizationService
 	 * @return
 	 */
 	public  List<TerminalTels> selectTelsByTid(String tid);
+
+	/**
+	 * @author cx
+	 * @param organization
+	 *
+	 * @Description 更新终端数据
+	 */
+	public int updateUsername(Organization organization);
+
+	/**
+	 * 根据条件分页查询终端对象
+	 *
+	 * @param organization 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> exportOrganization(Organization organization);
+
+	public int addphoneEdit(TerminalTels terminalTels);
+
+	public int deletephoneedit(String telid);
+
+	public List<Organization> selectOrganizationListByids(List<String> sfids);
+
+	int terinfoedittime(String time,List<String> tids);
+
+	int terinfoeditrds(String time,List<String> tids);
+
+	int terinfoeditfrequency(String time,List<String> tids);
+
+	int terinfoeditphone(List<Organization> organizations);
+
+	int terinfoeditphonedelete(String time,List<String> tids);
+	/**
+	 * 根据aid查询终端对象(村务宝典)
+	 * hfz
+	 * @param aid 导出终端字段
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByaid(String aid);
+
+	/**
+	 * 流媒体直播---选择直播终端(村务宝典)
+	 * hfz
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selecttidBytwo(String tids , String userid);
+	/**
+	 * 根据用户id获取LED终端列表
+	 * hfz
+	 * @param organization
+	 * @return 终端信息集合信息
+	 */
+	public List<Organization> selectByLedUserid(Organization organization);
+
+
 }

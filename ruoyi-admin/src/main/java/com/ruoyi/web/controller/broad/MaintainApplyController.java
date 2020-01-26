@@ -7,6 +7,7 @@ import com.ruoyi.common.annotation.Log;
 import com.ruoyi.common.base.AjaxResult;
 import com.ruoyi.common.enums.BusinessType;
 import com.ruoyi.common.page.TableDataInfo;
+import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
 import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.system.domain.SysUser;
@@ -20,8 +21,10 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Created by ASUS on 2019/7/13.
- * @author 陈霞
+ * @author cx
+ *
+ *
+ * @Description 申请维护记录 控制层
  */
 @Controller
 @RequestMapping("/broad/maintainApply")
@@ -81,13 +84,14 @@ public class MaintainApplyController extends BaseController {
     }
 
 //    @RequiresPermissions("broad:maintain:maintainapply")
-    @Log(title = "申请维护记录增加", businessType = BusinessType.INSERT)
+    @Log(title = "申请维护记录保存", businessType = BusinessType.INSERT)
     @PostMapping("/add")
     @ResponseBody
     public AjaxResult addSave(MaintainApply maintainApply)
     {
         return toAjax(iMaintainApplyService.insertMaintainApply(maintainApply));
     }
+
     @PostMapping("/remove")
     @Log(title = "申请维护记录删除",businessType = BusinessType.DELETE)
     @RequiresPermissions("broad:maintainApply:remove")
@@ -126,5 +130,21 @@ public class MaintainApplyController extends BaseController {
     public AjaxResult editSave(MaintainApply maintainApply)
     {
         return toAjax(iMaintainApplyService.updateMaintainApply(maintainApply));
+    }
+
+    /*
+    * 导出Excel表
+    * */
+    /**
+     * 导出终端维护记录列表
+     */
+    @RequiresPermissions("broad:maintainApply:export")
+    @PostMapping("/export")
+    @ResponseBody
+    public AjaxResult export(MaintainApply maintainApply)
+    {
+        List<MaintainApply> list = iMaintainApplyService.selectMaintainApplyList(maintainApply);
+        ExcelUtil<MaintainApply> util = new ExcelUtil<MaintainApply>(MaintainApply.class);
+        return util.exportExcel(list, "maintainApply");
     }
 }

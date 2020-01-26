@@ -1,5 +1,7 @@
 package com.ruoyi.broad.utils;
 
+import com.ruoyi.common.config.Global;
+
 /**
  * @author 张超 teavamc
  * @Description:TODO
@@ -7,6 +9,15 @@ package com.ruoyi.broad.utils;
  * @date 2019/2/17 17:29
  **/
 public class bConst {
+    /** 文件上传/图片   根目录 */
+    public static final String UPLOAD_PATH = Global.getProfile(); //bConst.FILEPATHPER
+
+    /** 图片目录 */
+    public static final String MP3_FILE_NAME = "audiofile";
+
+    /** 图片相对路径 */
+    public static final String VIRTUAL_IMG_PATH = "img/virtual";
+
     // 验证码
     public static final String SESSION_SECURITY_CODE = "sessionSecCode";
     // session用的用户
@@ -36,21 +47,21 @@ public class bConst {
     public static final String FALSE = "F";
 
     // 文件路径
-    public static final String FILEPATH = "uploadFiles/";
+    public static final String FILEPATH = "profile/";
     // 图片上传路径
-    //	public static final String FILEPATHIMG = "uploadFiles/uploadImgs/";
+    //	public static final String FILEPATHIMG = "profile/uploadImgs/";
     // 系统文件路径
-    public static final String FILEPATHFILE = "uploadFiles/file/";
+    public static final String FILEPATHFILE = "profile/file/";
     // 系统文件路径
-    public static final String FILEPATHBACKIMAGE = "uploadFiles/file/backimage/";
+    public static final String FILEPATHBACKIMAGE = "profile/file/backimage/";
     //申请文件上传路径
-    public static final String FILEPATHAPPLY = "uploadFiles/applyfile/";
+    public static final String FILEPATHAPPLY = "profile/applyfile/";
     //导出节目excel文件压缩包临时文件夹
-    public static final String FILEPATHPROTEMP = "uploadFiles/protemp/";
+    public static final String FILEPATHPROTEMP = "profile/protemp/";
     //特种节目文件夹
-    public static final String FILEPATHPROSPEC = "uploadFiles/audiofile/prospec/";
+    public static final String FILEPATHPROSPEC = "profile/audiofile/prospec/";
     //节目文件夹
-    public static final String FILEPATHPER = "uploadFiles/audiofile/";
+    public static final String FILEPATHPER = "profile/audiofile/";
 
     public static final String[] LOGTYPE=new String[]{"登陆日志","操作日志"};
 
@@ -74,6 +85,12 @@ public class bConst {
     public static final int CommdPort = 8600;
     // 终端物联网数据交互端口
     public static final int IOTPort = 8900;
+    // 终端物联网数据交互类型及线程名
+    public static final String IOTTYPE = "IOTThread";
+    // 终端命令数据交互类型及线程名
+    public static final String COMMANDTYPE = "CommandThread";
+    // 终端心跳数据交互类型及线程名
+    public static final String HEARTTYPE = "HeartThread";
     // 服务器下载文件路径
     public static final String ServerPath = "110.53.162.164/Broad/";
     //终端系统升级文件路径

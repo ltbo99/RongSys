@@ -47,6 +47,15 @@ public class Policy extends BaseController {
         return RongApiService.get_list(policyinfoService.selectpoliclimitten());
     }
 
+   // 新加内容
+    @GetMapping("/date")
+    @CrossOrigin
+    @ApiOperation(value = "返回最近的十条政策")
+    public RongApiRes gettenA()
+    {
+        return RongApiService.get_list(politicsService.selectpoliticslimitten());
+    }
+
     @GetMapping("/infoAll")
     @CrossOrigin
     @ApiOperation(value = "返回所有公告")

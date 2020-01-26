@@ -1,7 +1,8 @@
 package com.ruoyi.broad.utils;
 
 import com.ruoyi.broad.domain.Program;
-import com.ruoyi.common.utils.DateUtil;
+import it.sauronsoftware.jave.Encoder;
+import it.sauronsoftware.jave.MultimediaInfo;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,31 +21,65 @@ public class bFileUtil {
      * @return 返回相对路径
      */
     public static String saveImg(MultipartFile file,String saveName) {
-        //获取文件上传的根目录 C:\Users\wanghao/upload/img
-        String  path = bConstant.UPLOAD_PATH + bConstant.IMG_FILE_NAME; //改为bConstant.UPLOAD_PATH
-
-        //拿到文件的后缀名和UUID进行拼接形成新的文件名
-        //4ca64e85b1544c96b4a6154bb521476f.jpg
-        //String saveName = bCommonUtil.getUuid() + "." + getFileSuffix(file.getOriginalFilename());
-        logger.info(" --- 图片保存路径：{}, 图片保存名称：{},文件名称：{} --- ", path, saveName,file.getOriginalFilename());
-
-        // 保存
+        String  path = bConst.UPLOAD_PATH + bConst.VIRTUAL_IMG_PATH; //图片存储路径
+        saveName = bCommonUtil.getUuid() + "." + getFileSuffix(file.getOriginalFilename());
+        logger.info(" --- 终端图片保存路径：{}, 终端图片保存名称：{},终端图片名称：{} --- ", path, saveName,file.getOriginalFilename());
         try {
-            // 保存文件图片
+            File targetFile = new File(path);
+                if (!targetFile.exists()) {
+                    targetFile.mkdirs();
+            }
+            file.transferTo(new File(path + "/" + saveName));  //文件保存，写入硬盘
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
+            return null;
+        }
+        return "profile/img/virtual/"+saveName;
+    }
+    /**
+     * mp3文件存储 完整路径（{user.home}/img/coldStone/XXX.jpg）
+     * @param file
+     * @return 返回相对路径
+     */
+    public static String saveMusic(MultipartFile file,String saveName) {
+//        String path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME;
+        Encoder encoder = new Encoder();
+        long ms = 0;
+        String  path = bConst.UPLOAD_PATH + bConst.MP3_FILE_NAME; //图片存储路径
+        logger.info(" --- 音频保存路径：{}, 音频保存名称：{},文件名称：{} --- ", path, saveName,file.getOriginalFilename());
+        String duration = "";
+        try {
             File targetFile = new File(path);
             if (!targetFile.exists()) {
                 targetFile.mkdirs();
             }
-            file.transferTo(new File(path + "/" + saveName));
+            System.out.println("=======1");
+            File excelFile =  new File(path+"/"+saveName);
+            file.transferTo(excelFile);
+            MultimediaInfo m = encoder.getInfo(excelFile);
+            ms = m.getDuration();
+            int ss = 1000;
+            int mi = ss * 60;
+            int hh = mi * 60;
+            int dd = hh * 24;
+            long day = ms / dd;
+            long hour = (ms - day * dd) / hh;
+            long minute = (ms - day * dd - hour * hh) / mi;
+            long second = (ms - day * dd - hour * hh - minute * mi) / ss;
+            String strHour = hour < 10 ? "0" + hour : "" + hour;//小时
+            String strMinute = minute < 10 ? "0" + minute : "" + minute;//分钟
+            String strSecond = second < 10 ? "0" + second : "" + second;//秒
+            duration = strHour + ":" + strMinute + ":" + strSecond;
+            System.out.println("=======2");
         } catch (Exception e) {
             e.printStackTrace();
-            logger.debug("--- 图片保存异常：{} ---" + e.getMessage());
+            logger.debug("--- 音频保存异常：{} ---" + e.getMessage());
             return null;
         }
-        String filePath =  bConstant.UPLOAD_PATH;;
-        //返回相对路径  img/virtual/4ca64e85b1544c96b4a6154bb521476f.jpg
-        return saveName; //filePath + "/" + saveName
+        return duration+saveName;
     }
+
     /**
      * 返回截取的文件后缀
      * @param path
@@ -84,19 +119,18 @@ public class bFileUtil {
      * @param year
      * @return Program
      */
-    public static Program uplodeFile(String maxfileid,MultipartFile file,String fname,String flenth,String fsize,String year){
+    public static Program uplodeFile(String maxfileid,MultipartFile file,String fname,String flenth,String fsize,String year,String uname){
         Program g = new Program();
         SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");//设置日期格式
 
         int fileid = 0;
-        if(maxfileid!=null&& Integer.parseInt(maxfileid)>10){
+        if(maxfileid!=null&& Integer.parseInt(maxfileid)>0){
             fileid = Integer.parseInt(maxfileid)+1;
         }else{
             fileid = 1;
         }
-        int j=0; //上传多个的时候用的
+        int j=0;
         String filename ="";
-        String failfile="";//添加失败的节目
         if(file!=null ){
             filename = fileid+j+"";
             while(filename.length()<5){
@@ -105,28 +139,17 @@ public class bFileUtil {
             filename = year.substring(2)+filename;
             if (null != file && !file.isEmpty()) {
                 filename =filename+"."+bFileUtil.getFileSuffix(file.getOriginalFilename()); //filename字段
-                if(flenth!="NaN"&&!flenth.equals("")){
-//                    Double lenth = Double.parseDouble(flenth)*1000;
-//                    String l = DateUtil.formatLongToTimeStr(lenth.longValue());
-//                    g.setFlenth(l);
-                    //System.out.println("flenth:--"+flenth);
-                    g.setFlenth(flenth);
-                }else{
-                    failfile = fname+"获取时长信息出错，";
-                }
-                //System.out.println("fname:--"+fname);
-                g.setFname(fname); //fname.substring(0, fname.lastIndexOf("."))
-                //String filePath = bPathUtil.getClasspath() + bConst.FILEPATHPER;			//文件上传路径
-                String path =  bFileUtil.saveImg(file,filename);//////////////////////////
-                //System.out.println("filename:--"+filename);
+                g.setFname(fname);
+                //String filetype= getFileSuffix(filename);
+                String mp3 = null;
+                mp3 = saveMusic(file,filename);//保存mp3文件
+                System.out.println(mp3);
+                g.setFlenth(mp3.substring(0,8));
+                mp3 = mp3.substring(8,mp3.length());
                 g.setFilename(filename);
-                //System.out.println("Userid:--"+bJurisdiction.getUserid()); //有错误///////////////////////////////
-                //g.setUserid(bJurisdiction.getUserid());
-                //System.out.println("Address:--"+bPathUtil.getClasspath() + bConst.FILEPATHPER+path);
-                g.setAddress(bPathUtil.getClasspath() + bConst.FILEPATHPER+path);
-                //System.out.println("Urls:--"+bConst.FILEPATHPER+path);
-                g.setUrls(bConst.FILEPATHPER+path);
-                //System.out.println("Createdtime:--"+df.format(new Date()));
+                g.setAddress(bPathUtil.getClasspath() + bConst.FILEPATHPER+mp3);
+                g.setUrls(bConst.FILEPATHPER+mp3);
+                g.setUserid(uname);
                 g.setCreatedtime(df.format(new Date()));
                 g.setIspublic(false);
                 g.setIslisten(true);
@@ -136,8 +159,63 @@ public class bFileUtil {
                 }
                 j++;
             }
-
         }
         return g;
     }
+
+    /**
+     * 删除文件
+     * @param filePathAndName
+     * @param filePathAndName
+     * @return boolean
+     */
+    public static boolean delFile(String filePathAndName) {
+        try {
+            String filePath = filePathAndName;
+            filePath = filePath.toString();
+            java.io.File myDelFile = new java.io.File(filePath);
+            if(myDelFile.exists()) {
+                myDelFile.delete();
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("删除文件操作出错");
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /**
+     * Doc文件上传封装
+     * @param file
+     * @return docName 保存成功的文件名
+     */
+    public static String uplodeDocFile(MultipartFile file){
+        String filename =file.getOriginalFilename();
+        String fileurl="";
+        if(file!=null ){
+            if ( file != null  && !file.isEmpty()) {
+                fileurl = saveDoc(file,filename);
+            }
+        }
+        return fileurl;
+    }
+
+    public static String saveDoc(MultipartFile file,String saveName) {
+        String  path = bConst.UPLOAD_PATH+"applyfile";
+        logger.info(" --- doc保存路径：{}, doc保存名称：{},doc名称：{} --- ", path, saveName,file.getOriginalFilename());
+        try {
+            File targetFile = new File(path);
+            if (!targetFile.exists()) {
+                targetFile.mkdirs();
+            }
+            file.transferTo(new File(path + "/" + saveName));  //文件保存，写入硬盘
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.debug("--- doc保存异常：{} ---" + e.getMessage());
+            return null;
+        }
+        return "profile/applyfile/"+saveName;
+    }
+
 }

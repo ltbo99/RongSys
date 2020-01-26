@@ -75,10 +75,7 @@
                 dataType: "json",
                 success: function (data) {
                     var names = data.rows;
-                    console.log(names);
-                    console.log(data.rows[0].userName);
                     var str = '';
-
                     for (var i in names) {
                         var n = '';
                         if (names[i].status == 0)
@@ -104,7 +101,6 @@
                 url: "/broad/chat/msg",
                 dataType: "json",
                 success: function (data) {
-                    console.log(data);
                     for (var i = 0; i < data.length; i++) {
                         var d = data[i];
                         var str = String(d).split("#");

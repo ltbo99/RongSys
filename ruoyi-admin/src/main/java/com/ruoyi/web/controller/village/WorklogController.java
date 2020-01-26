@@ -1,30 +1,29 @@
 package com.ruoyi.web.controller.village;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-
+import com.ruoyi.common.annotation.Log;
+import com.ruoyi.common.base.AjaxResult;
+import com.ruoyi.common.enums.BusinessType;
+import com.ruoyi.common.page.TableDataInfo;
 import com.ruoyi.common.utils.DateUtil;
+import com.ruoyi.common.utils.ExcelUtil;
 import com.ruoyi.framework.util.ShiroUtils;
+import com.ruoyi.framework.web.base.BaseController;
 import com.ruoyi.system.domain.SysUser;
 import com.ruoyi.system.service.ISysUserService;
 import com.ruoyi.village.domain.Files;
-import com.ruoyi.village.domain.Project;
+import com.ruoyi.village.domain.Worklog;
+import com.ruoyi.village.service.IWorklogService;
 import com.ruoyi.village.util.bFileUtil1;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
-import com.ruoyi.common.annotation.Log;
-import com.ruoyi.common.enums.BusinessType;
-import com.ruoyi.village.domain.Worklog;
-import com.ruoyi.village.service.IWorklogService;
-import com.ruoyi.framework.web.base.BaseController;
-import com.ruoyi.common.page.TableDataInfo;
-import com.ruoyi.common.base.AjaxResult;
-import com.ruoyi.common.utils.ExcelUtil;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 工作记录 信息操作处理
@@ -63,6 +62,8 @@ public class WorklogController extends BaseController
 		int returnId = new Long(userid).intValue();
 		//通过所获取的userid去用户表中查询用户所属区域的Roleid
 		int roleid = sysUserService.selectRoleid(returnId);
+		/*用户只能看自己工作记录*/
+		worklog.setUid(returnId);
 		if(worklog.getAid() == null && (roleid == 1)) {
 			startPage();
 			List<Worklog> list = worklogService.selectWorklogList(worklog);
@@ -99,14 +100,14 @@ public class WorklogController extends BaseController
 	/**
 	 * 新增工作记录
 	 */
-	/*@GetMapping("/add")
+	@GetMapping("/add2")
 	public String add()
 	{
-	    return prefix + "/add";
-	}*/
+	    return prefix + "/add2";
+	}
 
-	@GetMapping("/add")
-	public String add(ModelMap mmap)
+	@GetMapping("/add/{proid}/{proname}")
+	public String add( @PathVariable("proid") String proid ,@PathVariable("proname") String proname,ModelMap mmap)
 	{
 		//从session中获取当前登陆用户的 username、phone、userid
 		SysUser currentUser = ShiroUtils.getSysUser();
@@ -120,15 +121,18 @@ public class WorklogController extends BaseController
 		//	将aid、fname、uname传至add.html中
 		mmap.put("aid", aid);//这里获得的aid是来自ry-》tb_user_admin
 		mmap.put("wname", username);
+		mmap.put("uid", returnId);
 		mmap.put("wphone", phone);
 		mmap.put("uname", username);
+		mmap.put("proid", proid);
+		mmap.put("proname", proname);
 		return prefix + "/add";
 	}
 
 	/**
 	 * 新增保存工作记录
 	 */
-	@RequiresPermissions("village:worklog:add")
+	//@RequiresPermissions("village:worklog:add")
 	@Log(title = "工作记录", businessType = BusinessType.INSERT)
 	@PostMapping("/add")
 	@ResponseBody
@@ -152,6 +156,18 @@ public class WorklogController extends BaseController
 
 			worklog.setWpic(g.getAddress());//给project实体的“文件地址”赋值
 
+			//从session中获取当前登陆用户的 username、phone、userid
+			SysUser currentUser = ShiroUtils.getSysUser();
+			String username =  currentUser.getUserName();
+			String phone =  currentUser.getPhonenumber();
+			Long userid =  currentUser.getUserId();
+			String aid;
+			int returnId = new Long(userid).intValue();
+			aid = sysUserService.selectAid(returnId);
+
+			worklog.setUid(returnId);
+			worklog.setAid(aid);
+			worklog.setUname(username);
 			return toAjax(worklogService.insertWorklog(worklog));//将project实体中的值插入数据表中
 		} catch (Exception e) {
 			//return "上传图片失败";

@@ -5,6 +5,8 @@ import com.ruoyi.broad.mapper.ProgramMapper;
 import com.ruoyi.broad.service.IProgramService;
 import com.ruoyi.common.annotation.DataSource;
 import com.ruoyi.common.enums.DataSourceType;
+import com.ruoyi.common.support.Convert;
+import com.ruoyi.village.domain.PersonApi;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,16 @@ public class ProgramServiceImpl implements IProgramService {
     public List<Program> selectProList(Program program) {
         return programMapper.selectProList(program);
     }
+    /**
+     * 获取广播MP3文件列表
+     * @param program 节目实体类
+     * @return 结果
+     */
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public List<Program> selectProList1(PersonApi program) {
+        return programMapper.selectProList1(program);
+    }
 
     @Override
     @DataSource(value = DataSourceType.SLAVE)
@@ -46,12 +58,30 @@ public class ProgramServiceImpl implements IProgramService {
     @Override
     @DataSource(value = DataSourceType.SLAVE)
     public int insertProgram(Program program) {
-        return 0;
+        return programMapper.insertProgram(program);
     }
 
     @Override
     @DataSource(value = DataSourceType.SLAVE)
     public Program selectFileByFileName(String fname) {
         return programMapper.selectFileByFileName(fname);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public int deleteProgram(String fid){
+        return programMapper.deleteProgram(Convert.toStrArray(fid));
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public List<Program> selectProgramListByids(List<String> sfids) {
+        return programMapper.selectProgramListByids(sfids);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public int setIsPublic(String fid){
+        return programMapper.setIsPublic(fid);
     }
 }

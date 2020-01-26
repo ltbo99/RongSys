@@ -50,6 +50,10 @@ public class SysUser extends BaseEntity
     @Excel(name = "用户性别", readConverterExp = "0=男,1=女,2=未知")
     private String sex;
 
+    /** 家庭地址 */
+    @Excel(name = "家庭地址")
+    private  String address;
+
     /** 用户头像 */
     private String avatar;
 
@@ -90,6 +94,9 @@ public class SysUser extends BaseEntity
 
     /** 用户所属地域编号 */
     private String aid;
+
+    /** 用户所属地域 */
+    private String aname;
 
     public Long getUserId()
     {
@@ -321,6 +328,21 @@ public class SysUser extends BaseEntity
         return aid;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getAname() {
+        return aname;
+    }
+
+    public void setAname(String aname) {
+        this.aname = aname;
+    }
 
     @Override
     public String toString() {
@@ -332,6 +354,7 @@ public class SysUser extends BaseEntity
             .append("email", getEmail())
             .append("phonenumber", getPhonenumber())
             .append("phoneimei", getPhoneimei())
+            .append("address", getAddress())
             .append("sex", getSex())
             .append("avatar", getAvatar())
             .append("password", getPassword())
@@ -347,6 +370,7 @@ public class SysUser extends BaseEntity
             .append("remark", getRemark())
             .append("platform", getPlatform())
             .append("aid", getAid())
+            .append("aname", getAname())
             .toString();
     }
 }

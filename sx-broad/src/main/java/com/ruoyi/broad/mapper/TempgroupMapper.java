@@ -15,7 +15,15 @@ public interface TempgroupMapper {
      *
      * @return 终端临时列表
      */
-    public List<Tempgroup> selectAllTempgroup();
+    public List<Tempgroup> selectAllTempgroup(String tgname);
+
+    /**
+     * 查询终端列表 详细
+     *
+     *
+     * @return 单条终端列表记录
+     */
+    public Tempgroup selectTempgroupById(String aid);
 
     /**
      * 更新终端临时列表
@@ -29,7 +37,7 @@ public interface TempgroupMapper {
      *
      * @return 终端临时列表
      */
-    public int deleteTempgroup(int tgid);
+    public int deleteTempgroup(String tgid);
 
     /**
      * 插入终端临时列表
@@ -37,4 +45,16 @@ public interface TempgroupMapper {
      * @return 终端临时列表
      */
     public int insertTempgroup(Tempgroup tempgroup);
+
+    /**
+     * 临时分组列表
+     *
+     * @return 终端临时列表
+     */
+
+    public List<Tempgroup> selectTempgroup();
+
+    public int insertTempgroupT(Tempgroup tempgroup);
+
+    public int deleteTempgroupT(String tgid);
 }

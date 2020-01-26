@@ -1,7 +1,10 @@
 package com.ruoyi.broad.mapper;
 
+import com.ruoyi.broad.domain.ProList;
 import com.ruoyi.broad.domain.ProSinmanage;
-import java.util.List;	
+import com.ruoyi.broad.domain.ProTerminal;
+
+import java.util.List;
 
 /**
  * 节目播出单 数据层
@@ -11,6 +14,13 @@ import java.util.List;
  */
 public interface ProSinmanageMapper 
 {
+
+	/**
+	 * 查询自增id
+	 *
+	 * * @return 返回自增的id
+	 */
+	public int selectLastInsertID();
 	/**
      * 查询节目播出单信息
      * 
@@ -26,6 +36,14 @@ public interface ProSinmanageMapper
      * @return 节目播出单集合
      */
 	public List<ProSinmanage> selectProSinmanageList(ProSinmanage proSinmanage);
+
+	/**
+	 * 查询正常节目播出单列表（村务）
+	 5     *
+	 * @param proSinmanage 节目播出单信息
+	 * @return 节目播出单集合
+	 */
+	public List<ProSinmanage> selectProSinmanageList1(ProSinmanage proSinmanage);
 
 	/**
 	 * 查询紧急节目播出单列表
@@ -80,4 +98,10 @@ public interface ProSinmanageMapper
 	public List<ProSinmanage> selectProSinmanagebyoneday();
 
 	public List<ProSinmanage> selectProSinmanageByTId(String tid);
+//	批量新增节目单内的节目
+	public int addProList(List<ProList> proList);
+
+	public int addProTerminals(List<ProTerminal> proTerminal);
+
+	public List<ProSinmanage> selectProSinmanageListByids(List<String> sfids);
 }

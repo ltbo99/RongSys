@@ -1,6 +1,9 @@
 package com.ruoyi.village.service;
 
 import com.ruoyi.village.domain.Worklog;
+import com.ruoyi.village.domain.pubObjApi;
+
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -18,7 +21,9 @@ public interface IWorklogService
      * @return 工作记录信息
      */
 	public Worklog selectWorklogById(Integer wid);
-	
+
+	public  List<HashMap> selectWorkLogByProId(Integer proid);
+	public int selectWorkLogNumByProId(Integer proid);
 	/**
      * 查询工作记录列表
      * 
@@ -50,5 +55,7 @@ public interface IWorklogService
      * @return 结果
      */
 	public int deleteWorklogByIds(String ids);
+
+	public List<Worklog> selectWorklogListByid(pubObjApi worklog);
 	
 }

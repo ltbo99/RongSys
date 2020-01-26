@@ -39,8 +39,11 @@ public class SendFile extends DefaultCommand {
     @Override
     public byte[] execute() {
         try {
-            SocketInfo info = (SocketInfo) get("");
-            logger.info("终端请求获取文件"+datainfo);
+            SocketInfo info =new SocketInfo();
+            info.setImei(session.getAttribute("CLIENTINFO").toString());
+            info.setByteCount(0);
+            info.setLastTime(new Date());
+            logger.info("终端请求获取文件"+"l"+datainfo);
             if(info != null){
                 byte[] ReturnData = new byte[0];
                 String byteOrder = (int)content[4]+"";
@@ -72,7 +75,7 @@ public class SendFile extends DefaultCommand {
                     if(!datainfo.equals("list.txt"))
                         info.setByteCount(info.getByteCount()+ ReturnData.length);
                 }
-                return returnBytes(ProtocolsToClient.LIST, byteOrder, new String(ReturnData,GBK));
+                return returnBytes(ProtocolsToClient.LIST, byteOrder, new String(ReturnData,GBK),true);
             }else{
                 logger.info("未获取终端信息");
             }
@@ -115,9 +118,9 @@ public class SendFile extends DefaultCommand {
             List<ProSinmanage> model = proSinmanageService.selectProSinmanageByTId(IMEI);//根据IMEI号获取节目单
             if(model != null){
                 for(ProSinmanage sinmanage:model){
-                    if(sinmanage.getBroaddate().equals(date)){
-                        list = proListService.selectProListListByPid(sinmanage.getSfid());
-                    }
+//                    if(sinmanage.getBroaddate().equals(date)){
+                    list = proListService.selectProListListByPid(sinmanage.getSfid());
+//                    }
                 }
             }
             switch (fileName)

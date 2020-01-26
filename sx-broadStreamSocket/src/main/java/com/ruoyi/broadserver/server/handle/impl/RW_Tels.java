@@ -2,6 +2,7 @@ package com.ruoyi.broadserver.server.handle.impl;
 
 import com.ruoyi.broad.domain.TerminalTels;
 import com.ruoyi.broadserver.global.ProtocolsToClient;
+import com.ruoyi.broadserver.server.MinaCastHandler;
 import com.ruoyi.broadserver.server.handle.DefaultCommand;
 import org.apache.mina.core.session.IoSession;
 
@@ -17,13 +18,11 @@ public class RW_Tels extends DefaultCommand {
     @Override
     public byte[] execute() {
         try{
-            ;
             String command = save(datainfo)?"1":"0";//保存信息
-
-            String data = get(datainfo).toString();//返回信息
+            String data = (String) get(session.getAttribute(MinaCastHandler.TID).toString());//返回信息
 
             loggersession();//插入日志
-            return returnBytes(ProtocolsToClient.PHONELIST, command, data);
+            return returnBytes(ProtocolsToClient.PHONELIST, command, data,true);
         }catch (Exception e){
             logger.error("终端更新维护授权电话失败"+e);
         }
@@ -44,8 +43,8 @@ public class RW_Tels extends DefaultCommand {
     @Override
     public Object get(Object obj) {
         try {
-            if(Tid != null){
-                List<TerminalTels>  tellist = organizationService.selectTelsByTid(Tid);
+            if(obj != null){
+                List<TerminalTels>  tellist = organizationService.selectTelsByTid((String) session.getAttribute(MinaCastHandler.TID));
                 if(tellist != null){
                     String tels = "";
                     for(int i=0;i<tellist.size();i++){

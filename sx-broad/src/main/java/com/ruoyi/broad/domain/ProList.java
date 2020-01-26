@@ -1,5 +1,6 @@
 package com.ruoyi.broad.domain;
 
+import com.ruoyi.common.annotation.Excel;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.ruoyi.common.base.BaseEntity;
@@ -17,21 +18,63 @@ public class ProList extends BaseEntity
 	private String id;
 	
 	/** 节目编号 */
+	@Excel(name = "播出单id")
 	private String pid;
 	/** 操作记录 */
+	@Excel(name = "操作记录")
 	private String ptp;
 	/** 节目文件 */
+	@Excel(name = "节目文件")
 	private String fN;
 	/** 文件编号 */
+	@Excel(name = "文件编号")
 	private String fid;
 	/** 播放时间 */
+	@Excel(name = "播放时间")
 	private String bt;
+
 	/** 播放时长，只有电台转播有 */
+	@Excel(name = "播放时长")
 	private String broadtime;
+
 	/** 备注 */
+	@Excel(name = "备注")
 	private String remark;
+
 	/** 节目文件路径 */
+	@Excel(name = "节目文件路径")
 	private String urls;
+	/** 用户ID */
+	private String userid;
+	/** 播放日期 */
+	private String broaddate;
+	/** 终端编号 */
+	private String terminalID;
+
+
+	public String getUserid() {
+		return userid;
+	}
+
+	public void setUserid(String userid) {
+		this.userid = userid;
+	}
+
+	public String getBroaddate() {
+		return broaddate;
+	}
+
+	public void setBroaddate(String broaddate) {
+		this.broaddate = broaddate;
+	}
+
+	public String getTerminalID() {
+		return terminalID;
+	}
+
+	public void setTerminalID(String terminalID) {
+		this.terminalID = terminalID;
+	}
 
 	public String getId() {
 		return id;
@@ -86,11 +129,13 @@ public class ProList extends BaseEntity
 	{
 		return broadtime;
 	}
+	@Override
 	public void setRemark(String remark) 
 	{
 		this.remark = remark;
 	}
 
+	@Override
 	public String getRemark() 
 	{
 		return remark;
@@ -112,6 +157,7 @@ public class ProList extends BaseEntity
 		this.urls = urls;
 	}
 
+	@Override
 	public String toString() {
         return new ToStringBuilder(this,ToStringStyle.MULTI_LINE_STYLE)
             .append("pid", getPid())

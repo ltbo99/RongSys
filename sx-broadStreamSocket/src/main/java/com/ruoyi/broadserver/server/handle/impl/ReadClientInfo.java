@@ -25,7 +25,7 @@ public class ReadClientInfo extends DefaultCommand {
 
             loggersession();//插入日志
 
-            return returnBytes(ProtocolsToClient.STATU, command, null);
+            return returnBytes(ProtocolsToClient.STATU, command, null,true);
         }catch (Exception e){
             logger.error("解析信息出错",e);
         }
@@ -96,7 +96,7 @@ public class ReadClientInfo extends DefaultCommand {
                     break;
             }
         }
-        conditions.setUpdatatime(new Date());
+        conditions.setupdatetime(new Date());
         return conditions;
     }
 }

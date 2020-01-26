@@ -9,11 +9,14 @@
  */
 package com.ruoyi.broadserver.server;
 
+import java.net.InetAddress;
 import java.nio.charset.Charset;
 import java.nio.charset.CharsetDecoder;
 
+import com.ruoyi.broad.utils.bConst;
 import com.ruoyi.broad.utils.bConvert;
 import com.ruoyi.broadserver.domain.SocketInfo;
+import com.sun.javafx.css.CssError;
 import org.apache.mina.core.buffer.IoBuffer;
 import org.apache.mina.core.future.WriteFuture;
 import org.apache.mina.core.service.IoHandlerAdapter;
@@ -34,7 +37,15 @@ public class MinaCastHandler extends IoHandlerAdapter
     private static Logger logger = LoggerFactory.getLogger(MinaCastHandler.class);  
     public static final CharsetDecoder decoder = (Charset.forName("ISO-8859-1")).newDecoder();
 	public static final String CLIENTINFO = "CLIENTINFO";
+	public static final String TID = "TID";
 	private static final SimpleCommandFactory commandFactory = new SimpleCommandFactory();
+	private String type;
+	public  MinaCastHandler(String type){
+        this.type = type;
+    }
+
+    /**已连接客户端地址*/
+    public static String address = "";
 	//private int Number = 1;
     /**
      * MINA的异常回调方法。
@@ -65,13 +76,21 @@ public class MinaCastHandler extends IoHandlerAdapter
      * @throws Exception 当有错误发生时将抛出异常
      */
     @Override
-    public void messageReceived(IoSession session, Object message)throws Exception 
+    public void messageReceived(IoSession session, Object message)throws Exception
     {
+    	address = session.getRemoteAddress().toString();
 		IoBuffer buffer = (IoBuffer) message;
 		byte[] content = new byte[buffer.limit()];
 		buffer.get(content);
 		byte[] returndata = null;
-		DefaultCommand command = commandFactory.createCommand(session, content);
+        DefaultCommand command = null;
+		if(type.equals(bConst.HEARTTYPE)) {//heart
+		    command = commandFactory.createHeart(session, content);
+        }else if(type.equals(bConst.IOTTYPE)){//iot
+            command = commandFactory.createIOT(session, content);
+        }else{//command
+            command = commandFactory.createCommand(session, content);
+        }
 		if(command != null) {
 			returndata = command.execute();
 		}
@@ -109,6 +128,7 @@ public class MinaCastHandler extends IoHandlerAdapter
 	     //String clientIP = ((InetSocketAddress)session.getRemoteAddress()).getAddress().getHostAddress();
 	     //session.setAttribute("KEY_SESSION_CLIENT_IP", clientIP);
 	     //logger.info("sessionCreated, client IP: " + clientIP);
+
 	 }
 
 	 //心跳检测触发接口，设置好心跳值后，如果规定时间内未有心跳，则调用此方法，常用于检测终端状态，断开连接等
@@ -127,6 +147,13 @@ public class MinaCastHandler extends IoHandlerAdapter
 	 }
 	 @Override
 	 public void sessionOpened(IoSession session) throws Exception {
+		 //		infologger.info("socketChannelList num："+SocketServer.socketChannelList.size());
+    	/*新增逻辑保存连接和IMEI*/
+		 MinaCastThread.Iosession.add(session);
+		 SocketInfo si = new SocketInfo();
+		 MinaCastThread.clients.add(si);
+		 si.setChannelAddress(session.getRemoteAddress().toString());
+		 super.sessionOpened(session);
 		 logger.info("连接打开："+session.getLocalAddress());
 	 }
 }

@@ -12,6 +12,7 @@ import java.util.List;
 
 /**
  * Created by ASUS on 2019/7/29.
+ * @author cx
  */
 @Service
 public class TempgroupServiceImpl implements ITempgroupService{
@@ -25,9 +26,21 @@ public class TempgroupServiceImpl implements ITempgroupService{
      */
     @Override
     @DataSource(value = DataSourceType.SLAVE)
-    public List<Tempgroup> selectAllTempgroup()
+    public List<Tempgroup> selectAllTempgroup(String tgname){
+        return tempgroupMapper.selectAllTempgroup(tgname);
+    }
+
+    /**
+     * 查询终端列表 详细
+     *
+     *
+     * @return 单条终端列表记录
+     */
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public Tempgroup selectTempgroupById(String aid)
     {
-        return tempgroupMapper.selectAllTempgroup();
+        return tempgroupMapper.selectTempgroupById(aid);
     }
 
     /**
@@ -49,8 +62,7 @@ public class TempgroupServiceImpl implements ITempgroupService{
      */
     @Override
     @DataSource(value = DataSourceType.SLAVE)
-    public int deleteTempgroup(int tgid)
-    {
+    public int deleteTempgroup(String tgid){
         return tempgroupMapper.deleteTempgroup(tgid);
     }
 
@@ -65,4 +77,26 @@ public class TempgroupServiceImpl implements ITempgroupService{
     {
         return tempgroupMapper.insertTempgroup(tempgroup);
     }
+
+    /**
+     * 临时分组列表
+     *
+     * @return 终端临时列表
+     */
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public List<Tempgroup> selectTempgroup(){return tempgroupMapper.selectTempgroup();}
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public int insertTempgroupT(Tempgroup tempgroup){
+        return tempgroupMapper.insertTempgroupT(tempgroup);
+    }
+
+    @Override
+    @DataSource(value = DataSourceType.SLAVE)
+    public int deleteTempgroupT(String tid){
+        return tempgroupMapper.deleteTempgroupT(tid);
+    }
+
 }
