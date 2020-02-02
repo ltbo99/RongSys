@@ -361,8 +361,7 @@
 
     function deleteTempgroup(event) {
         event.stopPropagation();
-        var tgid = $(event.currentTarget).parent().context.parentNode.parentNode.children[2].innerText;
-
+        var tgid = $(event.currentTarget).parent().context.parentNode.parentNode.children[1].innerText;
         $.ajax({
             url:"/broad/tempgroup/remove",
             type: "POST",
