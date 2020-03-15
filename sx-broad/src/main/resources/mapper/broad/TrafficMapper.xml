@@ -7,6 +7,8 @@
     <resultMap type="Traffic" id="TrafficResult">
         <result property="ttid"    column="ttid"    />
         <result property="tid"    column="tid"    />
+        <result property="sd"    column="sd"    />
+        <result property="sdf"    column="sdf"    />
         <result property="usetraffic"    column="usetraffic"    />
         <result property="trafficlimit"    column="trafficlimit"    />
         <result property="lasttime"    column="lasttime"    />
@@ -23,13 +25,15 @@
         tt.tid as tid,
         usetraffic,
         tt.lasttime as lasttime,
-        remark,
+        tt.remark,
         tname,
         trafficlimit,
         t.aid as aid,
         aname,
         ui.userid as userid,
         t.isuse as isuse,
+        sd,
+        sdf,
         uname
         from
         ((terminal_traffic tt  JOIN terminals t on tt.tid=t.tid)
@@ -39,6 +43,7 @@
 
     <select id="selectTrafficList" parameterType="Traffic" resultMap="TrafficResult">
         <include refid="selectTrafficVo"/>
+        left join ter_conditions on t.tid=ter_conditions.tid
         <where>
             <if test="ttid != null "> and ttid like '%${ttid}%'</if>
             <if test="tid != null  and tid != '' "> and t.tid like '%${tid}%'</if>

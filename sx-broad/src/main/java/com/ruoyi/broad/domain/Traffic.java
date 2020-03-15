@@ -21,6 +21,27 @@ public class Traffic extends BaseEntity
 	private String tid;
 	/** 所属分组编号 */
 	private String aid;
+	/** 所属分组编号 */
+	private String sd;
+	/** 所属分组编号 */
+	private String sdf;
+
+	public String getSd() {
+		return sd;
+	}
+
+	public void setSd(String sd) {
+		this.sd = sd;
+	}
+
+	public String getSdf() {
+		return sdf;
+	}
+
+	public void setSdf(String sdf) {
+		this.sdf = sdf;
+	}
+
 	/** 使用流量，单位MB */
 	private Float usetraffic;
 	/** 终端流量使用限制，单位MB */
@@ -183,6 +204,8 @@ public class Traffic extends BaseEntity
 				.append("isuse", getIsuse())
 				.append("maxNum", getMaxNum())
 				.append("minNum", getMinNum())
+				.append("sd", getSd())
+				.append("sdf", getSdf())
 				.toString();
 	}
 }

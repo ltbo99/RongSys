@@ -76,6 +76,7 @@
             <if test="endtime != null and endtime != ''"><!-- 结束时间检索 -->
                 AND date_format(createdtime,'%y%m%d') &lt;= date_format(#{endtime},'%y%m%d')
             </if>
+            and g.islisten = 1
         </where>
         order by  createdtime desc,fid desc
     </select>

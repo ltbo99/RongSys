@@ -114,7 +114,12 @@
 				{
 					field : 'usetraffic', 
 					title : '使用流量/MB',
-					sortable: true
+					sortable: true,
+					formatter: function(value, row, index) {
+						var sd = row.sd.substr(0,row.sd.indexOf("M"));
+						var sdf = row.sdf.substr(0,row.sdf.indexOf("M"));
+						return Number(sd)-Number(sdf);
+					}
 				},
 				{
 					field : 'trafficlimit',
